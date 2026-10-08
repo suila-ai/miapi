@@ -1,0 +1,24 @@
+# scripts/update-fixtures.sh がテスト用の fixture を採取する Misskey サーバ。
+# MISSKEY_TAG・POSTGRES_IMAGE・REDIS_IMAGE・CONFIG_DIR は、そのスクリプトが設定する。
+services:
+  web:
+    image: misskey/misskey:${MISSKEY_TAG}
+    environment:
+      # 上流の e2e テスト用のモード。
+      # signup が `host` を受け取るので、リモートに見えるユーザーを作れる。
+      NODE_ENV: test
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    ports: ["127.0.0.1::3000"]
+    volumes:
+      - ${CONFIG_DIR}:/misskey/.config:ro
+      - ./start.sh:/misskey/start.sh:ro
+    command: ["sh", "/misskey/start.sh"]
+  redis:
+    image: ${REDIS_IMAGE}
+    healthcheck: { test: "redis-cli ping", interval: 2s, retries: 30 }
+  db:
+    image: ${POSTGRES_IMAGE}
+    env_file: ["${CONFIG_DIR}/docker.env"]
+    healthcheck: { test: "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB", interval: 2s, retries: 30 }
