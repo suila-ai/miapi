@@ -2,5 +2,29 @@
 name = "miapi"
 version = "0.1.0"
 edition = "2024"
+description = "Misskey API のクライアント。自動生成でサーバのエンドポイントと型に追従する"
+repository = "https://github.com/suila-ai/miapi"
+
+[lib]
+# src/ に単体テストは無いので、lib をテスト用の構成ではコンパイルしない。
+# 生成コードが大きく、有効のままだと `cargo test` と `cargo clippy --all-targets` が、feature ごとに lib をもう 1 回ずつコンパイルする。
+# `--all-targets` は bench = true の lib も同じ構成で検査するので、bench も切る。src/ に単体テストを足すときは test を戻すこと。
+test = false
+bench = false
+
+[features]
+default = ["latest"]
+latest = []
 
 [dependencies]
+reqwest = { version = "0.13.5", features = ["json", "multipart"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+thiserror = "2.0.21"
+
+[dev-dependencies]
+tokio = { version = "1.53.2", features = ["macros", "rt-multi-thread"] }
+wiremock = "0.6.5"
+
+[workspace]
+members = ["codegen"]
