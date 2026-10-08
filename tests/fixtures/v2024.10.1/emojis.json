@@ -1,0 +1,18 @@
+{
+  "emojis": [
+    {
+      "aliases": [
+        "alias1"
+      ],
+      "name": "emoji1",
+      "category": "category1",
+      "url": "https://misskey.example.com/files/99a587dd-d4ed-4b7b-a837-3c17da4ad432"
+    },
+    {
+      "aliases": [],
+      "name": "emoji2",
+      "category": null,
+      "url": "https://misskey.example.com/files/99a587dd-d4ed-4b7b-a837-3c17da4ad432"
+    }
+  ]
+}
