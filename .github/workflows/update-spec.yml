@@ -1,0 +1,64 @@
+name: latest の spec を更新する
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Misskey のリリースタグ（省略時は最新のリリース）
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: リリースタグを決める
+        id: tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: echo "tag=${INPUT_TAG:-$(gh api repos/misskey-dev/misskey/releases/latest --jq .tag_name)}" >> "$GITHUB_OUTPUT"
+      - name: latest のバージョンと比べる
+        id: changes
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: echo "changed=$([ "$TAG" = "$(jq -r .info.version specs/latest.json)" ] && echo false || echo true)" >> "$GITHUB_OUTPUT"
+      - if: steps.changes.outputs.changed == 'true'
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: scripts/update-spec.sh --tag "$TAG"
+      - if: steps.changes.outputs.changed == 'true'
+        env:
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: scripts/update-fixtures.sh --tag "$TAG"
+      - if: steps.changes.outputs.changed == 'true'
+        uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - if: steps.changes.outputs.changed == 'true'
+        uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - if: steps.changes.outputs.changed == 'true'
+        run: cargo codegen && scripts/test-all-versions.sh
+      - if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          branch: update-spec
+          sign-commits: true
+          commit-message: "build(api): Misskey API を ${{ steps.tag.outputs.tag }} に更新する"
+          title: "build(api): Misskey API を ${{ steps.tag.outputs.tag }} に更新する"
+          body: |
+            ## 概要
+
+            Misskey ${{ steps.tag.outputs.tag }} の api.json で latest のバージョンセットを再生成した。
+
+            ## 変更点
+
+            - specs/latest.json、src/generated/latest/、tests/fixtures/latest/ を更新
+            - リリース: https://github.com/misskey-dev/misskey/releases/tag/${{ steps.tag.outputs.tag }}
