@@ -1,0 +1,140 @@
+{
+  "id": "as4f3da2bxhf0004",
+  "name": "Alice",
+  "username": "alice",
+  "host": null,
+  "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fceac8dfb-558d-41aa-bd99-efb1b664bb08&avatar=1",
+  "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+  "avatarDecorations": [
+    {
+      "id": "as4f3dqebxhf000v",
+      "offsetX": 0.1,
+      "url": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198"
+    }
+  ],
+  "isBot": false,
+  "isCat": true,
+  "emojis": {},
+  "onlineStatus": "unknown",
+  "badgeRoles": [
+    {
+      "name": "role1",
+      "iconUrl": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198",
+      "displayOrder": 0
+    }
+  ],
+  "url": null,
+  "uri": null,
+  "movedTo": null,
+  "alsoKnownAs": null,
+  "createdAt": "2026-10-09T10:59:22.490Z",
+  "updatedAt": "2026-10-09T10:59:23.247Z",
+  "lastFetchedAt": null,
+  "bannerUrl": "https://misskey.example.com/files/ceac8dfb-558d-41aa-bd99-efb1b664bb08",
+  "bannerBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+  "isLocked": false,
+  "isSilenced": false,
+  "isSuspended": false,
+  "description": "dummy profile",
+  "location": null,
+  "birthday": "2000-01-01",
+  "lang": null,
+  "fields": [
+    {
+      "name": "field1",
+      "value": "value1"
+    }
+  ],
+  "verifiedLinks": [],
+  "followersCount": 1,
+  "followingCount": 0,
+  "notesCount": 2,
+  "pinnedNoteIds": [
+    "as4f3du0bxhf0010"
+  ],
+  "pinnedNotes": [
+    {
+      "id": "as4f3du0bxhf0010",
+      "createdAt": "2026-10-09T10:59:23.208Z",
+      "userId": "as4f3da2bxhf0004",
+      "user": {
+        "id": "as4f3da2bxhf0004",
+        "name": "Alice",
+        "username": "alice",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fceac8dfb-558d-41aa-bd99-efb1b664bb08&avatar=1",
+        "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+        "avatarDecorations": [
+          {
+            "id": "as4f3dqebxhf000v",
+            "offsetX": 0.1,
+            "url": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198"
+          }
+        ],
+        "isBot": false,
+        "isCat": true,
+        "emojis": {},
+        "onlineStatus": "unknown",
+        "badgeRoles": [
+          {
+            "name": "role1",
+            "iconUrl": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198",
+            "displayOrder": 0
+          }
+        ]
+      },
+      "text": "dummy note 1 #tag1 #tag2",
+      "cw": null,
+      "visibility": "public",
+      "localOnly": false,
+      "reactionAcceptance": null,
+      "renoteCount": 1,
+      "repliesCount": 1,
+      "reactionCount": 2,
+      "reactions": {
+        "👍": 1,
+        ":emoji1@.:": 1
+      },
+      "reactionEmojis": {},
+      "tags": [
+        "tag1",
+        "tag2"
+      ],
+      "fileIds": [],
+      "files": [],
+      "replyId": null,
+      "renoteId": null,
+      "clippedCount": 0
+    }
+  ],
+  "pinnedPageId": null,
+  "pinnedPage": null,
+  "publicReactions": true,
+  "followersVisibility": "public",
+  "followingVisibility": "public",
+  "chatScope": "mutual",
+  "canChat": true,
+  "roles": [
+    {
+      "id": "as4f3dnxbxhf000l",
+      "name": "role1",
+      "color": "#ff0000",
+      "iconUrl": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198",
+      "description": "dummy role",
+      "isModerator": false,
+      "isAdministrator": false,
+      "displayOrder": 0
+    },
+    {
+      "id": "as4f3dp8bxhf000q",
+      "name": "role2",
+      "color": null,
+      "iconUrl": null,
+      "description": "dummy role",
+      "isModerator": false,
+      "isAdministrator": false,
+      "displayOrder": 0
+    }
+  ],
+  "memo": null
+}

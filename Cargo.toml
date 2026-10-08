@@ -12,6 +12,11 @@ repository = "https://github.com/suila-ai/miapi"
 test = false
 bench = false
 
+[[example]]
+name = "meta"
+# クレートの直下の `Client` を使うので、`latest` が有効なときだけビルドする。
+required-features = ["latest"]
+
 [features]
 default = ["latest"]
 latest = []

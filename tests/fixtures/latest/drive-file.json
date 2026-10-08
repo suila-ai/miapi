@@ -1,0 +1,21 @@
+{
+  "id": "as4f3dkkbxhf000f",
+  "createdAt": "2026-10-09T10:59:22.868Z",
+  "name": "photo.jpg",
+  "type": "image/jpeg",
+  "md5": "8c9ed0677dd2b8f9f7472c3af247e5e3",
+  "size": 5131,
+  "isSensitive": false,
+  "blurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+  "properties": {
+    "width": 192,
+    "height": 192
+  },
+  "url": "https://misskey.example.com/files/ceac8dfb-558d-41aa-bd99-efb1b664bb08",
+  "thumbnailUrl": "https://misskey.example.com/files/thumbnail-c39abb35-e30f-4361-8042-08788cf06079",
+  "comment": null,
+  "folderId": null,
+  "folder": null,
+  "userId": "as4f3da2bxhf0004",
+  "user": null
+}
