@@ -17,6 +17,7 @@ default = ["latest"]
 latest = []
 
 [dependencies]
+bytes = "1.12.1"
 reqwest = { version = "0.13.5", features = ["json", "multipart"] }
 serde = { version = "1.0.229", features = ["derive"] }
 serde_json = "1.0.151"
