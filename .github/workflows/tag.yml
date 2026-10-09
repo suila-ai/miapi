@@ -1,0 +1,22 @@
+name: latest が上がる前のバージョンのタグを打つ
+
+on:
+  push:
+    branches: [main]
+    paths: [specs/latest.json]
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    # main を作る push には直前のコミットが無く、履歴を書き換える push では、直前のコミットが新しい履歴に残らない。
+    if: ${{ !github.event.created && !github.event.forced }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - env:
+          BEFORE: ${{ github.event.before }}
+        run: scripts/tag-previous-latest.sh "$BEFORE"
