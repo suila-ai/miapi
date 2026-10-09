@@ -7,6 +7,8 @@ use std::path::PathBuf;
 pub use miapi as version;
 #[cfg(feature = "v2024.10.1")]
 pub use miapi::v2024_10_1 as version;
+#[cfg(feature = "v2025.10.0")]
+pub use miapi::v2025_10_0 as version;
 
 /// 選んだバージョンの fixture `tests/fixtures/<バージョン>/<name>.json` を読む。
 ///

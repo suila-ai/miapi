@@ -1,0 +1,43 @@
+#![doc = "`get-avatar-decorations`"]
+#![allow(clippy::type_complexity, clippy::large_enum_variant)]
+#[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
+pub struct ResponseItem {
+    pub id: ::std::string::String,
+    pub name: ::std::string::String,
+    pub description: ::std::string::String,
+    pub url: ::std::string::String,
+    #[serde(rename = "roleIdsThatCanBeUsedThisDecoration")]
+    pub role_ids_that_can_be_used_this_decoration: ::std::vec::Vec<::std::string::String>,
+}
+#[doc = "`get-avatar-decorations`"]
+#[doc = "No description provided.\n\n**Credential required**: *No*"]
+#[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
+pub struct Request {}
+impl crate::Endpoint for Request {
+    const PATH: &'static str = "get-avatar-decorations";
+    type Response = Response;
+    fn into_body(self) -> ::std::result::Result<crate::Body, crate::Error> {
+        crate::endpoint::json_body(&self)
+    }
+}
+pub type Response = ::std::vec::Vec<ResponseItem>;
+#[doc = "`get-avatar-decorations` のビルダー。"]
+#[doc = "No description provided.\n\n**Credential required**: *No*"]
+pub struct Call<'a> {
+    client: &'a crate::generated::v2025_10_0::Client,
+}
+impl<'a> Call<'a> {
+    pub(crate) fn new(client: &'a crate::generated::v2025_10_0::Client) -> Self {
+        Call { client }
+    }
+}
+impl<'a> Call<'a> {}
+impl<'a> ::std::future::IntoFuture for Call<'a> {
+    type Output = ::std::result::Result<Response, crate::Error>;
+    type IntoFuture = crate::builder::CallFuture<'a, Response>;
+    fn into_future(self) -> Self::IntoFuture {
+        let request = Request {};
+        let client = self.client;
+        ::std::boxed::Box::pin(async move { client.call(request).await })
+    }
+}

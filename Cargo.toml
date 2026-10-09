@@ -20,6 +20,7 @@ required-features = ["latest"]
 [features]
 default = ["latest"]
 latest = []
+"v2025.10.0" = []
 "v2024.10.1" = []
 
 [dependencies]
