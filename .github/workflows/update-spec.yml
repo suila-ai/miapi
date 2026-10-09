@@ -45,7 +45,15 @@ jobs:
       - if: steps.changes.outputs.changed == 'true'
         uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - if: steps.changes.outputs.changed == 'true'
-        run: cargo codegen && scripts/test-all-versions.sh
+        run: cargo codegen
+      - if: steps.changes.outputs.changed == 'true'
+        name: 固定版との互換性を調べる
+        id: pins
+        run: |
+          { echo "report<<EOF"; scripts/propose-pins.sh; echo EOF; } >> "$GITHUB_OUTPUT"
+      # GITHUB_TOKEN で作った PR では CI が承認待ちになり、自動では走らない。テストはここで済ませてから PR を作る。
+      - if: steps.changes.outputs.changed == 'true'
+        run: scripts/test-all-versions.sh
       - if: steps.changes.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
@@ -61,4 +69,5 @@ jobs:
             ## 変更点
 
             - specs/latest.json、src/generated/latest/、tests/fixtures/latest/ を更新
+            ${{ steps.pins.outputs.report }}
             - リリース: https://github.com/misskey-dev/misskey/releases/tag/${{ steps.tag.outputs.tag }}
