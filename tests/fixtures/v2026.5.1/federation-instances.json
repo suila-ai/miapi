@@ -1,0 +1,30 @@
+[
+  {
+    "id": "as4plnqlf5ze001b",
+    "firstRetrievedAt": "2026-10-09T15:53:32.013Z",
+    "host": "remote.example.com",
+    "usersCount": 0,
+    "notesCount": 1,
+    "followingCount": 0,
+    "followersCount": 0,
+    "isNotResponding": false,
+    "isSuspended": false,
+    "suspensionState": "none",
+    "isBlocked": false,
+    "softwareName": null,
+    "softwareVersion": null,
+    "openRegistrations": null,
+    "name": null,
+    "description": null,
+    "maintainerName": null,
+    "maintainerEmail": null,
+    "isSilenced": false,
+    "isMediaSilenced": false,
+    "iconUrl": null,
+    "faviconUrl": null,
+    "themeColor": null,
+    "infoUpdatedAt": null,
+    "latestRequestReceivedAt": null,
+    "moderationNote": null
+  }
+]

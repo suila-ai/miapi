@@ -1,0 +1,75 @@
+#![doc = "`my/` 以下のエンドポイント"]
+#![allow(clippy::type_complexity, clippy::large_enum_variant)]
+#[doc = "`my/` 以下のエンドポイント"]
+pub struct Call<'a> {
+    client: &'a crate::generated::v2026_5_1::Client,
+}
+impl<'a> Call<'a> {
+    pub(crate) fn new(client: &'a crate::generated::v2026_5_1::Client) -> Self {
+        Call { client }
+    }
+}
+impl<'a> Call<'a> {
+    #[doc = "`my/apps`"]
+    pub fn apps(&self) -> apps::Call<'a> {
+        apps::Call::new(self.client)
+    }
+}
+#[doc = "`my/apps`"]
+pub mod apps {
+    #[doc = "`my/apps`"]
+    #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
+    #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
+    pub struct Request {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub limit: ::std::option::Option<i64>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        pub offset: ::std::option::Option<i64>,
+    }
+    impl crate::Endpoint for Request {
+        const PATH: &'static str = "my/apps";
+        type Response = Response;
+        fn into_body(self) -> ::std::result::Result<crate::Body, crate::Error> {
+            crate::endpoint::json_body(&self)
+        }
+    }
+    pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::App>;
+    #[doc = "`my/apps` のビルダー。"]
+    #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
+    pub struct Call<'a> {
+        client: &'a crate::generated::v2026_5_1::Client,
+        limit: ::std::option::Option<i64>,
+        offset: ::std::option::Option<i64>,
+    }
+    impl<'a> Call<'a> {
+        pub(crate) fn new(client: &'a crate::generated::v2026_5_1::Client) -> Self {
+            Call {
+                client,
+                limit: ::std::option::Option::None,
+                offset: ::std::option::Option::None,
+            }
+        }
+    }
+    impl<'a> Call<'a> {
+        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.limit = ::std::option::Option::Some(value.into());
+            self
+        }
+        pub fn offset(mut self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.offset = ::std::option::Option::Some(value.into());
+            self
+        }
+    }
+    impl<'a> ::std::future::IntoFuture for Call<'a> {
+        type Output = ::std::result::Result<Response, crate::Error>;
+        type IntoFuture = crate::builder::CallFuture<'a, Response>;
+        fn into_future(self) -> Self::IntoFuture {
+            let request = Request {
+                limit: self.limit,
+                offset: self.offset,
+            };
+            let client = self.client;
+            ::std::boxed::Box::pin(async move { client.call(request).await })
+        }
+    }
+}
