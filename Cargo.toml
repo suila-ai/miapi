@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 description = "Misskey API のクライアント。自動生成でサーバのエンドポイントと型に追従する"
 repository = "https://github.com/suila-ai/miapi"
+license = "MIT"
 
 [lib]
 # src/ に単体テストは無いので、lib をテスト用の構成ではコンパイルしない。
