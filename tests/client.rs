@@ -173,9 +173,14 @@ async fn api_error_body_becomes_api_error() {
         })
         .await
         .unwrap_err();
+    assert_eq!(
+        err.to_string(),
+        "Misskey API error NO_SUCH_NOTE (400) from notes/show: No such note."
+    );
     match err {
         Error::Api(api) => {
             assert_eq!(api.status, 400);
+            assert_eq!(api.endpoint, "notes/show");
             assert_eq!(api.code, "NO_SUCH_NOTE");
             assert_eq!(api.kind.as_deref(), Some("client"));
             assert_eq!(api.info, None);
@@ -192,7 +197,12 @@ async fn non_json_failure_becomes_unexpected_response() {
         .mount(&server)
         .await;
     match client.call(Me).await.unwrap_err() {
-        Error::UnexpectedResponse { status, body } => {
+        Error::UnexpectedResponse {
+            endpoint,
+            status,
+            body,
+        } => {
+            assert_eq!(endpoint, "i");
             assert_eq!(status, 502);
             assert!(body.contains("bad gateway"));
         }
@@ -214,7 +224,10 @@ async fn mismatched_body_becomes_decode_error() {
         .await
         .unwrap_err()
     {
-        Error::Decode { body, .. } => assert!(body.contains("no id")),
+        Error::Decode { endpoint, body, .. } => {
+            assert_eq!(endpoint, "notes/show");
+            assert!(body.contains("no id"));
+        }
         other => panic!("想定外のエラー: {other:?}"),
     }
 }

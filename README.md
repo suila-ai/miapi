@@ -35,7 +35,7 @@ let notes = old.notes().local_timeline().limit(20).await?;           // Vec<miap
 - 必須パラメータは型状態で表します。`client.notes().show()` は `note_id` を設定するまで `.await` できず、コンパイルエラーになります。任意パラメータは setter で、nullable な項目には `{field}_null()` があり、省略と `null` を区別して送ります。
 - 各エンドポイントには `Request` 構造体もあり、`client.call(request).await?` で送れます（設定ファイルから組み立てる、共通処理で包む等）。生成されていないエンドポイントは `client.call_raw("path", json!({...})).await?` で呼べます。
 - レスポンスの型は `miapi::types`（エンティティ）と各エンドポイントの `Response` です。サーバがまだ知らない enum 値や union の形は `Unrecognized` に入り、エラーになりません。
-- エラーは `miapi::Error` で、サーバの `{"error": {...}}` は `Error::Api(ApiError)` に `code`・`id`・`message`・HTTP ステータス付きで入ります。
+- エラーは `miapi::Error` です。サーバの `{"error": {...}}` は `Error::Api(ApiError)` に `code`・`id`・`message`・HTTP ステータス付きで入ります。応答を受け取った後のエラー（`Api`・`Decode`・`UnexpectedResponse`）には、呼んだエンドポイント名も入ります。
 - `Client` はバージョンセットごとに別の型で、ビルダーは、そのバージョンにあるエンドポイントのものだけが出ます。クレートの直下の `Client`・`api`・`types` が latest のもので、固定版のものは `miapi::v2024_10_1` のように、バージョンのモジュールにあります。
 - `miapi::API_VERSION`（固定版は `miapi::v2024_10_1::API_VERSION`）で、生成元のバージョンが分かります。
 
