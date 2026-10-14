@@ -139,6 +139,23 @@ async fn without_token_sends_empty_object() {
 }
 
 #[tokio::test]
+async fn with_http_client_uses_the_given_client() {
+    let server = MockServer::start().await;
+    let http = reqwest::Client::builder()
+        .user_agent("miapi-test/1")
+        .build()
+        .unwrap();
+    let client = Client::with_http_client(http, &server.uri(), None);
+    Mock::given(path("/api/i"))
+        .and(header("user-agent", "miapi-test/1"))
+        .respond_with(ResponseTemplate::new(200).set_body_json(json!({})))
+        .expect(1)
+        .mount(&server)
+        .await;
+    client.call(Me).await.unwrap();
+}
+
+#[tokio::test]
 async fn no_content_decodes_into_unit_and_none() {
     let (server, client) = server_and_client(None).await;
     Mock::given(path("/api/notes/delete"))

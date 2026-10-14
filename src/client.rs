@@ -34,20 +34,22 @@ impl<V> Client<V> {
     /// `origin` はサーバのベース URL で、`https://misskey.example.com` のように書く。
     /// 末尾のスラッシュは無視する。
     /// `token` はアクセストークンで、認証の要らないエンドポイントを呼ぶなら `None` でよい。
+    ///
+    /// HTTP クライアントは `reqwest::Client::new()` で作るので、タイムアウトは無い。
+    /// タイムアウト、プロキシ、ユーザーエージェントなどは、設定した `reqwest::Client` を
+    /// [`with_http_client`](Self::with_http_client) に渡して使う。
     pub fn new(origin: &str, token: Option<&str>) -> Self {
+        Self::with_http_client(reqwest::Client::new(), origin, token)
+    }
+
+    /// [`new`](Self::new) と同じだが、HTTP クライアントに `http` をそのまま使う。
+    pub fn with_http_client(http: reqwest::Client, origin: &str, token: Option<&str>) -> Self {
         Self {
-            http: reqwest::Client::new(),
+            http,
             origin: origin.trim_end_matches('/').to_owned(),
             token: token.map(str::to_owned),
             _version: PhantomData,
         }
-    }
-
-    /// 内部で使う HTTP クライアントを差し替える。
-    /// プロキシ、タイムアウト、ユーザーエージェントなどを設定するときに使う。
-    pub fn with_http_client(mut self, http: reqwest::Client) -> Self {
-        self.http = http;
-        self
     }
 
     pub fn origin(&self) -> &str {
