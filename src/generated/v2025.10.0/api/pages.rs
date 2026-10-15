@@ -147,8 +147,15 @@ pub mod create {
         }
     }
     impl<'a, S0, S1, S2, S3, S4> Call<'a, (S0, S1, S2, S3, S4)> {
-        pub fn summary(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.summary = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn summary(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_summary(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `summary` を設定し、`None` なら設定を消して送らない。`null` を送るには [`summary_null`](Self::summary_null) を使う。"]
+        pub fn maybe_summary(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.summary = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`summary` を `null` として送る。"]
@@ -157,11 +164,18 @@ pub mod create {
             self
         }
         pub fn eye_catching_image_id(
-            mut self,
+            self,
             value: impl ::std::convert::Into<::std::string::String>,
         ) -> Self {
+            self.maybe_eye_catching_image_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `eyeCatchingImageId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`eye_catching_image_id_null`](Self::eye_catching_image_id_null) を使う。"]
+        pub fn maybe_eye_catching_image_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
             self.eye_catching_image_id =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`eyeCatchingImageId` を `null` として送る。"]
@@ -169,16 +183,37 @@ pub mod create {
             self.eye_catching_image_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn font(mut self, value: impl ::std::convert::Into<RequestFont>) -> Self {
-            self.font = ::std::option::Option::Some(value.into());
+        pub fn font(self, value: impl ::std::convert::Into<RequestFont>) -> Self {
+            self.maybe_font(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `font` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_font(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestFont>>,
+        ) -> Self {
+            self.font = value.map(|value| value.into());
             self
         }
-        pub fn align_center(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.align_center = ::std::option::Option::Some(value.into());
+        pub fn align_center(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_align_center(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `alignCenter` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_align_center(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.align_center = value.map(|value| value.into());
             self
         }
-        pub fn hide_title_when_pinned(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.hide_title_when_pinned = ::std::option::Option::Some(value.into());
+        pub fn hide_title_when_pinned(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_hide_title_when_pinned(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `hideTitleWhenPinned` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_hide_title_when_pinned(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.hide_title_when_pinned = value.map(|value| value.into());
             self
         }
         pub fn title(
@@ -519,16 +554,37 @@ pub mod show {
         }
     }
     impl<'a> Call<'a> {
-        pub fn page_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.page_id = ::std::option::Option::Some(value.into());
+        pub fn page_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_page_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `pageId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_page_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.page_id = value.map(|value| value.into());
             self
         }
-        pub fn name(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.name = ::std::option::Option::Some(value.into());
+        pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_name(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `name` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_name(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.name = value.map(|value| value.into());
             self
         }
-        pub fn username(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.username = ::std::option::Option::Some(value.into());
+        pub fn username(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_username(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `username` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_username(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.username = value.map(|value| value.into());
             self
         }
     }
@@ -717,16 +773,37 @@ pub mod update {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn title(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.title = ::std::option::Option::Some(value.into());
+        pub fn title(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_title(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `title` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_title(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.title = value.map(|value| value.into());
             self
         }
-        pub fn name(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.name = ::std::option::Option::Some(value.into());
+        pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_name(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `name` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_name(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.name = value.map(|value| value.into());
             self
         }
-        pub fn summary(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.summary = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn summary(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_summary(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `summary` を設定し、`None` なら設定を消して送らない。`null` を送るには [`summary_null`](Self::summary_null) を使う。"]
+        pub fn maybe_summary(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.summary = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`summary` を `null` として送る。"]
@@ -735,33 +812,69 @@ pub mod update {
             self
         }
         pub fn content(
-            mut self,
+            self,
             value: impl ::std::convert::Into<
                 ::std::vec::Vec<::serde_json::Map<::std::string::String, ::serde_json::Value>>,
             >,
         ) -> Self {
-            self.content = ::std::option::Option::Some(value.into());
+            self.maybe_content(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `content` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_content(
+            mut self,
+            value: ::std::option::Option<
+                impl ::std::convert::Into<
+                    ::std::vec::Vec<::serde_json::Map<::std::string::String, ::serde_json::Value>>,
+                >,
+            >,
+        ) -> Self {
+            self.content = value.map(|value| value.into());
             self
         }
         pub fn variables(
-            mut self,
+            self,
             value: impl ::std::convert::Into<
                 ::std::vec::Vec<::serde_json::Map<::std::string::String, ::serde_json::Value>>,
             >,
         ) -> Self {
-            self.variables = ::std::option::Option::Some(value.into());
+            self.maybe_variables(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `variables` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_variables(
+            mut self,
+            value: ::std::option::Option<
+                impl ::std::convert::Into<
+                    ::std::vec::Vec<::serde_json::Map<::std::string::String, ::serde_json::Value>>,
+                >,
+            >,
+        ) -> Self {
+            self.variables = value.map(|value| value.into());
             self
         }
-        pub fn script(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.script = ::std::option::Option::Some(value.into());
+        pub fn script(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_script(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `script` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_script(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.script = value.map(|value| value.into());
             self
         }
         pub fn eye_catching_image_id(
-            mut self,
+            self,
             value: impl ::std::convert::Into<::std::string::String>,
         ) -> Self {
+            self.maybe_eye_catching_image_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `eyeCatchingImageId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`eye_catching_image_id_null`](Self::eye_catching_image_id_null) を使う。"]
+        pub fn maybe_eye_catching_image_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
             self.eye_catching_image_id =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`eyeCatchingImageId` を `null` として送る。"]
@@ -769,16 +882,37 @@ pub mod update {
             self.eye_catching_image_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn font(mut self, value: impl ::std::convert::Into<RequestFont>) -> Self {
-            self.font = ::std::option::Option::Some(value.into());
+        pub fn font(self, value: impl ::std::convert::Into<RequestFont>) -> Self {
+            self.maybe_font(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `font` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_font(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestFont>>,
+        ) -> Self {
+            self.font = value.map(|value| value.into());
             self
         }
-        pub fn align_center(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.align_center = ::std::option::Option::Some(value.into());
+        pub fn align_center(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_align_center(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `alignCenter` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_align_center(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.align_center = value.map(|value| value.into());
             self
         }
-        pub fn hide_title_when_pinned(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.hide_title_when_pinned = ::std::option::Option::Some(value.into());
+        pub fn hide_title_when_pinned(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_hide_title_when_pinned(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `hideTitleWhenPinned` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_hide_title_when_pinned(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.hide_title_when_pinned = value.map(|value| value.into());
             self
         }
         pub fn page_id(

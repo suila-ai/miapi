@@ -10,6 +10,7 @@ let note = client.notes().show().note_id("xxxxxxxxxx").await?;      // types::No
 let created = client.notes().create().text("hello").await?;          // api::notes::create::Response
 let timeline = client.notes().local_timeline().limit(20).await?;     // Vec<types::Note>
 client.i().update().name("new name").avatar_id_null().await?;        // null で解除する項目は {field}_null()
+client.notes().create().text("hi").maybe_reply_id(reply_id).await?;  // Option を渡すなら maybe_{field}()。Some のときだけ送る
 ```
 
 ## 使い方
@@ -32,7 +33,7 @@ let notes = old.notes().local_timeline().limit(20).await?;           // Vec<miap
 ```
 
 - エンドポイントのパスがそのままメソッドの連鎖になります。`/notes/create` は `client.notes().create()`、`/i/2fa/done` は `client.i()._2fa().done()`、`/i/move` は `client.i().r#move()` です。`/notes` のように名前空間でもあるエンドポイントは、`client.notes()` 自体がそのビルダーです（`client.notes().limit(10).await?`）。
-- 必須パラメータは型状態で表します。`client.notes().show()` は `note_id` を設定するまで `.await` できず、コンパイルエラーになります。任意パラメータは setter で、nullable な項目には `{field}_null()` があり、省略と `null` を区別して送ります。
+- 必須パラメータは型状態で表します。`client.notes().show()` は `note_id` を設定するまで `.await` できず、コンパイルエラーになります。任意パラメータは setter で設定し、`Option` を持っているなら `maybe_{field}()` に渡すと `Some` のときだけ送ります。nullable な項目には `{field}_null()` があり、省略と `null` を区別して送ります。
 - 各エンドポイントには `Request` 構造体もあり、`client.call(request).await?` で送れます（設定ファイルから組み立てる、共通処理で包む等）。生成されていないエンドポイントは `client.call_raw("path", json!({...})).await?` で呼べます。
 - レスポンスの型は `miapi::types`（エンティティ）と各エンドポイントの `Response` です。サーバがまだ知らない enum 値や union の形は `Unrecognized` に入り、エラーになりません。日時（`format: date-time`）は `chrono::DateTime<Utc>` です。
 - エラーは `miapi::Error` です。サーバの `{"error": {...}}` は `Error::Api(ApiError)` に `code`・`id`・`message`・HTTP ステータス付きで入ります。応答を受け取った後のエラー（`Api`・`Decode`・`UnexpectedResponse`）には、呼んだエンドポイント名も入ります。

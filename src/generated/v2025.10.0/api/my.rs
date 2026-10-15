@@ -51,12 +51,26 @@ pub mod apps {
         }
     }
     impl<'a> Call<'a> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn offset(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.offset = ::std::option::Option::Some(value.into());
+        pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_offset(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `offset` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_offset(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.offset = value.map(|value| value.into());
             self
         }
     }

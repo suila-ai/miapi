@@ -75,12 +75,15 @@ pub mod create {
         }
     }
     impl<'a, S0, S1, S2> Call<'a, (S0, S1, S2)> {
-        pub fn callback_url(
+        pub fn callback_url(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_callback_url(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `callbackUrl` を設定し、`None` なら設定を消して送らない。`null` を送るには [`callback_url_null`](Self::callback_url_null) を使う。"]
+        pub fn maybe_callback_url(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
         ) -> Self {
-            self.callback_url =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.callback_url = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`callbackUrl` を `null` として送る。"]
