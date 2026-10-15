@@ -259,14 +259,27 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
         let name = ident(&f.ident);
         let base = type_tokens(&f.base, module);
         let doc = doc_attrs(f.docs.as_slice());
-        let assign = stored_value(f);
-        let mut setters = vec![quote! {
-            #doc
-            pub fn #name(mut self, value: impl ::std::convert::Into<#base>) -> Self {
-                self.#name = #assign;
-                self
-            }
-        }];
+        let stored = stored_value(f);
+        let maybe_name = format_ident!("{}", f.maybe_setter());
+        let mut maybe_doc = format!("`Some` なら `{}` を設定し、`None` なら設定を消して送らない。", f.json_name);
+        if f.nullable {
+            maybe_doc.push_str(&format!("`null` を送るには [`{0}`](Self::{0}) を使う。", f.null_setter()));
+        }
+        let mut setters = vec![
+            quote! {
+                #doc
+                pub fn #name(self, value: impl ::std::convert::Into<#base>) -> Self {
+                    self.#maybe_name(::std::option::Option::Some(value))
+                }
+            },
+            quote! {
+                #[doc = #maybe_doc]
+                pub fn #maybe_name(mut self, value: ::std::option::Option<impl ::std::convert::Into<#base>>) -> Self {
+                    self.#name = value.map(|value| #stored);
+                    self
+                }
+            },
+        ];
         if f.nullable {
             let null_name = format_ident!("{}", f.null_setter());
             let null_doc = format!("`{}` を `null` として送る。", f.json_name);
@@ -303,7 +316,8 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
                 })
                 .collect::<Vec<_>>()
         };
-        let set_moves = moves(stored_value(f));
+        let stored = stored_value(f);
+        let set_moves = moves(quote! { ::std::option::Option::Some(#stored) });
         let mut setters = vec![quote! {
             #doc
             pub fn #name(self, value: impl ::std::convert::Into<#base>) -> Call<'a, (#(#output,)*)> {
@@ -372,12 +386,12 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
     }
 }
 
-/// setter の引数 `value` から、ビルダーがそのフィールドに保持する値を作る。
+/// setter の引数 `value` から、ビルダーがそのフィールドの `Option` に入れる値を作る。
 fn stored_value(field: &Field) -> TokenStream {
     if field.nullable {
-        quote! { ::std::option::Option::Some(::std::option::Option::Some(value.into())) }
-    } else {
         quote! { ::std::option::Option::Some(value.into()) }
+    } else {
+        quote! { value.into() }
     }
 }
 
@@ -497,6 +511,7 @@ fn union_tokens(def: &UnionDef, module: &Ident) -> TokenStream {
 pub fn type_tokens(ty: &RustType, module: &Ident) -> TokenStream {
     match ty {
         RustType::String => quote! { ::std::string::String },
+        RustType::DateTime => quote! { ::chrono::DateTime<::chrono::Utc> },
         RustType::I64 => quote! { i64 },
         RustType::F64 => quote! { f64 },
         RustType::Bool => quote! { bool },

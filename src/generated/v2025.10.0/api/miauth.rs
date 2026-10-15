@@ -80,8 +80,15 @@ pub mod gen_token {
         }
     }
     impl<'a, S0, S1> Call<'a, (S0, S1)> {
-        pub fn name(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.name = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_name(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `name` を設定し、`None` なら設定を消して送らない。`null` を送るには [`name_null`](Self::name_null) を使う。"]
+        pub fn maybe_name(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.name = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`name` を `null` として送る。"]
@@ -89,12 +96,15 @@ pub mod gen_token {
             self.name = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn description(
+        pub fn description(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_description(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `description` を設定し、`None` なら設定を消して送らない。`null` を送るには [`description_null`](Self::description_null) を使う。"]
+        pub fn maybe_description(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
         ) -> Self {
-            self.description =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.description = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`description` を `null` として送る。"]
@@ -102,8 +112,15 @@ pub mod gen_token {
             self.description = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn icon_url(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.icon_url = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn icon_url(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_icon_url(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `iconUrl` を設定し、`None` なら設定を消して送らない。`null` を送るには [`icon_url_null`](Self::icon_url_null) を使う。"]
+        pub fn maybe_icon_url(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.icon_url = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`iconUrl` を `null` として送る。"]

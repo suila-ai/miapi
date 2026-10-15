@@ -77,8 +77,15 @@ pub mod create {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn header(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.header = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn header(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_header(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `header` を設定し、`None` なら設定を消して送らない。`null` を送るには [`header_null`](Self::header_null) を使う。"]
+        pub fn maybe_header(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.header = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`header` を `null` として送る。"]
@@ -86,8 +93,15 @@ pub mod create {
             self.header = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn icon(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.icon = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn icon(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_icon(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `icon` を設定し、`None` なら設定を消して送らない。`null` を送るには [`icon_null`](Self::icon_null) を使う。"]
+        pub fn maybe_icon(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.icon = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`icon` を `null` として送る。"]

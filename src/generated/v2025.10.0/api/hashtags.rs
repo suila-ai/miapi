@@ -123,26 +123,48 @@ pub mod list {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
-            self
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
         }
-        pub fn attached_to_user_only(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.attached_to_user_only = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn attached_to_local_user_only(
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
             mut self,
-            value: impl ::std::convert::Into<bool>,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
         ) -> Self {
-            self.attached_to_local_user_only = ::std::option::Option::Some(value.into());
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn attached_to_remote_user_only(
+        pub fn attached_to_user_only(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_attached_to_user_only(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `attachedToUserOnly` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_attached_to_user_only(
             mut self,
-            value: impl ::std::convert::Into<bool>,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
         ) -> Self {
-            self.attached_to_remote_user_only = ::std::option::Option::Some(value.into());
+            self.attached_to_user_only = value.map(|value| value.into());
+            self
+        }
+        pub fn attached_to_local_user_only(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_attached_to_local_user_only(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `attachedToLocalUserOnly` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_attached_to_local_user_only(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.attached_to_local_user_only = value.map(|value| value.into());
+            self
+        }
+        pub fn attached_to_remote_user_only(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_attached_to_remote_user_only(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `attachedToRemoteUserOnly` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_attached_to_remote_user_only(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.attached_to_remote_user_only = value.map(|value| value.into());
             self
         }
         pub fn sort(
@@ -220,12 +242,26 @@ pub mod search {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn offset(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.offset = ::std::option::Option::Some(value.into());
+        pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_offset(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `offset` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_offset(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.offset = value.map(|value| value.into());
             self
         }
         pub fn query(
@@ -447,16 +483,37 @@ pub mod users {
         }
     }
     impl<'a, S0, S1> Call<'a, (S0, S1)> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn state(mut self, value: impl ::std::convert::Into<RequestState>) -> Self {
-            self.state = ::std::option::Option::Some(value.into());
+        pub fn state(self, value: impl ::std::convert::Into<RequestState>) -> Self {
+            self.maybe_state(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `state` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_state(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestState>>,
+        ) -> Self {
+            self.state = value.map(|value| value.into());
             self
         }
-        pub fn origin(mut self, value: impl ::std::convert::Into<RequestOrigin>) -> Self {
-            self.origin = ::std::option::Option::Some(value.into());
+        pub fn origin(self, value: impl ::std::convert::Into<RequestOrigin>) -> Self {
+            self.maybe_origin(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `origin` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_origin(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestOrigin>>,
+        ) -> Self {
+            self.origin = value.map(|value| value.into());
             self
         }
         pub fn tag(

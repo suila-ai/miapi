@@ -34,20 +34,23 @@ impl<V> Client<V> {
     /// `origin` はサーバのベース URL で、`https://misskey.example.com` のように書く。
     /// 末尾のスラッシュは無視する。
     /// `token` はアクセストークンで、認証の要らないエンドポイントを呼ぶなら `None` でよい。
+    ///
+    /// HTTP クライアントは `reqwest::Client::new()` で作るので、タイムアウトは無い。
+    /// タイムアウト、プロキシ、ユーザーエージェントなどは、設定した `reqwest::Client` を
+    /// [`with_http_client`](Self::with_http_client) に渡して使う。
     pub fn new(origin: &str, token: Option<&str>) -> Self {
+        Self::with_http_client(reqwest::Client::new(), origin, token)
+    }
+
+    /// [`new`](Self::new) と同じだが、HTTP クライアントに `http` をそのまま使う。
+    /// `http` は miapi と同じ版の reqwest で作る。`miapi::reqwest::Client::builder()` を使えば版がそろう。
+    pub fn with_http_client(http: reqwest::Client, origin: &str, token: Option<&str>) -> Self {
         Self {
-            http: reqwest::Client::new(),
+            http,
             origin: origin.trim_end_matches('/').to_owned(),
             token: token.map(str::to_owned),
             _version: PhantomData,
         }
-    }
-
-    /// 内部で使う HTTP クライアントを差し替える。
-    /// プロキシ、タイムアウト、ユーザーエージェントなどを設定するときに使う。
-    pub fn with_http_client(mut self, http: reqwest::Client) -> Self {
-        self.http = http;
-        self
     }
 
     pub fn origin(&self) -> &str {
@@ -58,7 +61,7 @@ impl<V> Client<V> {
     pub async fn call<E: Endpoint>(&self, request: E) -> Result<E::Response, Error> {
         let body = request.into_body()?;
         let (status, bytes) = self.send(E::PATH, body).await?;
-        decode(status, &bytes)
+        decode(E::PATH, status, &bytes)
     }
 
     /// 任意のエンドポイントを、パラメータの JSON オブジェクトを渡して呼び、
@@ -66,7 +69,7 @@ impl<V> Client<V> {
     /// バインディングが生成されていないエンドポイントを呼ぶための抜け道。
     pub async fn call_raw(&self, path: &str, params: Value) -> Result<Value, Error> {
         let (status, bytes) = self.send(path, Body::Json(params)).await?;
-        decode(status, &bytes)
+        decode(path, status, &bytes)
     }
 
     async fn send(&self, path: &str, body: Body) -> Result<(u16, bytes::Bytes), Error> {
@@ -123,9 +126,11 @@ impl<V> Client<V> {
         Err(match serde_json::from_slice::<ErrorEnvelope>(&bytes) {
             Ok(envelope) => Error::Api(Box::new(ApiError {
                 status,
+                endpoint: path.to_owned(),
                 ..envelope.error
             })),
             Err(_) => Error::UnexpectedResponse {
+                endpoint: path.to_owned(),
                 status,
                 body: String::from_utf8_lossy(&bytes).into_owned(),
             },
@@ -133,14 +138,14 @@ impl<V> Client<V> {
     }
 }
 
-fn decode<T: DeserializeOwned>(status: u16, bytes: &[u8]) -> Result<T, Error> {
-    if status == 204 {
-        return serde_json::from_value(Value::Null).map_err(|source| Error::Decode {
-            source,
-            body: String::new(),
-        });
-    }
-    serde_json::from_slice(bytes).map_err(|source| Error::Decode {
+fn decode<T: DeserializeOwned>(endpoint: &str, status: u16, bytes: &[u8]) -> Result<T, Error> {
+    let decoded = if status == 204 {
+        serde_json::from_value(Value::Null)
+    } else {
+        serde_json::from_slice(bytes)
+    };
+    decoded.map_err(|source| Error::Decode {
+        endpoint: endpoint.to_owned(),
         source,
         body: String::from_utf8_lossy(bytes).into_owned(),
     })

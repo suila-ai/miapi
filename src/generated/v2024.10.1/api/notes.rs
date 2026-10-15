@@ -154,36 +154,92 @@ impl<'a> Call<'a> {
     pub fn user_list_timeline(&self) -> user_list_timeline::Call<'a> {
         user_list_timeline::Call::new(self.client)
     }
-    pub fn local(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-        self.local = ::std::option::Option::Some(value.into());
+    pub fn local(self, value: impl ::std::convert::Into<bool>) -> Self {
+        self.maybe_local(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `local` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_local(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+    ) -> Self {
+        self.local = value.map(|value| value.into());
         self
     }
-    pub fn reply(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-        self.reply = ::std::option::Option::Some(value.into());
+    pub fn reply(self, value: impl ::std::convert::Into<bool>) -> Self {
+        self.maybe_reply(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `reply` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_reply(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+    ) -> Self {
+        self.reply = value.map(|value| value.into());
         self
     }
-    pub fn renote(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-        self.renote = ::std::option::Option::Some(value.into());
+    pub fn renote(self, value: impl ::std::convert::Into<bool>) -> Self {
+        self.maybe_renote(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `renote` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_renote(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+    ) -> Self {
+        self.renote = value.map(|value| value.into());
         self
     }
-    pub fn with_files(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-        self.with_files = ::std::option::Option::Some(value.into());
+    pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
+        self.maybe_with_files(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `withFiles` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_with_files(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+    ) -> Self {
+        self.with_files = value.map(|value| value.into());
         self
     }
-    pub fn poll(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-        self.poll = ::std::option::Option::Some(value.into());
+    pub fn poll(self, value: impl ::std::convert::Into<bool>) -> Self {
+        self.maybe_poll(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `poll` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_poll(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+    ) -> Self {
+        self.poll = value.map(|value| value.into());
         self
     }
-    pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-        self.limit = ::std::option::Option::Some(value.into());
+    pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+        self.maybe_limit(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_limit(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+    ) -> Self {
+        self.limit = value.map(|value| value.into());
         self
     }
-    pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-        self.since_id = ::std::option::Option::Some(value.into());
+    pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.maybe_since_id(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_since_id(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+    ) -> Self {
+        self.since_id = value.map(|value| value.into());
         self
     }
-    pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-        self.until_id = ::std::option::Option::Some(value.into());
+    pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.maybe_until_id(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_until_id(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+    ) -> Self {
+        self.until_id = value.map(|value| value.into());
         self
     }
 }
@@ -252,16 +308,37 @@ pub mod children {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
         pub fn note_id(
@@ -398,12 +475,26 @@ pub mod conversation {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn offset(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.offset = ::std::option::Option::Some(value.into());
+        pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_offset(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `offset` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_offset(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.offset = value.map(|value| value.into());
             self
         }
         pub fn note_id(
@@ -625,19 +716,42 @@ pub mod create {
         }
     }
     impl<'a> Call<'a> {
-        pub fn visibility(mut self, value: impl ::std::convert::Into<RequestVisibility>) -> Self {
-            self.visibility = ::std::option::Option::Some(value.into());
+        pub fn visibility(self, value: impl ::std::convert::Into<RequestVisibility>) -> Self {
+            self.maybe_visibility(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `visibility` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_visibility(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestVisibility>>,
+        ) -> Self {
+            self.visibility = value.map(|value| value.into());
             self
         }
         pub fn visible_user_ids(
-            mut self,
+            self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
         ) -> Self {
-            self.visible_user_ids = ::std::option::Option::Some(value.into());
+            self.maybe_visible_user_ids(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `visibleUserIds` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_visible_user_ids(
+            mut self,
+            value: ::std::option::Option<
+                impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            >,
+        ) -> Self {
+            self.visible_user_ids = value.map(|value| value.into());
             self
         }
-        pub fn cw(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.cw = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn cw(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_cw(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `cw` を設定し、`None` なら設定を消して送らない。`null` を送るには [`cw_null`](Self::cw_null) を使う。"]
+        pub fn maybe_cw(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.cw = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`cw` を `null` として送る。"]
@@ -645,16 +759,29 @@ pub mod create {
             self.cw = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn local_only(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.local_only = ::std::option::Option::Some(value.into());
+        pub fn local_only(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_local_only(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `localOnly` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_local_only(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.local_only = value.map(|value| value.into());
             self
         }
         pub fn reaction_acceptance(
-            mut self,
+            self,
             value: impl ::std::convert::Into<RequestReactionAcceptance>,
         ) -> Self {
-            self.reaction_acceptance =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.maybe_reaction_acceptance(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `reactionAcceptance` を設定し、`None` なら設定を消して送らない。`null` を送るには [`reaction_acceptance_null`](Self::reaction_acceptance_null) を使う。"]
+        pub fn maybe_reaction_acceptance(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestReactionAcceptance>>,
+        ) -> Self {
+            self.reaction_acceptance = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`reactionAcceptance` を `null` として送る。"]
@@ -662,20 +789,48 @@ pub mod create {
             self.reaction_acceptance = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn no_extract_mentions(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.no_extract_mentions = ::std::option::Option::Some(value.into());
+        pub fn no_extract_mentions(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_no_extract_mentions(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `noExtractMentions` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_no_extract_mentions(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.no_extract_mentions = value.map(|value| value.into());
             self
         }
-        pub fn no_extract_hashtags(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.no_extract_hashtags = ::std::option::Option::Some(value.into());
+        pub fn no_extract_hashtags(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_no_extract_hashtags(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `noExtractHashtags` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_no_extract_hashtags(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.no_extract_hashtags = value.map(|value| value.into());
             self
         }
-        pub fn no_extract_emojis(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.no_extract_emojis = ::std::option::Option::Some(value.into());
+        pub fn no_extract_emojis(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_no_extract_emojis(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `noExtractEmojis` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_no_extract_emojis(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.no_extract_emojis = value.map(|value| value.into());
             self
         }
-        pub fn reply_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.reply_id = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn reply_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_reply_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `replyId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`reply_id_null`](Self::reply_id_null) を使う。"]
+        pub fn maybe_reply_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.reply_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`replyId` を `null` として送る。"]
@@ -683,11 +838,15 @@ pub mod create {
             self.reply_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn renote_id(
+        pub fn renote_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_renote_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `renoteId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`renote_id_null`](Self::renote_id_null) を使う。"]
+        pub fn maybe_renote_id(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
         ) -> Self {
-            self.renote_id = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.renote_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`renoteId` を `null` として送る。"]
@@ -695,12 +854,15 @@ pub mod create {
             self.renote_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn channel_id(
+        pub fn channel_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_channel_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `channelId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`channel_id_null`](Self::channel_id_null) を使う。"]
+        pub fn maybe_channel_id(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
         ) -> Self {
-            self.channel_id =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.channel_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`channelId` を `null` として送る。"]
@@ -708,8 +870,15 @@ pub mod create {
             self.channel_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn text(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.text = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn text(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_text(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `text` を設定し、`None` なら設定を消して送らない。`null` を送るには [`text_null`](Self::text_null) を使う。"]
+        pub fn maybe_text(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.text = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`text` を `null` として送る。"]
@@ -718,21 +887,46 @@ pub mod create {
             self
         }
         pub fn file_ids(
-            mut self,
+            self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
         ) -> Self {
-            self.file_ids = ::std::option::Option::Some(value.into());
+            self.maybe_file_ids(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `fileIds` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_file_ids(
+            mut self,
+            value: ::std::option::Option<
+                impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            >,
+        ) -> Self {
+            self.file_ids = value.map(|value| value.into());
             self
         }
         pub fn media_ids(
-            mut self,
+            self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
         ) -> Self {
-            self.media_ids = ::std::option::Option::Some(value.into());
+            self.maybe_media_ids(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `mediaIds` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_media_ids(
+            mut self,
+            value: ::std::option::Option<
+                impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            >,
+        ) -> Self {
+            self.media_ids = value.map(|value| value.into());
             self
         }
-        pub fn poll(mut self, value: impl ::std::convert::Into<RequestPoll>) -> Self {
-            self.poll = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn poll(self, value: impl ::std::convert::Into<RequestPoll>) -> Self {
+            self.maybe_poll(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `poll` を設定し、`None` なら設定を消して送らない。`null` を送るには [`poll_null`](Self::poll_null) を使う。"]
+        pub fn maybe_poll(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestPoll>>,
+        ) -> Self {
+            self.poll = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`poll` を `null` として送る。"]
@@ -1014,20 +1208,37 @@ pub mod featured {
         }
     }
     impl<'a> Call<'a> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
-            self
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn channel_id(
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
         ) -> Self {
-            self.channel_id =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.limit = value.map(|value| value.into());
+            self
+        }
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
+            self
+        }
+        pub fn channel_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_channel_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `channelId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`channel_id_null`](Self::channel_id_null) を使う。"]
+        pub fn maybe_channel_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.channel_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`channelId` を `null` として送る。"]
@@ -1110,32 +1321,81 @@ pub mod global_timeline {
         }
     }
     impl<'a> Call<'a> {
-        pub fn with_files(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_files = ::std::option::Option::Some(value.into());
+        pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_files(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withFiles` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_files(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_files = value.map(|value| value.into());
             self
         }
-        pub fn with_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_renotes = ::std::option::Option::Some(value.into());
+        pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_renotes = value.map(|value| value.into());
             self
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
             self
         }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
             self
         }
     }
@@ -1257,52 +1517,136 @@ pub mod hybrid_timeline {
         }
     }
     impl<'a> Call<'a> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
             self
         }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
             self
         }
-        pub fn allow_partial(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.allow_partial = ::std::option::Option::Some(value.into());
+        pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_allow_partial(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `allowPartial` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_allow_partial(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.allow_partial = value.map(|value| value.into());
             self
         }
-        pub fn include_my_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_my_renotes = ::std::option::Option::Some(value.into());
+        pub fn include_my_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_my_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeMyRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_my_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_my_renotes = value.map(|value| value.into());
             self
         }
-        pub fn include_renoted_my_notes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_renoted_my_notes = ::std::option::Option::Some(value.into());
+        pub fn include_renoted_my_notes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_renoted_my_notes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeRenotedMyNotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_renoted_my_notes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_renoted_my_notes = value.map(|value| value.into());
             self
         }
-        pub fn include_local_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_local_renotes = ::std::option::Option::Some(value.into());
+        pub fn include_local_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_local_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeLocalRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_local_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_local_renotes = value.map(|value| value.into());
             self
         }
-        pub fn with_files(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_files = ::std::option::Option::Some(value.into());
+        pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_files(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withFiles` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_files(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_files = value.map(|value| value.into());
             self
         }
-        pub fn with_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_renotes = ::std::option::Option::Some(value.into());
+        pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_renotes = value.map(|value| value.into());
             self
         }
-        pub fn with_replies(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_replies = ::std::option::Option::Some(value.into());
+        pub fn with_replies(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_replies(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withReplies` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_replies(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_replies = value.map(|value| value.into());
             self
         }
     }
@@ -1405,40 +1749,103 @@ pub mod local_timeline {
         }
     }
     impl<'a> Call<'a> {
-        pub fn with_files(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_files = ::std::option::Option::Some(value.into());
+        pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_files(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withFiles` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_files(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_files = value.map(|value| value.into());
             self
         }
-        pub fn with_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_renotes = ::std::option::Option::Some(value.into());
+        pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_renotes = value.map(|value| value.into());
             self
         }
-        pub fn with_replies(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_replies = ::std::option::Option::Some(value.into());
+        pub fn with_replies(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_replies(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withReplies` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_replies(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_replies = value.map(|value| value.into());
             self
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn allow_partial(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.allow_partial = ::std::option::Option::Some(value.into());
+        pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_allow_partial(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `allowPartial` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_allow_partial(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.allow_partial = value.map(|value| value.into());
             self
         }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
             self
         }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
             self
         }
     }
@@ -1510,27 +1917,59 @@ pub mod mentions {
         }
     }
     impl<'a> Call<'a> {
-        pub fn following(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.following = ::std::option::Option::Some(value.into());
-            self
+        pub fn following(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_following(::std::option::Option::Some(value))
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn visibility(
+        #[doc = "`Some` なら `following` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_following(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
         ) -> Self {
-            self.visibility = ::std::option::Option::Some(value.into());
+            self.following = value.map(|value| value.into());
+            self
+        }
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
+            self
+        }
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
+            self
+        }
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
+            self
+        }
+        pub fn visibility(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_visibility(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `visibility` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_visibility(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.visibility = value.map(|value| value.into());
             self
         }
     }
@@ -1615,16 +2054,37 @@ pub mod polls {
             }
         }
         impl<'a> Call<'a> {
-            pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.limit = ::std::option::Option::Some(value.into());
+            pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_limit(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_limit(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.limit = value.map(|value| value.into());
                 self
             }
-            pub fn offset(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.offset = ::std::option::Option::Some(value.into());
+            pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_offset(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `offset` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_offset(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.offset = value.map(|value| value.into());
                 self
             }
-            pub fn exclude_channels(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-                self.exclude_channels = ::std::option::Option::Some(value.into());
+            pub fn exclude_channels(self, value: impl ::std::convert::Into<bool>) -> Self {
+                self.maybe_exclude_channels(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `excludeChannels` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_exclude_channels(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+            ) -> Self {
+                self.exclude_channels = value.map(|value| value.into());
                 self
             }
         }
@@ -1784,8 +2244,15 @@ pub mod reactions {
         pub fn delete(&self) -> delete::Call<'a> {
             delete::Call::new(self.client)
         }
-        pub fn r#type(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.r#type = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn r#type(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_type(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `type` を設定し、`None` なら設定を消して送らない。`null` を送るには [`type_null`](Self::type_null) を使う。"]
+        pub fn maybe_type(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.r#type = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`type` を `null` として送る。"]
@@ -1793,16 +2260,37 @@ pub mod reactions {
             self.r#type = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
         pub fn note_id(
@@ -2023,16 +2511,37 @@ pub mod renotes {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
         pub fn note_id(
@@ -2113,16 +2622,37 @@ pub mod replies {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
         pub fn note_id(
@@ -2235,8 +2765,15 @@ pub mod search_by_tag {
         }
     }
     impl<'a> Call<'a> {
-        pub fn reply(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.reply = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn reply(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_reply(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `reply` を設定し、`None` なら設定を消して送らない。`null` を送るには [`reply_null`](Self::reply_null) を使う。"]
+        pub fn maybe_reply(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.reply = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`reply` を `null` として送る。"]
@@ -2244,8 +2781,15 @@ pub mod search_by_tag {
             self.reply = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn renote(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.renote = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn renote(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_renote(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `renote` を設定し、`None` なら設定を消して送らない。`null` を送るには [`renote_null`](Self::renote_null) を使う。"]
+        pub fn maybe_renote(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.renote = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`renote` を `null` として送る。"]
@@ -2254,12 +2798,26 @@ pub mod search_by_tag {
             self
         }
         #[doc = "Only show notes that have attached files."]
-        pub fn with_files(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_files = ::std::option::Option::Some(value.into());
+        pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_files(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withFiles` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_files(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_files = value.map(|value| value.into());
             self
         }
-        pub fn poll(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.poll = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn poll(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_poll(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `poll` を設定し、`None` なら設定を消して送らない。`null` を送るには [`poll_null`](Self::poll_null) を使う。"]
+        pub fn maybe_poll(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.poll = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`poll` を `null` として送る。"]
@@ -2267,28 +2825,65 @@ pub mod search_by_tag {
             self.poll = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn tag(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.tag = ::std::option::Option::Some(value.into());
+        pub fn tag(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_tag(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `tag` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_tag(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.tag = value.map(|value| value.into());
             self
         }
         #[doc = "The outer arrays are chained with OR, the inner arrays are chained with AND."]
         pub fn query(
-            mut self,
+            self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::vec::Vec<::std::string::String>>>,
         ) -> Self {
-            self.query = ::std::option::Option::Some(value.into());
+            self.maybe_query(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `query` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_query(
+            mut self,
+            value: ::std::option::Option<
+                impl ::std::convert::Into<::std::vec::Vec<::std::vec::Vec<::std::string::String>>>,
+            >,
+        ) -> Self {
+            self.query = value.map(|value| value.into());
             self
         }
     }
@@ -2385,29 +2980,71 @@ pub mod search {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn offset(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.offset = ::std::option::Option::Some(value.into());
+        pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_offset(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `offset` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_offset(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.offset = value.map(|value| value.into());
             self
         }
         #[doc = "The local host is represented with `.`."]
-        pub fn host(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.host = ::std::option::Option::Some(value.into());
+        pub fn host(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_host(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `host` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_host(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.host = value.map(|value| value.into());
             self
         }
-        pub fn user_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.user_id = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn user_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_user_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `userId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`user_id_null`](Self::user_id_null) を使う。"]
+        pub fn maybe_user_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.user_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`userId` を `null` として送る。"]
@@ -2415,12 +3052,15 @@ pub mod search {
             self.user_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn channel_id(
+        pub fn channel_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_channel_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `channelId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`channel_id_null`](Self::channel_id_null) を使う。"]
+        pub fn maybe_channel_id(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
         ) -> Self {
-            self.channel_id =
-                ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.channel_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`channelId` を `null` として送る。"]
@@ -2827,48 +3467,125 @@ pub mod timeline {
         }
     }
     impl<'a> Call<'a> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
             self
         }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
             self
         }
-        pub fn allow_partial(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.allow_partial = ::std::option::Option::Some(value.into());
+        pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_allow_partial(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `allowPartial` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_allow_partial(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.allow_partial = value.map(|value| value.into());
             self
         }
-        pub fn include_my_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_my_renotes = ::std::option::Option::Some(value.into());
+        pub fn include_my_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_my_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeMyRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_my_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_my_renotes = value.map(|value| value.into());
             self
         }
-        pub fn include_renoted_my_notes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_renoted_my_notes = ::std::option::Option::Some(value.into());
+        pub fn include_renoted_my_notes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_renoted_my_notes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeRenotedMyNotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_renoted_my_notes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_renoted_my_notes = value.map(|value| value.into());
             self
         }
-        pub fn include_local_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_local_renotes = ::std::option::Option::Some(value.into());
+        pub fn include_local_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_local_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeLocalRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_local_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_local_renotes = value.map(|value| value.into());
             self
         }
-        pub fn with_files(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_files = ::std::option::Option::Some(value.into());
+        pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_files(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withFiles` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_files(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_files = value.map(|value| value.into());
             self
         }
-        pub fn with_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_renotes = ::std::option::Option::Some(value.into());
+        pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_renotes = value.map(|value| value.into());
             self
         }
     }
@@ -3139,49 +3856,126 @@ pub mod user_list_timeline {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
             self
         }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
             self
         }
-        pub fn allow_partial(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.allow_partial = ::std::option::Option::Some(value.into());
+        pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_allow_partial(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `allowPartial` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_allow_partial(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.allow_partial = value.map(|value| value.into());
             self
         }
-        pub fn include_my_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_my_renotes = ::std::option::Option::Some(value.into());
+        pub fn include_my_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_my_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeMyRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_my_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_my_renotes = value.map(|value| value.into());
             self
         }
-        pub fn include_renoted_my_notes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_renoted_my_notes = ::std::option::Option::Some(value.into());
+        pub fn include_renoted_my_notes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_renoted_my_notes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeRenotedMyNotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_renoted_my_notes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_renoted_my_notes = value.map(|value| value.into());
             self
         }
-        pub fn include_local_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.include_local_renotes = ::std::option::Option::Some(value.into());
+        pub fn include_local_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_include_local_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `includeLocalRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_include_local_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.include_local_renotes = value.map(|value| value.into());
             self
         }
-        pub fn with_renotes(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_renotes = ::std::option::Option::Some(value.into());
+        pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_renotes(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withRenotes` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_renotes(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_renotes = value.map(|value| value.into());
             self
         }
         #[doc = "Only show notes that have attached files."]
-        pub fn with_files(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.with_files = ::std::option::Option::Some(value.into());
+        pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_with_files(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `withFiles` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_with_files(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.with_files = value.map(|value| value.into());
             self
         }
         pub fn list_id(

@@ -40,8 +40,15 @@ impl<'a> Call<'a> {
     }
 }
 impl<'a, S0, S1> Call<'a, (S0, S1)> {
-    pub fn var(mut self, value: impl ::std::convert::Into<::serde_json::Value>) -> Self {
-        self.var = ::std::option::Option::Some(value.into());
+    pub fn var(self, value: impl ::std::convert::Into<::serde_json::Value>) -> Self {
+        self.maybe_var(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `var` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_var(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<::serde_json::Value>>,
+    ) -> Self {
+        self.var = value.map(|value| value.into());
         self
     }
     pub fn page_id(

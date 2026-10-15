@@ -3,7 +3,7 @@
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
 pub struct ResponseItem {
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub users: f64,
     pub data: ::std::collections::HashMap<::std::string::String, f64>,
 }

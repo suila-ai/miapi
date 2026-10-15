@@ -89,6 +89,28 @@ async fn null_setter_sends_explicit_null_and_omits_unset_fields() {
 }
 
 #[tokio::test]
+async fn maybe_setter_sends_some_and_omits_none() {
+    let (server, client) = server_and_client().await;
+    Mock::given(path("/api/notes/create"))
+        .and(body_json(json!({"text": "hi", "cw": "warn", "i": "tok"})))
+        .respond_with(ResponseTemplate::new(200).set_body_json(json!({"createdNote": note_json()})))
+        .expect(1)
+        .mount(&server)
+        .await;
+    let reply_id: Option<String> = None;
+    let created = client
+        .notes()
+        .create()
+        .text("hi")
+        .maybe_cw(Some("warn"))
+        .reply_id("r")
+        .maybe_reply_id(reply_id)
+        .await
+        .unwrap();
+    assert_eq!(created.created_note.id, note_json()["id"]);
+}
+
+#[tokio::test]
 async fn namespace_with_required_parameter_and_child_endpoint() {
     let (server, client) = server_and_client().await;
     Mock::given(path("/api/notes/reactions/create"))

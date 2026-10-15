@@ -64,20 +64,37 @@ impl<'a> Call<'a> {
     }
 }
 impl<'a, S0> Call<'a, (S0,)> {
-    pub fn string(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-        self.string = ::std::option::Option::Some(value.into());
-        self
+    pub fn string(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.maybe_string(::std::option::Option::Some(value))
     }
-    pub fn default(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-        self.default = ::std::option::Option::Some(value.into());
-        self
-    }
-    pub fn nullable_default(
+    #[doc = "`Some` なら `string` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_string(
         mut self,
-        value: impl ::std::convert::Into<::std::string::String>,
+        value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
     ) -> Self {
-        self.nullable_default =
-            ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        self.string = value.map(|value| value.into());
+        self
+    }
+    pub fn default(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.maybe_default(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `default` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_default(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+    ) -> Self {
+        self.default = value.map(|value| value.into());
+        self
+    }
+    pub fn nullable_default(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.maybe_nullable_default(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `nullableDefault` を設定し、`None` なら設定を消して送らない。`null` を送るには [`nullable_default_null`](Self::nullable_default_null) を使う。"]
+    pub fn maybe_nullable_default(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+    ) -> Self {
+        self.nullable_default = value.map(|value| ::std::option::Option::Some(value.into()));
         self
     }
     #[doc = "`nullableDefault` を `null` として送る。"]
@@ -85,8 +102,15 @@ impl<'a, S0> Call<'a, (S0,)> {
         self.nullable_default = ::std::option::Option::Some(::std::option::Option::None);
         self
     }
-    pub fn id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-        self.id = ::std::option::Option::Some(value.into());
+    pub fn id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+        self.maybe_id(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `id` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_id(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+    ) -> Self {
+        self.id = value.map(|value| value.into());
         self
     }
     pub fn required(

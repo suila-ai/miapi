@@ -134,6 +134,29 @@ fn nullable_forms_become_option() {
 }
 
 #[test]
+fn date_time_strings_become_chrono_date_time() {
+    let tree = build_tree(&spec(
+        json!({"A": {"type": "object", "properties": {
+            "createdAt": {"type": "string", "format": "date-time"},
+            "deletedAt": {"type": ["string", "null"], "format": "date-time"},
+            "name": {"type": "string"}
+        }, "required": ["createdAt", "deletedAt", "name"]}}),
+        json!({"/x": post(Some(json!({"type": "object", "properties": {"since": {"type": "string", "format": "date-time"}}, "required": ["since"]})), json!({"204": {"description": "none"}}))}),
+    ))
+    .unwrap();
+    let a = find_struct(&tree.types, "A");
+    assert_eq!(field(a, "createdAt").base, RustType::DateTime);
+    assert_eq!(field(a, "deletedAt").base, RustType::DateTime);
+    assert!(field(a, "deletedAt").nullable);
+    assert_eq!(field(a, "name").base, RustType::String);
+    assert!(
+        source_of(&tree, "types.rs").contains("pubcreated_at:::chrono::DateTime<::chrono::Utc>,")
+    );
+    // `DateTime<Utc>` は `Default`（UNIX エポック）を持つので、Request の `Default` を妨げない。
+    assert!(endpoint(&tree, "x").request.derive_default);
+}
+
+#[test]
 fn request_fields_distinguish_omitted_and_null() {
     let tree = build_tree(&spec(
         json!({}),
@@ -350,6 +373,15 @@ fn builder_tokens_use_type_state_for_required_parameters() {
     assert!(notes.contains("pubstructCall<'a,S=(crate::builder::Unset,)>"));
     assert!(notes.contains("pubfnnote_id(self,value:impl::std::convert::Into<::std::string::String>)->Call<'a,(crate::builder::Set,)>"));
     assert!(notes.contains("pubfncw_null(mutself)->Self"));
+    assert!(notes.contains(
+        "pubfnmaybe_cw(mutself,value:::std::option::Option<impl::std::convert::Into<::std::string::String>>)->Self"
+    ));
+    assert!(notes.contains("`null`を送るには[`cw_null`](Self::cw_null)を使う。"));
+    assert!(notes.contains("`Some`なら`limit`を設定し、`None`なら設定を消して送らない。\"]"));
+    assert!(notes.contains("self.cw=value.map(|value|::std::option::Option::Some(value.into()));"));
+    assert!(notes.contains("self.limit=value.map(|value|value.into());"));
+    assert!(notes.contains("self.maybe_limit(::std::option::Option::Some(value))"));
+    assert!(!notes.contains("maybe_note_id"));
     assert!(
         notes.contains(
             "impl<'a>::std::future::IntoFuture forCall<'a,(crate::builder::Set,)>"
@@ -358,7 +390,7 @@ fn builder_tokens_use_type_state_for_required_parameters() {
         )
     );
     assert!(notes.contains("pubfnshow(&self)->show::Call<'a>"));
-    assert!(notes.contains("pubfnlimit(mutself,value:impl::std::convert::Into<i64>)->Self"));
+    assert!(notes.contains("pubfnlimit(self,value:impl::std::convert::Into<i64>)->Self"));
     assert!(notes.contains("client:&'acrate::generated::v2024_10_1::Client,"));
     let api_mod = source_of(&tree, "api/mod.rs");
     assert!(api_mod.contains("implsuper::Client{"));
@@ -447,6 +479,16 @@ fn name_collisions_are_rejected() {
             "/x": post(Some(json!({"type": "object", "properties": {"y": {"type": "string"}}})), json!({"204": {"description": "none"}})),
             "/x/y": post(None, json!({"204": {"description": "none"}}))
         }),
+    ))
+    .unwrap_err();
+    assert!(
+        error.contains("ビルダーのほかのメソッドと衝突する"),
+        "{error}"
+    );
+    // 任意のプロパティ `limit` に足す `maybe_limit` が、プロパティ `maybeLimit` の setter と衝突する。
+    let error = build_tree(&spec(
+        json!({}),
+        json!({"/x": post(Some(json!({"type": "object", "properties": {"limit": {"type": "integer"}, "maybeLimit": {"type": "integer"}}})), json!({"204": {"description": "none"}}))}),
     ))
     .unwrap_err();
     assert!(

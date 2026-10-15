@@ -3,6 +3,8 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum RustType {
     String,
+    /// `format: date-time` の文字列。`chrono::DateTime<chrono::Utc>` になる。
+    DateTime,
     I64,
     F64,
     Bool,
@@ -106,6 +108,11 @@ impl Field {
     /// null 可のフィールドに足す、`null` を送る setter の名前。
     pub fn null_setter(&self) -> String {
         format!("{}_null", self.ident)
+    }
+
+    /// 任意のフィールドに足す、`Option` を受けて `Some` のときだけ設定する setter の名前。
+    pub fn maybe_setter(&self) -> String {
+        format!("maybe_{}", self.ident)
     }
 }
 

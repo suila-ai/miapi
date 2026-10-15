@@ -139,6 +139,23 @@ async fn without_token_sends_empty_object() {
 }
 
 #[tokio::test]
+async fn with_http_client_uses_the_given_client() {
+    let server = MockServer::start().await;
+    let http = miapi::reqwest::Client::builder()
+        .user_agent("miapi-test/1")
+        .build()
+        .unwrap();
+    let client = Client::with_http_client(http, &server.uri(), None);
+    Mock::given(path("/api/i"))
+        .and(header("user-agent", "miapi-test/1"))
+        .respond_with(ResponseTemplate::new(200).set_body_json(json!({})))
+        .expect(1)
+        .mount(&server)
+        .await;
+    client.call(Me).await.unwrap();
+}
+
+#[tokio::test]
 async fn no_content_decodes_into_unit_and_none() {
     let (server, client) = server_and_client(None).await;
     Mock::given(path("/api/notes/delete"))
@@ -173,9 +190,14 @@ async fn api_error_body_becomes_api_error() {
         })
         .await
         .unwrap_err();
+    assert_eq!(
+        err.to_string(),
+        "Misskey API error NO_SUCH_NOTE (400) from notes/show: No such note."
+    );
     match err {
         Error::Api(api) => {
             assert_eq!(api.status, 400);
+            assert_eq!(api.endpoint, "notes/show");
             assert_eq!(api.code, "NO_SUCH_NOTE");
             assert_eq!(api.kind.as_deref(), Some("client"));
             assert_eq!(api.info, None);
@@ -192,7 +214,12 @@ async fn non_json_failure_becomes_unexpected_response() {
         .mount(&server)
         .await;
     match client.call(Me).await.unwrap_err() {
-        Error::UnexpectedResponse { status, body } => {
+        Error::UnexpectedResponse {
+            endpoint,
+            status,
+            body,
+        } => {
+            assert_eq!(endpoint, "i");
             assert_eq!(status, 502);
             assert!(body.contains("bad gateway"));
         }
@@ -214,7 +241,10 @@ async fn mismatched_body_becomes_decode_error() {
         .await
         .unwrap_err()
     {
-        Error::Decode { body, .. } => assert!(body.contains("no id")),
+        Error::Decode { endpoint, body, .. } => {
+            assert_eq!(endpoint, "notes/show");
+            assert!(body.contains("no id"));
+        }
         other => panic!("想定外のエラー: {other:?}"),
     }
 }

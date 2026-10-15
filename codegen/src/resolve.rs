@@ -272,8 +272,11 @@ impl<'a> Resolver<'a> {
             return Ok((ty, nullable));
         }
         let ty = match type_names.first() {
-            Some(&"string") if schema.format.as_deref() == Some("binary") => RustType::FilePart,
-            Some(&"string") => RustType::String,
+            Some(&"string") => match schema.format.as_deref() {
+                Some("binary") => RustType::FilePart,
+                Some("date-time") => RustType::DateTime,
+                _ => RustType::String,
+            },
             Some(&"integer") => RustType::I64,
             Some(&"number") => RustType::F64,
             Some(&"boolean") => RustType::Bool,
@@ -869,7 +872,8 @@ fn defaultable(ty: &RustType, items: &[Item]) -> bool {
         | RustType::JsonMap
         | RustType::Map(_)
         | RustType::Vec(_)
-        | RustType::Option(_) => true,
+        | RustType::Option(_)
+        | RustType::DateTime => true,
         RustType::Tuple(elements) => elements.iter().all(|e| defaultable(e, items)),
         RustType::Boxed(inner) => defaultable(inner, items),
         RustType::Local(name) => items.iter().any(
@@ -980,6 +984,9 @@ fn validate_api(nodes: &[ApiNode], top: bool) -> Result<()> {
                 let mut names = vec![field.ident.clone()];
                 if field.nullable {
                     names.push(field.null_setter());
+                }
+                if !field.required {
+                    names.push(field.maybe_setter());
                 }
                 for name in names {
                     if !methods.insert(name.clone()) {

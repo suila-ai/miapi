@@ -184,31 +184,70 @@ pub mod files {
         pub fn upload_from_url(&self) -> upload_from_url::Call<'a> {
             upload_from_url::Call::new(self.client)
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
-            self
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn folder_id(
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
         ) -> Self {
-            self.folder_id = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.limit = value.map(|value| value.into());
+            self
+        }
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
+            self
+        }
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
+            self
+        }
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
+            self
+        }
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
+            self
+        }
+        pub fn folder_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_folder_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `folderId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`folder_id_null`](Self::folder_id_null) を使う。"]
+        pub fn maybe_folder_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.folder_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`folderId` を `null` として送る。"]
@@ -216,8 +255,15 @@ pub mod files {
             self.folder_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn r#type(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.r#type = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn r#type(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_type(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `type` を設定し、`None` なら設定を消して送らない。`null` を送るには [`type_null`](Self::type_null) を使う。"]
+        pub fn maybe_type(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.r#type = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`type` を `null` として送る。"]
@@ -225,8 +271,15 @@ pub mod files {
             self.r#type = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
-        pub fn sort(mut self, value: impl ::std::convert::Into<RequestSort>) -> Self {
-            self.sort = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+        pub fn sort(self, value: impl ::std::convert::Into<RequestSort>) -> Self {
+            self.maybe_sort(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sort` を設定し、`None` なら設定を消して送らない。`null` を送るには [`sort_null`](Self::sort_null) を使う。"]
+        pub fn maybe_sort(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<RequestSort>>,
+        ) -> Self {
+            self.sort = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`sort` を `null` として送る。"]
@@ -308,30 +361,59 @@ pub mod files {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
-            pub fn since_id(
+            pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_since_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_since_id(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.since_id = ::std::option::Option::Some(value.into());
+                self.since_id = value.map(|value| value.into());
                 self
             }
-            pub fn until_id(
+            pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_until_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_until_id(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.until_id = ::std::option::Option::Some(value.into());
+                self.until_id = value.map(|value| value.into());
                 self
             }
-            pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.since_date = ::std::option::Option::Some(value.into());
+            pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_since_date(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_since_date(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.since_date = value.map(|value| value.into());
                 self
             }
-            pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.until_date = ::std::option::Option::Some(value.into());
+            pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_until_date(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_until_date(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.until_date = value.map(|value| value.into());
                 self
             }
-            pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.limit = ::std::option::Option::Some(value.into());
+            pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_limit(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_limit(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.limit = value.map(|value| value.into());
                 self
             }
             pub fn file_id(
@@ -424,30 +506,59 @@ pub mod files {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
-            pub fn since_id(
+            pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_since_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_since_id(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.since_id = ::std::option::Option::Some(value.into());
+                self.since_id = value.map(|value| value.into());
                 self
             }
-            pub fn until_id(
+            pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_until_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_until_id(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.until_id = ::std::option::Option::Some(value.into());
+                self.until_id = value.map(|value| value.into());
                 self
             }
-            pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.since_date = ::std::option::Option::Some(value.into());
+            pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_since_date(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_since_date(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.since_date = value.map(|value| value.into());
                 self
             }
-            pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.until_date = ::std::option::Option::Some(value.into());
+            pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_until_date(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_until_date(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.until_date = value.map(|value| value.into());
                 self
             }
-            pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-                self.limit = ::std::option::Option::Some(value.into());
+            pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_limit(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_limit(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.limit = value.map(|value| value.into());
                 self
             }
             pub fn file_id(
@@ -625,11 +736,17 @@ pub mod files {
         }
         impl<'a, S0> Call<'a, (S0,)> {
             pub fn folder_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.folder_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_folder_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `folderId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`folder_id_null`](Self::folder_id_null) を使う。"]
+            pub fn maybe_folder_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.folder_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`folderId` を `null` として送る。"]
@@ -637,8 +754,15 @@ pub mod files {
                 self.folder_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            pub fn name(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-                self.name = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_name(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `name` を設定し、`None` なら設定を消して送らない。`null` を送るには [`name_null`](Self::name_null) を使う。"]
+            pub fn maybe_name(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.name = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`name` を `null` として送る。"]
@@ -646,12 +770,15 @@ pub mod files {
                 self.name = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            pub fn comment(
+            pub fn comment(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_comment(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `comment` を設定し、`None` なら設定を消して送らない。`null` を送るには [`comment_null`](Self::comment_null) を使う。"]
+            pub fn maybe_comment(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.comment =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.comment = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`comment` を `null` として送る。"]
@@ -659,12 +786,26 @@ pub mod files {
                 self.comment = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            pub fn is_sensitive(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-                self.is_sensitive = ::std::option::Option::Some(value.into());
+            pub fn is_sensitive(self, value: impl ::std::convert::Into<bool>) -> Self {
+                self.maybe_is_sensitive(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `isSensitive` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_is_sensitive(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+            ) -> Self {
+                self.is_sensitive = value.map(|value| value.into());
                 self
             }
-            pub fn force(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-                self.force = ::std::option::Option::Some(value.into());
+            pub fn force(self, value: impl ::std::convert::Into<bool>) -> Self {
+                self.maybe_force(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `force` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_force(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+            ) -> Self {
+                self.force = value.map(|value| value.into());
                 self
             }
             #[doc = "The file contents."]
@@ -807,11 +948,17 @@ pub mod files {
         }
         impl<'a, S0> Call<'a, (S0,)> {
             pub fn folder_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.folder_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_folder_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `folderId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`folder_id_null`](Self::folder_id_null) を使う。"]
+            pub fn maybe_folder_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.folder_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`folderId` を `null` として送る。"]
@@ -950,11 +1097,17 @@ pub mod files {
         }
         impl<'a, S0> Call<'a, (S0,)> {
             pub fn folder_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.folder_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_folder_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `folderId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`folder_id_null`](Self::folder_id_null) を使う。"]
+            pub fn maybe_folder_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.folder_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`folderId` を `null` として送る。"]
@@ -1026,15 +1179,26 @@ pub mod files {
             }
         }
         impl<'a> Call<'a> {
-            pub fn file_id(
+            pub fn file_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_file_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `fileId` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_file_id(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.file_id = ::std::option::Option::Some(value.into());
+                self.file_id = value.map(|value| value.into());
                 self
             }
-            pub fn url(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-                self.url = ::std::option::Option::Some(value.into());
+            pub fn url(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_url(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `url` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_url(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.url = value.map(|value| value.into());
                 self
             }
         }
@@ -1116,11 +1280,17 @@ pub mod files {
         }
         impl<'a, S0> Call<'a, (S0,)> {
             pub fn folder_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.folder_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_folder_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `folderId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`folder_id_null`](Self::folder_id_null) を使う。"]
+            pub fn maybe_folder_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.folder_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`folderId` を `null` として送る。"]
@@ -1128,20 +1298,37 @@ pub mod files {
                 self.folder_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            pub fn name(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-                self.name = ::std::option::Option::Some(value.into());
-                self
+            pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_name(::std::option::Option::Some(value))
             }
-            pub fn is_sensitive(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-                self.is_sensitive = ::std::option::Option::Some(value.into());
-                self
-            }
-            pub fn comment(
+            #[doc = "`Some` なら `name` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_name(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.comment =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.name = value.map(|value| value.into());
+                self
+            }
+            pub fn is_sensitive(self, value: impl ::std::convert::Into<bool>) -> Self {
+                self.maybe_is_sensitive(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `isSensitive` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_is_sensitive(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+            ) -> Self {
+                self.is_sensitive = value.map(|value| value.into());
+                self
+            }
+            pub fn comment(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_comment(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `comment` を設定し、`None` なら設定を消して送らない。`null` を送るには [`comment_null`](Self::comment_null) を使う。"]
+            pub fn maybe_comment(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.comment = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`comment` を `null` として送る。"]
@@ -1254,11 +1441,17 @@ pub mod files {
         }
         impl<'a, S0> Call<'a, (S0,)> {
             pub fn folder_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.folder_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_folder_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `folderId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`folder_id_null`](Self::folder_id_null) を使う。"]
+            pub fn maybe_folder_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.folder_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`folderId` を `null` として送る。"]
@@ -1266,16 +1459,26 @@ pub mod files {
                 self.folder_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            pub fn is_sensitive(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-                self.is_sensitive = ::std::option::Option::Some(value.into());
+            pub fn is_sensitive(self, value: impl ::std::convert::Into<bool>) -> Self {
+                self.maybe_is_sensitive(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `isSensitive` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_is_sensitive(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+            ) -> Self {
+                self.is_sensitive = value.map(|value| value.into());
                 self
             }
-            pub fn comment(
+            pub fn comment(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_comment(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `comment` を設定し、`None` なら設定を消して送らない。`null` を送るには [`comment_null`](Self::comment_null) を使う。"]
+            pub fn maybe_comment(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.comment =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.comment = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`comment` を `null` として送る。"]
@@ -1283,12 +1486,15 @@ pub mod files {
                 self.comment = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            pub fn marker(
+            pub fn marker(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_marker(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `marker` を設定し、`None` なら設定を消して送らない。`null` を送るには [`marker_null`](Self::marker_null) を使う。"]
+            pub fn maybe_marker(
                 mut self,
-                value: impl ::std::convert::Into<::std::string::String>,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
             ) -> Self {
-                self.marker =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.marker = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`marker` を `null` として送る。"]
@@ -1296,8 +1502,15 @@ pub mod files {
                 self.marker = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            pub fn force(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-                self.force = ::std::option::Option::Some(value.into());
+            pub fn force(self, value: impl ::std::convert::Into<bool>) -> Self {
+                self.maybe_force(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `force` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_force(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+            ) -> Self {
+                self.force = value.map(|value| value.into());
                 self
             }
             pub fn url(
@@ -1413,31 +1626,70 @@ pub mod folders {
         pub fn update(&self) -> update::Call<'a> {
             update::Call::new(self.client)
         }
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
-            self
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
-            self
-        }
-        pub fn folder_id(
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
             mut self,
-            value: impl ::std::convert::Into<::std::string::String>,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
         ) -> Self {
-            self.folder_id = ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+            self.limit = value.map(|value| value.into());
+            self
+        }
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
+            self
+        }
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
+            self
+        }
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
+            self
+        }
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
+            self
+        }
+        pub fn folder_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_folder_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `folderId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`folder_id_null`](Self::folder_id_null) を使う。"]
+        pub fn maybe_folder_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.folder_id = value.map(|value| ::std::option::Option::Some(value.into()));
             self
         }
         #[doc = "`folderId` を `null` として送る。"]
@@ -1503,16 +1755,29 @@ pub mod folders {
             }
         }
         impl<'a> Call<'a> {
-            pub fn name(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-                self.name = ::std::option::Option::Some(value.into());
+            pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_name(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `name` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_name(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.name = value.map(|value| value.into());
                 self
             }
             pub fn parent_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.parent_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_parent_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `parentId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`parent_id_null`](Self::parent_id_null) を使う。"]
+            pub fn maybe_parent_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.parent_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`parentId` を `null` として送る。"]
@@ -1638,11 +1903,17 @@ pub mod folders {
         }
         impl<'a, S0> Call<'a, (S0,)> {
             pub fn parent_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.parent_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_parent_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `parentId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`parent_id_null`](Self::parent_id_null) を使う。"]
+            pub fn maybe_parent_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.parent_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`parentId` を `null` として送る。"]
@@ -1785,16 +2056,29 @@ pub mod folders {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
-            pub fn name(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-                self.name = ::std::option::Option::Some(value.into());
+            pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+                self.maybe_name(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `name` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_name(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.name = value.map(|value| value.into());
                 self
             }
             pub fn parent_id(
-                mut self,
+                self,
                 value: impl ::std::convert::Into<::std::string::String>,
             ) -> Self {
-                self.parent_id =
-                    ::std::option::Option::Some(::std::option::Option::Some(value.into()));
+                self.maybe_parent_id(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `parentId` を設定し、`None` なら設定を消して送らない。`null` を送るには [`parent_id_null`](Self::parent_id_null) を使う。"]
+            pub fn maybe_parent_id(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+            ) -> Self {
+                self.parent_id = value.map(|value| ::std::option::Option::Some(value.into()));
                 self
             }
             #[doc = "`parentId` を `null` として送る。"]
@@ -1884,28 +2168,70 @@ pub mod stream {
         }
     }
     impl<'a> Call<'a> {
-        pub fn limit(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.limit = ::std::option::Option::Some(value.into());
+        pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_limit(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `limit` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_limit(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.limit = value.map(|value| value.into());
             self
         }
-        pub fn since_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.since_id = ::std::option::Option::Some(value.into());
+        pub fn since_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_since_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.since_id = value.map(|value| value.into());
             self
         }
-        pub fn until_id(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.until_id = ::std::option::Option::Some(value.into());
+        pub fn until_id(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_until_id(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilId` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_id(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.until_id = value.map(|value| value.into());
             self
         }
-        pub fn since_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.since_date = ::std::option::Option::Some(value.into());
+        pub fn since_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_since_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sinceDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_since_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.since_date = value.map(|value| value.into());
             self
         }
-        pub fn until_date(mut self, value: impl ::std::convert::Into<i64>) -> Self {
-            self.until_date = ::std::option::Option::Some(value.into());
+        pub fn until_date(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_until_date(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `untilDate` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_until_date(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.until_date = value.map(|value| value.into());
             self
         }
-        pub fn r#type(mut self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
-            self.r#type = ::std::option::Option::Some(value.into());
+        pub fn r#type(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
+            self.maybe_type(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `type` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_type(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<::std::string::String>>,
+        ) -> Self {
+            self.r#type = value.map(|value| value.into());
             self
         }
     }

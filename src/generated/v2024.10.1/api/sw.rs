@@ -143,8 +143,15 @@ pub mod update_registration {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
-        pub fn send_read_message(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.send_read_message = ::std::option::Option::Some(value.into());
+        pub fn send_read_message(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_send_read_message(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sendReadMessage` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_send_read_message(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.send_read_message = value.map(|value| value.into());
             self
         }
         pub fn endpoint(
@@ -249,8 +256,15 @@ pub mod register {
         }
     }
     impl<'a, S0, S1, S2> Call<'a, (S0, S1, S2)> {
-        pub fn send_read_message(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-            self.send_read_message = ::std::option::Option::Some(value.into());
+        pub fn send_read_message(self, value: impl ::std::convert::Into<bool>) -> Self {
+            self.maybe_send_read_message(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `sendReadMessage` を設定し、`None` なら設定を消して送らない。"]
+        pub fn maybe_send_read_message(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+        ) -> Self {
+            self.send_read_message = value.map(|value| value.into());
             self
         }
         pub fn endpoint(

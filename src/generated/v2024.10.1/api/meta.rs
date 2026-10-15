@@ -37,8 +37,15 @@ impl<'a> Call<'a> {
     }
 }
 impl<'a> Call<'a> {
-    pub fn detail(mut self, value: impl ::std::convert::Into<bool>) -> Self {
-        self.detail = ::std::option::Option::Some(value.into());
+    pub fn detail(self, value: impl ::std::convert::Into<bool>) -> Self {
+        self.maybe_detail(::std::option::Option::Some(value))
+    }
+    #[doc = "`Some` なら `detail` を設定し、`None` なら設定を消して送らない。"]
+    pub fn maybe_detail(
+        mut self,
+        value: ::std::option::Option<impl ::std::convert::Into<bool>>,
+    ) -> Self {
+        self.detail = value.map(|value| value.into());
         self
     }
 }

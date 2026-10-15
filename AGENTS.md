@@ -31,6 +31,7 @@
 - oneOf / anyOf は、null 以外のメンバーが 2 つ以上なら untagged の enum にして末尾に `Unrecognized(Value)` を置く。union を指すメンバーはその中身に展開する。バリアントの並びは必須プロパティ数の降順。
 - 自分自身に戻る参照を持つフィールドは `Box` で包む。
 - `string` + `format: binary` は `FilePart` にし、`into_body` は multipart を作る。
+- `string` + `format: date-time` は `chrono::DateTime<Utc>` にする。
 - 応答が null 可か 204 も返すエンドポイントは `type Response = Option<ResponseBody>`、200 の JSON が無ければ `()`。
 
 ### バージョンセット
