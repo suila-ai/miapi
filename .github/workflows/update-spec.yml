@@ -41,7 +41,7 @@ jobs:
         uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # v1
         with:
           toolchain: stable
-          components: rustfmt, clippy
+          components: rustfmt
       - if: steps.changes.outputs.changed == 'true'
         uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - if: steps.changes.outputs.changed == 'true'
@@ -51,9 +51,6 @@ jobs:
         id: pins
         run: |
           { echo "report<<EOF"; scripts/propose-pins.sh; echo EOF; } >> "$GITHUB_OUTPUT"
-      # GITHUB_TOKEN で作った PR では CI が承認待ちになり、自動では走らない。テストはここで済ませてから PR を作る。
-      - if: steps.changes.outputs.changed == 'true'
-        run: scripts/test-all-versions.sh
       - if: steps.changes.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:

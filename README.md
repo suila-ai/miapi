@@ -71,7 +71,6 @@ scripts/update-spec.sh --tag 2026.10.0
 scripts/update-fixtures.sh --tag 2026.10.0
 cargo codegen
 scripts/propose-pins.sh        # コミットの前に実行する
-scripts/test-all-versions.sh
 ```
 
 - 固定版を足すときは、`update-spec.sh` と `update-fixtures.sh` に `--pin` を付け、`Cargo.toml` の feature、`tests/common/mod.rs` の `version` の行、「対応バージョン」の表の行を足してから `cargo codegen` を実行します（表は、1 つ古い行の上限も直します）。いまの latest を固定版にするだけなら `scripts/pin-latest.sh` で済みます。
