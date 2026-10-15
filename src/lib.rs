@@ -31,3 +31,4 @@ pub mod serde_helpers;
 pub use endpoint::{Body, Endpoint, FilePart};
 pub use error::{ApiError, Error};
 pub use generated::*;
+pub use reqwest;

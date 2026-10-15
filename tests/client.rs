@@ -141,7 +141,7 @@ async fn without_token_sends_empty_object() {
 #[tokio::test]
 async fn with_http_client_uses_the_given_client() {
     let server = MockServer::start().await;
-    let http = reqwest::Client::builder()
+    let http = miapi::reqwest::Client::builder()
         .user_agent("miapi-test/1")
         .build()
         .unwrap();

@@ -43,6 +43,7 @@ impl<V> Client<V> {
     }
 
     /// [`new`](Self::new) と同じだが、HTTP クライアントに `http` をそのまま使う。
+    /// `http` は miapi と同じ版の reqwest で作る。`miapi::reqwest::Client::builder()` を使えば版がそろう。
     pub fn with_http_client(http: reqwest::Client, origin: &str, token: Option<&str>) -> Self {
         Self {
             http,
