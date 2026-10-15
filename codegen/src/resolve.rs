@@ -985,6 +985,9 @@ fn validate_api(nodes: &[ApiNode], top: bool) -> Result<()> {
                 if field.nullable {
                     names.push(field.null_setter());
                 }
+                if !field.required {
+                    names.push(field.maybe_setter());
+                }
                 for name in names {
                     if !methods.insert(name.clone()) {
                         return Err(format!(

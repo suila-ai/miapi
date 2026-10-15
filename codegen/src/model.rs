@@ -109,6 +109,11 @@ impl Field {
     pub fn null_setter(&self) -> String {
         format!("{}_null", self.ident)
     }
+
+    /// 任意のフィールドに足す、`Option` を受けて `Some` のときだけ設定する setter の名前。
+    pub fn maybe_setter(&self) -> String {
+        format!("maybe_{}", self.ident)
+    }
 }
 
 #[derive(Debug, Clone)]
