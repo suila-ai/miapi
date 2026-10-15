@@ -497,6 +497,7 @@ fn union_tokens(def: &UnionDef, module: &Ident) -> TokenStream {
 pub fn type_tokens(ty: &RustType, module: &Ident) -> TokenStream {
     match ty {
         RustType::String => quote! { ::std::string::String },
+        RustType::DateTime => quote! { ::chrono::DateTime<::chrono::Utc> },
         RustType::I64 => quote! { i64 },
         RustType::F64 => quote! { f64 },
         RustType::Bool => quote! { bool },

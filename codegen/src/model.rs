@@ -3,6 +3,8 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum RustType {
     String,
+    /// `format: date-time` の文字列。`chrono::DateTime<chrono::Utc>` になる。
+    DateTime,
     I64,
     F64,
     Bool,

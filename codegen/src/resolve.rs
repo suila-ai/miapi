@@ -272,8 +272,11 @@ impl<'a> Resolver<'a> {
             return Ok((ty, nullable));
         }
         let ty = match type_names.first() {
-            Some(&"string") if schema.format.as_deref() == Some("binary") => RustType::FilePart,
-            Some(&"string") => RustType::String,
+            Some(&"string") => match schema.format.as_deref() {
+                Some("binary") => RustType::FilePart,
+                Some("date-time") => RustType::DateTime,
+                _ => RustType::String,
+            },
             Some(&"integer") => RustType::I64,
             Some(&"number") => RustType::F64,
             Some(&"boolean") => RustType::Bool,
@@ -869,7 +872,8 @@ fn defaultable(ty: &RustType, items: &[Item]) -> bool {
         | RustType::JsonMap
         | RustType::Map(_)
         | RustType::Vec(_)
-        | RustType::Option(_) => true,
+        | RustType::Option(_)
+        | RustType::DateTime => true,
         RustType::Tuple(elements) => elements.iter().all(|e| defaultable(e, items)),
         RustType::Boxed(inner) => defaultable(inner, items),
         RustType::Local(name) => items.iter().any(

@@ -134,6 +134,29 @@ fn nullable_forms_become_option() {
 }
 
 #[test]
+fn date_time_strings_become_chrono_date_time() {
+    let tree = build_tree(&spec(
+        json!({"A": {"type": "object", "properties": {
+            "createdAt": {"type": "string", "format": "date-time"},
+            "deletedAt": {"type": ["string", "null"], "format": "date-time"},
+            "name": {"type": "string"}
+        }, "required": ["createdAt", "deletedAt", "name"]}}),
+        json!({"/x": post(Some(json!({"type": "object", "properties": {"since": {"type": "string", "format": "date-time"}}, "required": ["since"]})), json!({"204": {"description": "none"}}))}),
+    ))
+    .unwrap();
+    let a = find_struct(&tree.types, "A");
+    assert_eq!(field(a, "createdAt").base, RustType::DateTime);
+    assert_eq!(field(a, "deletedAt").base, RustType::DateTime);
+    assert!(field(a, "deletedAt").nullable);
+    assert_eq!(field(a, "name").base, RustType::String);
+    assert!(
+        source_of(&tree, "types.rs").contains("pubcreated_at:::chrono::DateTime<::chrono::Utc>,")
+    );
+    // `DateTime<Utc>` は `Default`（UNIX エポック）を持つので、Request の `Default` を妨げない。
+    assert!(endpoint(&tree, "x").request.derive_default);
+}
+
+#[test]
 fn request_fields_distinguish_omitted_and_null() {
     let tree = build_tree(&spec(
         json!({}),
