@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  # PR のマージで main にできるコミットに check が付くのは、この実行だけ。misskey-* タグの ruleset は、tag.yml が
+  # タグを打つコミットに check の成功を求めるので、PR の CI と中身が重なっても外さない。
   push:
     branches: [main]
   pull_request:
