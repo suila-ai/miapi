@@ -941,9 +941,9 @@ pub mod apps {
         #[serde(default)]
         pub name: ::std::option::Option<::std::string::String>,
         #[serde(rename = "createdAt")]
-        pub created_at: ::std::string::String,
+        pub created_at: ::chrono::DateTime<::chrono::Utc>,
         #[serde(rename = "lastUsedAt", default)]
-        pub last_used_at: ::std::option::Option<::std::string::String>,
+        pub last_used_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
         pub permission: ::std::vec::Vec<::std::string::String>,
         #[serde(rename = "iconUrl", default)]
         pub icon_url: ::std::option::Option<::std::string::String>,
@@ -6333,7 +6333,7 @@ pub mod webhooks {
             pub secret: ::std::string::String,
             pub active: bool,
             #[serde(rename = "latestSentAt")]
-            pub latest_sent_at: ::std::option::Option<::std::string::String>,
+            pub latest_sent_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             #[serde(rename = "latestStatus")]
             pub latest_status: ::std::option::Option<i64>,
         }

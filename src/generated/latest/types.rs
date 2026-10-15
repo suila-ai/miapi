@@ -147,11 +147,11 @@ pub struct UserDetailedNotMeOnly {
     #[serde(rename = "alsoKnownAs")]
     pub also_known_as: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::option::Option<::std::string::String>,
+    pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "lastFetchedAt")]
-    pub last_fetched_at: ::std::option::Option<::std::string::String>,
+    pub last_fetched_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "bannerUrl")]
     pub banner_url: ::std::option::Option<::std::string::String>,
     #[serde(rename = "bannerBlurhash")]
@@ -955,7 +955,7 @@ pub struct MeDetailedOnlySecurityKeysListItem {
     pub id: ::std::string::String,
     pub name: ::std::string::String,
     #[serde(rename = "lastUsed")]
-    pub last_used: ::std::string::String,
+    pub last_used: ::chrono::DateTime<::chrono::Utc>,
 }
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
 pub struct MeDetailedOnly {
@@ -1084,11 +1084,11 @@ pub struct UserDetailedNotMe {
     #[serde(rename = "alsoKnownAs")]
     pub also_known_as: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::option::Option<::std::string::String>,
+    pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "lastFetchedAt")]
-    pub last_fetched_at: ::std::option::Option<::std::string::String>,
+    pub last_fetched_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "bannerUrl")]
     pub banner_url: ::std::option::Option<::std::string::String>,
     #[serde(rename = "bannerBlurhash")]
@@ -1205,11 +1205,11 @@ pub struct MeDetailed {
     #[serde(rename = "alsoKnownAs")]
     pub also_known_as: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::option::Option<::std::string::String>,
+    pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "lastFetchedAt")]
-    pub last_fetched_at: ::std::option::Option<::std::string::String>,
+    pub last_fetched_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "bannerUrl")]
     pub banner_url: ::std::option::Option<::std::string::String>,
     #[serde(rename = "bannerBlurhash")]
@@ -1383,7 +1383,7 @@ pub enum User {
 pub struct UserList {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub name: ::std::string::String,
     #[serde(rename = "userIds", default)]
     pub user_ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -1562,9 +1562,9 @@ pub enum AchievementName {
 pub struct Ad {
     pub id: ::std::string::String,
     #[serde(rename = "expiresAt")]
-    pub expires_at: ::std::string::String,
+    pub expires_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "startsAt")]
-    pub starts_at: ::std::string::String,
+    pub starts_at: ::chrono::DateTime<::chrono::Utc>,
     pub place: ::std::string::String,
     pub priority: ::std::string::String,
     pub ratio: f64,
@@ -1607,9 +1607,9 @@ pub enum AnnouncementDisplay {
 pub struct Announcement {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::option::Option<::std::string::String>,
+    pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     pub text: ::std::string::String,
     pub title: ::std::string::String,
     #[serde(rename = "imageUrl")]
@@ -1660,7 +1660,7 @@ pub struct NotePollChoicesItem {
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
 pub struct NotePoll {
     #[serde(rename = "expiresAt", default)]
-    pub expires_at: ::std::option::Option<::std::string::String>,
+    pub expires_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     pub multiple: bool,
     pub choices: ::std::vec::Vec<crate::generated::latest::types::NotePollChoicesItem>,
 }
@@ -1694,9 +1694,9 @@ pub enum NoteReactionAcceptance {
 pub struct Note {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "deletedAt", default)]
-    pub deleted_at: ::std::option::Option<::std::string::String>,
+    pub deleted_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     pub text: ::std::option::Option<::std::string::String>,
     #[serde(default)]
     pub cw: ::std::option::Option<::std::string::String>,
@@ -1778,7 +1778,7 @@ pub enum NoteDraftVisibility {
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
 pub struct NoteDraftPoll {
     #[serde(rename = "expiresAt", default)]
-    pub expires_at: ::std::option::Option<::std::string::String>,
+    pub expires_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "expiredAfter", default)]
     pub expired_after: ::std::option::Option<f64>,
     pub multiple: bool,
@@ -1814,7 +1814,7 @@ pub enum NoteDraftReactionAcceptance {
 pub struct NoteDraft {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub text: ::std::option::Option<::std::string::String>,
     pub cw: ::std::option::Option<::std::string::String>,
     #[serde(rename = "userId")]
@@ -1855,7 +1855,7 @@ pub struct NoteDraft {
 pub struct NoteReaction {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub user: crate::generated::latest::types::UserLite,
     pub r#type: ::std::string::String,
 }
@@ -1863,7 +1863,7 @@ pub struct NoteReaction {
 pub struct NoteReactionWithNote {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub user: crate::generated::latest::types::UserLite,
     pub r#type: ::std::string::String,
     pub note: crate::generated::latest::types::Note,
@@ -1872,7 +1872,7 @@ pub struct NoteReactionWithNote {
 pub struct NoteFavorite {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub note: crate::generated::latest::types::Note,
     #[serde(rename = "noteId")]
     pub note_id: ::std::string::String,
@@ -1886,7 +1886,7 @@ pub enum NotificationReactionType {
 pub struct NotificationReaction {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationReactionType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -1903,7 +1903,7 @@ pub enum NotificationNoteType {
 pub struct NotificationNote {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationNoteType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -1919,7 +1919,7 @@ pub enum NotificationMentionType {
 pub struct NotificationMention {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationMentionType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -1935,7 +1935,7 @@ pub enum NotificationReplyType {
 pub struct NotificationReply {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationReplyType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -1951,7 +1951,7 @@ pub enum NotificationRenoteType {
 pub struct NotificationRenote {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationRenoteType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -1967,7 +1967,7 @@ pub enum NotificationQuoteType {
 pub struct NotificationQuote {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationQuoteType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -1983,7 +1983,7 @@ pub enum NotificationPollEndedType {
 pub struct NotificationPollEnded {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationPollEndedType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -1999,7 +1999,7 @@ pub enum NotificationFollowRequestAcceptedType {
 pub struct NotificationFollowRequestAccepted {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationFollowRequestAcceptedType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -2015,7 +2015,7 @@ pub enum NotificationAppType {
 pub struct NotificationApp {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationAppType,
     pub body: ::std::string::String,
     pub header: ::std::option::Option<::std::string::String>,
@@ -2030,7 +2030,7 @@ pub enum NotificationFollowType {
 pub struct NotificationFollow {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationFollowType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -2045,7 +2045,7 @@ pub enum NotificationReceiveFollowRequestType {
 pub struct NotificationReceiveFollowRequest {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationReceiveFollowRequestType,
     pub user: crate::generated::latest::types::UserLite,
     #[serde(rename = "userId")]
@@ -2084,7 +2084,7 @@ pub enum NotificationExportCompletedExportedEntity {
 pub struct NotificationExportCompleted {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationExportCompletedType,
     #[serde(rename = "exportedEntity")]
     pub exported_entity: crate::generated::latest::types::NotificationExportCompletedExportedEntity,
@@ -2105,7 +2105,7 @@ pub struct NotificationReactionGroupedReactionsItem {
 pub struct NotificationReactionGrouped {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationReactionGroupedType,
     pub note: crate::generated::latest::types::Note,
     pub reactions:
@@ -2120,7 +2120,7 @@ pub enum NotificationRenoteGroupedType {
 pub struct NotificationRenoteGrouped {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationRenoteGroupedType,
     pub note: crate::generated::latest::types::Note,
     pub users: ::std::vec::Vec<crate::generated::latest::types::UserLite>,
@@ -2134,7 +2134,7 @@ pub enum NotificationScheduledNotePostedType {
 pub struct NotificationScheduledNotePosted {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationScheduledNotePostedType,
     pub note: crate::generated::latest::types::Note,
 }
@@ -2147,7 +2147,7 @@ pub enum NotificationScheduledNotePostFailedType {
 pub struct NotificationScheduledNotePostFailed {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationScheduledNotePostFailedType,
     #[serde(rename = "noteDraft")]
     pub note_draft: crate::generated::latest::types::NoteDraft,
@@ -2161,7 +2161,7 @@ pub enum NotificationRoleAssignedType {
 pub struct NotificationRoleAssigned {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationRoleAssignedType,
     pub role: crate::generated::latest::types::Role,
 }
@@ -2174,7 +2174,7 @@ pub enum NotificationChatRoomInvitationReceivedType {
 pub struct NotificationChatRoomInvitationReceived {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationChatRoomInvitationReceivedType,
     pub invitation: crate::generated::latest::types::ChatRoomInvitation,
 }
@@ -2187,7 +2187,7 @@ pub enum NotificationAchievementEarnedType {
 pub struct NotificationAchievementEarned {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationAchievementEarnedType,
     pub achievement: crate::generated::latest::types::AchievementName,
 }
@@ -2200,7 +2200,7 @@ pub enum NotificationLoginType {
 pub struct NotificationLogin {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationLoginType,
 }
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
@@ -2212,7 +2212,7 @@ pub enum NotificationCreateTokenType {
 pub struct NotificationCreateToken {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationCreateTokenType,
 }
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
@@ -2224,7 +2224,7 @@ pub enum NotificationTestType {
 pub struct NotificationTest {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub r#type: crate::generated::latest::types::NotificationTestType,
 }
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
@@ -2272,7 +2272,7 @@ pub struct DriveFileProperties {
 pub struct DriveFile {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub name: ::std::string::String,
     pub r#type: ::std::string::String,
     pub md5: ::std::string::String,
@@ -2298,7 +2298,7 @@ pub struct DriveFile {
 pub struct DriveFolder {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub name: ::std::string::String,
     #[serde(rename = "parentId")]
     pub parent_id: ::std::option::Option<::std::string::String>,
@@ -2314,7 +2314,7 @@ pub struct DriveFolder {
 pub struct Following {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "followeeId")]
     pub followee_id: ::std::string::String,
     #[serde(rename = "followerId")]
@@ -2328,9 +2328,9 @@ pub struct Following {
 pub struct Muting {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "expiresAt")]
-    pub expires_at: ::std::option::Option<::std::string::String>,
+    pub expires_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "muteeId")]
     pub mutee_id: ::std::string::String,
     pub mutee: crate::generated::latest::types::UserDetailedNotMe,
@@ -2339,7 +2339,7 @@ pub struct Muting {
 pub struct RenoteMuting {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "muteeId")]
     pub mutee_id: ::std::string::String,
     pub mutee: crate::generated::latest::types::UserDetailedNotMe,
@@ -2348,7 +2348,7 @@ pub struct RenoteMuting {
 pub struct Blocking {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "blockeeId")]
     pub blockee_id: ::std::string::String,
     pub blockee: crate::generated::latest::types::UserDetailedNotMe,
@@ -2374,15 +2374,15 @@ pub struct InviteCode {
     pub id: ::std::string::String,
     pub code: ::std::string::String,
     #[serde(rename = "expiresAt")]
-    pub expires_at: ::std::option::Option<::std::string::String>,
+    pub expires_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "createdBy")]
     pub created_by: ::std::option::Option<crate::generated::latest::types::UserLite>,
     #[serde(rename = "usedBy")]
     pub used_by: ::std::option::Option<crate::generated::latest::types::UserLite>,
     #[serde(rename = "usedAt")]
-    pub used_at: ::std::option::Option<::std::string::String>,
+    pub used_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     pub used: bool,
 }
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
@@ -2399,9 +2399,9 @@ pub enum PageFont {
 pub struct Page {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::string::String,
+    pub updated_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "userId")]
     pub user_id: ::std::string::String,
     pub user: crate::generated::latest::types::UserLite,
@@ -2488,9 +2488,9 @@ pub enum PageBlock {
 pub struct Channel {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "lastNotedAt")]
-    pub last_noted_at: ::std::option::Option<::std::string::String>,
+    pub last_noted_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     pub name: ::std::string::String,
     pub description: ::std::option::Option<::std::string::String>,
     #[serde(rename = "userId")]
@@ -2587,7 +2587,7 @@ pub enum AntennaSrc {
 pub struct Antenna {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub name: ::std::string::String,
     pub keywords: ::std::vec::Vec<::std::vec::Vec<::std::string::String>>,
     #[serde(rename = "excludeKeywords")]
@@ -2618,9 +2618,9 @@ pub struct Antenna {
 pub struct Clip {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "lastClippedAt")]
-    pub last_clipped_at: ::std::option::Option<::std::string::String>,
+    pub last_clipped_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "userId")]
     pub user_id: ::std::string::String,
     pub user: crate::generated::latest::types::UserLite,
@@ -2655,7 +2655,7 @@ pub enum FederationInstanceSuspensionState {
 pub struct FederationInstance {
     pub id: ::std::string::String,
     #[serde(rename = "firstRetrievedAt")]
-    pub first_retrieved_at: ::std::string::String,
+    pub first_retrieved_at: ::chrono::DateTime<::chrono::Utc>,
     pub host: ::std::string::String,
     #[serde(rename = "usersCount")]
     pub users_count: f64,
@@ -2696,9 +2696,9 @@ pub struct FederationInstance {
     #[serde(rename = "themeColor")]
     pub theme_color: ::std::option::Option<::std::string::String>,
     #[serde(rename = "infoUpdatedAt")]
-    pub info_updated_at: ::std::option::Option<::std::string::String>,
+    pub info_updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "latestRequestReceivedAt")]
-    pub latest_request_received_at: ::std::option::Option<::std::string::String>,
+    pub latest_request_received_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "moderationNote", default)]
     pub moderation_note: ::std::option::Option<::std::string::String>,
 }
@@ -2706,9 +2706,9 @@ pub struct FederationInstance {
 pub struct GalleryPost {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::string::String,
+    pub updated_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "userId")]
     pub user_id: ::std::string::String,
     pub user: crate::generated::latest::types::UserLite,
@@ -2764,7 +2764,7 @@ pub struct EmojiDetailedAdminRoleIdsThatCanBeUsedThisEmojiAsReactionItem {
     pub name: ::std::string::String,
 }
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
-pub struct EmojiDetailedAdmin { pub id : :: std :: string :: String , # [serde (rename = "updatedAt")] pub updated_at : :: std :: option :: Option < :: std :: string :: String > , pub name : :: std :: string :: String , # [doc = "The local host is represented with `null`."] pub host : :: std :: option :: Option < :: std :: string :: String > , # [serde (rename = "publicUrl")] pub public_url : :: std :: string :: String , # [serde (rename = "originalUrl")] pub original_url : :: std :: string :: String , pub uri : :: std :: option :: Option < :: std :: string :: String > , pub r#type : :: std :: option :: Option < :: std :: string :: String > , pub aliases : :: std :: vec :: Vec < :: std :: string :: String > , pub category : :: std :: option :: Option < :: std :: string :: String > , pub license : :: std :: option :: Option < :: std :: string :: String > , # [serde (rename = "localOnly")] pub local_only : bool , # [serde (rename = "isSensitive")] pub is_sensitive : bool , # [serde (rename = "roleIdsThatCanBeUsedThisEmojiAsReaction")] pub role_ids_that_can_be_used_this_emoji_as_reaction : :: std :: vec :: Vec < crate :: generated :: latest :: types :: EmojiDetailedAdminRoleIdsThatCanBeUsedThisEmojiAsReactionItem > , }
+pub struct EmojiDetailedAdmin { pub id : :: std :: string :: String , # [serde (rename = "updatedAt")] pub updated_at : :: std :: option :: Option < :: chrono :: DateTime < :: chrono :: Utc > > , pub name : :: std :: string :: String , # [doc = "The local host is represented with `null`."] pub host : :: std :: option :: Option < :: std :: string :: String > , # [serde (rename = "publicUrl")] pub public_url : :: std :: string :: String , # [serde (rename = "originalUrl")] pub original_url : :: std :: string :: String , pub uri : :: std :: option :: Option < :: std :: string :: String > , pub r#type : :: std :: option :: Option < :: std :: string :: String > , pub aliases : :: std :: vec :: Vec < :: std :: string :: String > , pub category : :: std :: option :: Option < :: std :: string :: String > , pub license : :: std :: option :: Option < :: std :: string :: String > , # [serde (rename = "localOnly")] pub local_only : bool , # [serde (rename = "isSensitive")] pub is_sensitive : bool , # [serde (rename = "roleIdsThatCanBeUsedThisEmojiAsReaction")] pub role_ids_that_can_be_used_this_emoji_as_reaction : :: std :: vec :: Vec < crate :: generated :: latest :: types :: EmojiDetailedAdminRoleIdsThatCanBeUsedThisEmojiAsReactionItem > , }
 #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
 pub enum FlashVisibility {
     #[serde(rename = "private")]
@@ -2779,9 +2779,9 @@ pub enum FlashVisibility {
 pub struct Flash {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::string::String,
+    pub updated_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "userId")]
     pub user_id: ::std::string::String,
     pub user: crate::generated::latest::types::UserLite,
@@ -2798,7 +2798,7 @@ pub struct Flash {
 pub struct Signin {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     pub ip: ::std::string::String,
     pub headers: ::serde_json::Map<::std::string::String, ::serde_json::Value>,
     pub success: bool,
@@ -2973,9 +2973,9 @@ pub struct Role {
     #[serde(rename = "displayOrder")]
     pub display_order: i64,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::string::String,
+    pub updated_at: ::chrono::DateTime<::chrono::Utc>,
     pub target: crate::generated::latest::types::RoleTarget,
     #[serde(rename = "condFormula")]
     pub cond_formula: crate::generated::latest::types::RoleCondFormulaValue,
@@ -3105,11 +3105,11 @@ pub enum ReversiGameLiteBw {
 pub struct ReversiGameLite {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "startedAt")]
-    pub started_at: ::std::option::Option<::std::string::String>,
+    pub started_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "endedAt")]
-    pub ended_at: ::std::option::Option<::std::string::String>,
+    pub ended_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "isStarted")]
     pub is_started: bool,
     #[serde(rename = "isEnded")]
@@ -3156,11 +3156,11 @@ pub enum ReversiGameDetailedBw {
 pub struct ReversiGameDetailed {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "startedAt")]
-    pub started_at: ::std::option::Option<::std::string::String>,
+    pub started_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "endedAt")]
-    pub ended_at: ::std::option::Option<::std::string::String>,
+    pub ended_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "isStarted")]
     pub is_started: bool,
     #[serde(rename = "isEnded")]
@@ -3558,7 +3558,7 @@ pub struct UserWebhook {
     pub secret: ::std::string::String,
     pub active: bool,
     #[serde(rename = "latestSentAt")]
-    pub latest_sent_at: ::std::option::Option<::std::string::String>,
+    pub latest_sent_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "latestStatus")]
     pub latest_status: ::std::option::Option<i64>,
 }
@@ -3584,9 +3584,9 @@ pub struct SystemWebhook {
     #[serde(rename = "isActive")]
     pub is_active: bool,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::string::String,
+    pub updated_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "latestSentAt")]
-    pub latest_sent_at: ::std::option::Option<::std::string::String>,
+    pub latest_sent_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
     #[serde(rename = "latestStatus")]
     pub latest_status: ::std::option::Option<f64>,
     pub name: ::std::string::String,
@@ -3610,7 +3610,7 @@ pub struct AbuseReportNotificationRecipient {
     #[serde(rename = "isActive")]
     pub is_active: bool,
     #[serde(rename = "updatedAt")]
-    pub updated_at: ::std::string::String,
+    pub updated_at: ::chrono::DateTime<::chrono::Utc>,
     pub name: ::std::string::String,
     pub method: crate::generated::latest::types::AbuseReportNotificationRecipientMethod,
     #[serde(rename = "userId", default)]
@@ -3631,7 +3631,7 @@ pub struct ChatMessageReactionsItem {
 pub struct ChatMessage {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "fromUserId")]
     pub from_user_id: ::std::string::String,
     #[serde(rename = "fromUser")]
@@ -3664,7 +3664,7 @@ pub struct ChatMessageLiteReactionsItem {
 pub struct ChatMessageLite {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "fromUserId")]
     pub from_user_id: ::std::string::String,
     #[serde(rename = "fromUser", default)]
@@ -3689,7 +3689,7 @@ pub struct ChatMessageLiteFor1on1ReactionsItem {
 pub struct ChatMessageLiteFor1on1 {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "fromUserId")]
     pub from_user_id: ::std::string::String,
     #[serde(rename = "toUserId")]
@@ -3712,7 +3712,7 @@ pub struct ChatMessageLiteForRoomReactionsItem {
 pub struct ChatMessageLiteForRoom {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "fromUserId")]
     pub from_user_id: ::std::string::String,
     #[serde(rename = "fromUser")]
@@ -3732,7 +3732,7 @@ pub struct ChatMessageLiteForRoom {
 pub struct ChatRoom {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "ownerId")]
     pub owner_id: ::std::string::String,
     pub owner: crate::generated::latest::types::UserLite,
@@ -3747,7 +3747,7 @@ pub struct ChatRoom {
 pub struct ChatRoomInvitation {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "userId")]
     pub user_id: ::std::string::String,
     pub user: crate::generated::latest::types::UserLite,
@@ -3759,7 +3759,7 @@ pub struct ChatRoomInvitation {
 pub struct ChatRoomMembership {
     pub id: ::std::string::String,
     #[serde(rename = "createdAt")]
-    pub created_at: ::std::string::String,
+    pub created_at: ::chrono::DateTime<::chrono::Utc>,
     #[serde(rename = "userId")]
     pub user_id: ::std::string::String,
     #[serde(default)]

@@ -788,7 +788,7 @@ pub mod abuse_user_reports {
     pub struct ResponseItem {
         pub id: ::std::string::String,
         #[serde(rename = "createdAt")]
-        pub created_at: ::std::string::String,
+        pub created_at: ::chrono::DateTime<::chrono::Utc>,
         pub comment: ::std::string::String,
         pub resolved: bool,
         #[serde(rename = "reporterId")]
@@ -1008,11 +1008,11 @@ pub mod accounts {
             #[serde(rename = "alsoKnownAs")]
             pub also_known_as: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             #[serde(rename = "updatedAt")]
-            pub updated_at: ::std::option::Option<::std::string::String>,
+            pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             #[serde(rename = "lastFetchedAt")]
-            pub last_fetched_at: ::std::option::Option<::std::string::String>,
+            pub last_fetched_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             #[serde(rename = "bannerUrl")]
             pub banner_url: ::std::option::Option<::std::string::String>,
             #[serde(rename = "bannerBlurhash")]
@@ -2137,9 +2137,9 @@ pub mod announcements {
         pub struct Response {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             #[serde(rename = "updatedAt")]
-            pub updated_at: ::std::option::Option<::std::string::String>,
+            pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             pub title: ::std::string::String,
             pub text: ::std::string::String,
             #[serde(rename = "imageUrl")]
@@ -2474,9 +2474,9 @@ pub mod announcements {
         pub struct ResponseItem {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             #[serde(rename = "updatedAt")]
-            pub updated_at: ::std::option::Option<::std::string::String>,
+            pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             pub text: ::std::string::String,
             pub title: ::std::string::String,
             pub icon: ResponseItemIcon,
@@ -2854,9 +2854,9 @@ pub mod avatar_decorations {
         pub struct Response {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             #[serde(rename = "updatedAt")]
-            pub updated_at: ::std::option::Option<::std::string::String>,
+            pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             pub name: ::std::string::String,
             pub description: ::std::string::String,
             pub url: ::std::string::String,
@@ -3090,9 +3090,9 @@ pub mod avatar_decorations {
         pub struct ResponseItem {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             #[serde(rename = "updatedAt")]
-            pub updated_at: ::std::option::Option<::std::string::String>,
+            pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             pub name: ::std::string::String,
             pub description: ::std::string::String,
             pub url: ::std::string::String,
@@ -4051,7 +4051,7 @@ pub mod drive {
         pub struct Response {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             #[serde(rename = "userId")]
             pub user_id: ::std::option::Option<::std::string::String>,
             #[doc = "The local host is represented with `null`."]
@@ -5914,7 +5914,7 @@ pub mod get_user_ips {
     pub struct ResponseItem {
         pub ip: ::std::string::String,
         #[serde(rename = "createdAt")]
-        pub created_at: ::std::string::String,
+        pub created_at: ::chrono::DateTime<::chrono::Utc>,
     }
     #[doc = "`admin/get-user-ips`"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:user-ips*"]
@@ -9745,10 +9745,10 @@ pub mod roles {
         pub struct ResponseItem {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             pub user: crate::generated::v2026_5_1::types::UserDetailed,
             #[serde(rename = "expiresAt")]
-            pub expires_at: ::std::option::Option<::std::string::String>,
+            pub expires_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
         }
         #[doc = "`admin/roles/users`"]
         #[doc = "No description provided.\n\n**Credential required**: *No* / **Permission**: *read:admin:roles*"]
@@ -10047,7 +10047,7 @@ pub mod show_moderation_logs {
     pub struct ResponseItem {
         pub id: ::std::string::String,
         #[serde(rename = "createdAt")]
-        pub created_at: ::std::string::String,
+        pub created_at: ::chrono::DateTime<::chrono::Utc>,
         pub r#type: ::std::string::String,
         pub info: ::serde_json::Map<::std::string::String, ::serde_json::Value>,
         #[serde(rename = "userId")]

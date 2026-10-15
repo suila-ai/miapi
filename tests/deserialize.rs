@@ -33,9 +33,14 @@ fn timelines_are_notes() {
     let notes: api::notes::local_timeline::Response = parse(&fixture("notes-local-timeline"));
     assert!(!notes.is_empty());
     assert_eq!(notes[0].visibility, types::NoteVisibility::Public);
-    let note: types::Note = parse(&fixture("notes-show"));
+    let json = fixture("notes-show");
+    let note: types::Note = parse(&json);
     let renote = note.renote.as_deref().expect("notes-show はリノートのはず");
     assert_eq!(renote.user.host.as_deref(), Some("remote.example.com"));
+    let raw: serde_json::Value = parse(&json);
+    let created_at =
+        chrono::DateTime::parse_from_rfc3339(raw["createdAt"].as_str().unwrap()).unwrap();
+    assert_eq!(note.created_at, created_at);
     let reencoded = serde_json::to_string(&note).unwrap();
     let again: types::Note = parse(&reencoded);
     assert_eq!(again, note);

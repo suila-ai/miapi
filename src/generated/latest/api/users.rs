@@ -1496,7 +1496,7 @@ pub mod lists {
         pub struct ResponseItem {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             #[serde(rename = "userId")]
             pub user_id: ::std::string::String,
             pub user: crate::generated::latest::types::UserLite,
@@ -1843,7 +1843,7 @@ pub mod lists {
         pub struct Response {
             pub id: ::std::string::String,
             #[serde(rename = "createdAt")]
-            pub created_at: ::std::string::String,
+            pub created_at: ::chrono::DateTime<::chrono::Utc>,
             pub name: ::std::string::String,
             #[serde(rename = "userIds", default)]
             pub user_ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
