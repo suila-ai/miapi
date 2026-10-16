@@ -57,6 +57,7 @@ pub mod create {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub name: ::std::string::String,
         pub src: RequestSrc,
         #[serde(
@@ -182,6 +183,7 @@ pub mod create {
             self.exclude_bots = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub fn name(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
@@ -498,6 +500,7 @@ pub mod notes {
     pub struct Request {
         #[serde(rename = "antennaId")]
         pub antenna_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -545,6 +548,7 @@ pub mod notes {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -719,6 +723,7 @@ pub mod update {
     pub struct Request {
         #[serde(rename = "antennaId")]
         pub antenna_id: ::std::string::String,
+        #[doc = "文字数は 1 以上 100 以下。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub name: ::std::option::Option<::std::string::String>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -814,6 +819,7 @@ pub mod update {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_name(::std::option::Option::Some(value))
         }

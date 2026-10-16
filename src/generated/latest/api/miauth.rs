@@ -45,6 +45,7 @@ pub mod gen_token {
             with = "crate::serde_helpers::double_option"
         )]
         pub icon_url: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "要素は重複させない。"]
         pub permission: ::std::vec::Vec<::std::string::String>,
     }
     impl crate::Endpoint for Request {
@@ -154,6 +155,7 @@ pub mod gen_token {
                 _state: ::std::marker::PhantomData,
             }
         }
+        #[doc = "要素は重複させない。"]
         pub fn permission(
             self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,

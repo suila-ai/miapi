@@ -12,6 +12,7 @@ pub enum Response {
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
 #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
 pub struct Request {
+    #[doc = "省略時は `true`。"]
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub detail: ::std::option::Option<bool>,
 }
@@ -37,6 +38,7 @@ impl<'a> Call<'a> {
     }
 }
 impl<'a> Call<'a> {
+    #[doc = "省略時は `true`。"]
     pub fn detail(self, value: impl ::std::convert::Into<bool>) -> Self {
         self.maybe_detail(::std::option::Option::Some(value))
     }

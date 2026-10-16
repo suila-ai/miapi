@@ -67,20 +67,24 @@ pub mod list {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "attachedToUserOnly",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub attached_to_user_only: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "attachedToLocalUserOnly",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub attached_to_local_user_only: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "attachedToRemoteUserOnly",
             default,
@@ -123,6 +127,7 @@ pub mod list {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -134,6 +139,7 @@ pub mod list {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn attached_to_user_only(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_attached_to_user_only(::std::option::Option::Some(value))
         }
@@ -145,6 +151,7 @@ pub mod list {
             self.attached_to_user_only = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn attached_to_local_user_only(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_attached_to_local_user_only(::std::option::Option::Some(value))
         }
@@ -156,6 +163,7 @@ pub mod list {
             self.attached_to_local_user_only = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn attached_to_remote_user_only(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_attached_to_remote_user_only(::std::option::Option::Some(value))
         }
@@ -206,9 +214,11 @@ pub mod search {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         pub query: ::std::string::String,
+        #[doc = "省略時は `0`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub offset: ::std::option::Option<i64>,
     }
@@ -242,6 +252,7 @@ pub mod search {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -253,6 +264,7 @@ pub mod search {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `0`。"]
         pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_offset(::std::option::Option::Some(value))
         }
@@ -441,11 +453,14 @@ pub mod users {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub tag: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         pub sort: RequestSort,
+        #[doc = "省略時は `\"all\"`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub state: ::std::option::Option<RequestState>,
+        #[doc = "省略時は `\"local\"`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub origin: ::std::option::Option<RequestOrigin>,
     }
@@ -483,6 +498,7 @@ pub mod users {
         }
     }
     impl<'a, S0, S1> Call<'a, (S0, S1)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -494,6 +510,7 @@ pub mod users {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `\"all\"`。"]
         pub fn state(self, value: impl ::std::convert::Into<RequestState>) -> Self {
             self.maybe_state(::std::option::Option::Some(value))
         }
@@ -505,6 +522,7 @@ pub mod users {
             self.state = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `\"local\"`。"]
         pub fn origin(self, value: impl ::std::convert::Into<RequestOrigin>) -> Self {
             self.maybe_origin(::std::option::Option::Some(value))
         }

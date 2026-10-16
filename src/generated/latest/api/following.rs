@@ -246,6 +246,7 @@ pub mod list {
     #[doc = "List of following users\n\n**Credential required**: *Yes* / **Permission**: *read:following*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "省略時は `false`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub notification: ::std::option::Option<bool>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -256,6 +257,7 @@ pub mod list {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
     }
@@ -292,6 +294,7 @@ pub mod list {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "省略時は `false`。"]
         pub fn notification(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_notification(::std::option::Option::Some(value))
         }
@@ -347,6 +350,7 @@ pub mod list {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -549,6 +553,7 @@ pub mod requests {
             pub since_date: ::std::option::Option<i64>,
             #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
             pub until_date: ::std::option::Option<i64>,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
         }
@@ -627,6 +632,7 @@ pub mod requests {
                 self.until_date = value.map(|value| value.into());
                 self
             }
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -735,6 +741,7 @@ pub mod requests {
             pub since_date: ::std::option::Option<i64>,
             #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
             pub until_date: ::std::option::Option<i64>,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
         }
@@ -813,6 +820,7 @@ pub mod requests {
                 self.until_date = value.map(|value| value.into());
                 self
             }
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }

@@ -4,6 +4,7 @@
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
 #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
 pub struct Request {
+    #[doc = "1 以上 100 以下。省略時は `10`。"]
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub limit: ::std::option::Option<i64>,
     #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -14,6 +15,7 @@ pub struct Request {
     pub since_date: ::std::option::Option<i64>,
     #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
     pub until_date: ::std::option::Option<i64>,
+    #[doc = "省略時は `true`。"]
     #[serde(rename = "isActive", default, skip_serializing_if = "Option::is_none")]
     pub is_active: ::std::option::Option<bool>,
 }
@@ -54,6 +56,7 @@ impl<'a> Call<'a> {
     pub fn show(&self) -> show::Call<'a> {
         show::Call::new(self.client)
     }
+    #[doc = "1 以上 100 以下。省略時は `10`。"]
     pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
         self.maybe_limit(::std::option::Option::Some(value))
     }
@@ -109,6 +112,7 @@ impl<'a> Call<'a> {
         self.until_date = value.map(|value| value.into());
         self
     }
+    #[doc = "省略時は `true`。"]
     pub fn is_active(self, value: impl ::std::convert::Into<bool>) -> Self {
         self.maybe_is_active(::std::option::Option::Some(value))
     }

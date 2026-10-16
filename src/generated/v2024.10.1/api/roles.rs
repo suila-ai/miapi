@@ -139,6 +139,7 @@ pub mod users {
         pub since_id: ::std::option::Option<::std::string::String>,
         #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
         pub until_id: ::std::option::Option<::std::string::String>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
     }
@@ -196,6 +197,7 @@ pub mod users {
             self.until_id = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -246,6 +248,7 @@ pub mod notes {
     pub struct Request {
         #[serde(rename = "roleId")]
         pub role_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -293,6 +296,7 @@ pub mod notes {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }

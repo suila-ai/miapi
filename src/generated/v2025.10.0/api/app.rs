@@ -27,6 +27,7 @@ pub mod create {
     pub struct Request {
         pub name: ::std::string::String,
         pub description: ::std::string::String,
+        #[doc = "要素は重複させない。"]
         pub permission: ::std::vec::Vec<::std::string::String>,
         #[serde(
             rename = "callbackUrl",
@@ -117,6 +118,7 @@ pub mod create {
                 _state: ::std::marker::PhantomData,
             }
         }
+        #[doc = "要素は重複させない。"]
         pub fn permission(
             self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,

@@ -25,6 +25,7 @@ pub mod available {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "形式は正規表現 `^\\w{1,20}$` に合うもの。"]
         pub username: ::std::string::String,
     }
     impl crate::Endpoint for Request {
@@ -52,6 +53,7 @@ pub mod available {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "形式は正規表現 `^\\w{1,20}$` に合うもの。"]
         pub fn username(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
