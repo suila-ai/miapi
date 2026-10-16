@@ -70,6 +70,15 @@ pub struct Schema {
     pub all_of: Option<Vec<Schema>>,
     pub description: Option<String>,
     pub nullable: Option<bool>,
+    pub minimum: Option<Value>,
+    pub maximum: Option<Value>,
+    pub min_length: Option<u64>,
+    pub max_length: Option<u64>,
+    pub pattern: Option<String>,
+    pub min_items: Option<u64>,
+    pub max_items: Option<u64>,
+    pub unique_items: Option<bool>,
+    pub default: Option<Value>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

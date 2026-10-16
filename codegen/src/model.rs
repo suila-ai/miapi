@@ -84,7 +84,7 @@ pub struct Field {
     /// Rust の識別子。キーワードのこともあり、トークンにするときに生識別子になる。
     pub ident: String,
     pub json_name: String,
-    pub docs: Option<String>,
+    pub docs: Vec<String>,
     pub required: bool,
     pub nullable: bool,
     /// `required` と `nullable` に応じて足す `Option` の層を除いた型。
