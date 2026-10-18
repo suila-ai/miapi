@@ -3836,8 +3836,9 @@ pub mod registry {
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub key: ::std::string::String,
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub scope: ::std::vec::Vec<::std::string::String>,
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            #[serde(default, skip_serializing_if = "Option::is_none")]
+            pub scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -3855,8 +3856,8 @@ pub mod registry {
         pub type Response = ::serde_json::Map<::std::string::String, ::serde_json::Value>;
         #[doc = "`i/registry/get` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
-        #[doc = "必須パラメータ（型状態のスロットの順）: `key`、`scope`。すべて設定すると、呼び出しを await できる。"]
-        pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
+        #[doc = "必須パラメータ（型状態のスロットの順）: `key`。すべて設定すると、呼び出しを await できる。"]
+        pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2025_10_0::Client,
             key: ::std::option::Option<::std::string::String>,
             scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -3874,7 +3875,24 @@ pub mod registry {
                 }
             }
         }
-        impl<'a, S0, S1> Call<'a, (S0, S1)> {
+        impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            pub fn scope(
+                self,
+                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            ) -> Self {
+                self.maybe_scope(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `scope` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_scope(
+                mut self,
+                value: ::std::option::Option<
+                    impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+                >,
+            ) -> Self {
+                self.scope = value.map(|value| value.into());
+                self
+            }
             pub fn domain(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_domain(::std::option::Option::Some(value))
             }
@@ -3894,7 +3912,7 @@ pub mod registry {
             pub fn key(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
-            ) -> Call<'a, (crate::builder::Set, S1)> {
+            ) -> Call<'a, (crate::builder::Set,)> {
                 Call {
                     client: self.client,
                     key: ::std::option::Option::Some(value.into()),
@@ -3903,21 +3921,8 @@ pub mod registry {
                     _state: ::std::marker::PhantomData,
                 }
             }
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub fn scope(
-                self,
-                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
-            ) -> Call<'a, (S0, crate::builder::Set)> {
-                Call {
-                    client: self.client,
-                    key: self.key,
-                    scope: ::std::option::Option::Some(value.into()),
-                    domain: self.domain,
-                    _state: ::std::marker::PhantomData,
-                }
-            }
         }
-        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set, crate::builder::Set)> {
+        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set,)> {
             type Output = ::std::result::Result<Response, crate::Error>;
             type IntoFuture = crate::builder::CallFuture<'a, Response>;
             fn into_future(self) -> Self::IntoFuture {
@@ -3925,9 +3930,7 @@ pub mod registry {
                     key: self
                         .key
                         .expect("required parameter is set by the type state"),
-                    scope: self
-                        .scope
-                        .expect("required parameter is set by the type state"),
+                    scope: self.scope,
                     domain: self.domain,
                 };
                 let client = self.client;
@@ -3941,8 +3944,9 @@ pub mod registry {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub scope: ::std::vec::Vec<::std::string::String>,
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            #[serde(default, skip_serializing_if = "Option::is_none")]
+            pub scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -3960,12 +3964,10 @@ pub mod registry {
         pub type Response = ::serde_json::Map<::std::string::String, ::serde_json::Value>;
         #[doc = "`i/registry/get-all` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
-        #[doc = "必須パラメータ（型状態のスロットの順）: `scope`。すべて設定すると、呼び出しを await できる。"]
-        pub struct Call<'a, S = (crate::builder::Unset,)> {
+        pub struct Call<'a> {
             client: &'a crate::generated::v2025_10_0::Client,
             scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             domain: ::std::option::Option<::std::option::Option<::std::string::String>>,
-            _state: ::std::marker::PhantomData<S>,
         }
         impl<'a> Call<'a> {
             pub(crate) fn new(client: &'a crate::generated::v2025_10_0::Client) -> Self {
@@ -3973,11 +3975,27 @@ pub mod registry {
                     client,
                     scope: ::std::option::Option::None,
                     domain: ::std::option::Option::None,
-                    _state: ::std::marker::PhantomData,
                 }
             }
         }
-        impl<'a, S0> Call<'a, (S0,)> {
+        impl<'a> Call<'a> {
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            pub fn scope(
+                self,
+                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            ) -> Self {
+                self.maybe_scope(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `scope` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_scope(
+                mut self,
+                value: ::std::option::Option<
+                    impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+                >,
+            ) -> Self {
+                self.scope = value.map(|value| value.into());
+                self
+            }
             pub fn domain(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_domain(::std::option::Option::Some(value))
             }
@@ -3994,27 +4012,13 @@ pub mod registry {
                 self.domain = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub fn scope(
-                self,
-                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
-            ) -> Call<'a, (crate::builder::Set,)> {
-                Call {
-                    client: self.client,
-                    scope: ::std::option::Option::Some(value.into()),
-                    domain: self.domain,
-                    _state: ::std::marker::PhantomData,
-                }
-            }
         }
-        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set,)> {
+        impl<'a> ::std::future::IntoFuture for Call<'a> {
             type Output = ::std::result::Result<Response, crate::Error>;
             type IntoFuture = crate::builder::CallFuture<'a, Response>;
             fn into_future(self) -> Self::IntoFuture {
                 let request = Request {
-                    scope: self
-                        .scope
-                        .expect("required parameter is set by the type state"),
+                    scope: self.scope,
                     domain: self.domain,
                 };
                 let client = self.client;
@@ -4035,8 +4039,9 @@ pub mod registry {
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub key: ::std::string::String,
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub scope: ::std::vec::Vec<::std::string::String>,
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            #[serde(default, skip_serializing_if = "Option::is_none")]
+            pub scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -4053,8 +4058,8 @@ pub mod registry {
         }
         #[doc = "`i/registry/get-detail` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
-        #[doc = "必須パラメータ（型状態のスロットの順）: `key`、`scope`。すべて設定すると、呼び出しを await できる。"]
-        pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
+        #[doc = "必須パラメータ（型状態のスロットの順）: `key`。すべて設定すると、呼び出しを await できる。"]
+        pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2025_10_0::Client,
             key: ::std::option::Option<::std::string::String>,
             scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -4072,7 +4077,24 @@ pub mod registry {
                 }
             }
         }
-        impl<'a, S0, S1> Call<'a, (S0, S1)> {
+        impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            pub fn scope(
+                self,
+                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            ) -> Self {
+                self.maybe_scope(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `scope` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_scope(
+                mut self,
+                value: ::std::option::Option<
+                    impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+                >,
+            ) -> Self {
+                self.scope = value.map(|value| value.into());
+                self
+            }
             pub fn domain(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_domain(::std::option::Option::Some(value))
             }
@@ -4092,7 +4114,7 @@ pub mod registry {
             pub fn key(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
-            ) -> Call<'a, (crate::builder::Set, S1)> {
+            ) -> Call<'a, (crate::builder::Set,)> {
                 Call {
                     client: self.client,
                     key: ::std::option::Option::Some(value.into()),
@@ -4101,21 +4123,8 @@ pub mod registry {
                     _state: ::std::marker::PhantomData,
                 }
             }
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub fn scope(
-                self,
-                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
-            ) -> Call<'a, (S0, crate::builder::Set)> {
-                Call {
-                    client: self.client,
-                    key: self.key,
-                    scope: ::std::option::Option::Some(value.into()),
-                    domain: self.domain,
-                    _state: ::std::marker::PhantomData,
-                }
-            }
         }
-        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set, crate::builder::Set)> {
+        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set,)> {
             type Output = ::std::result::Result<Response, crate::Error>;
             type IntoFuture = crate::builder::CallFuture<'a, Response>;
             fn into_future(self) -> Self::IntoFuture {
@@ -4123,9 +4132,7 @@ pub mod registry {
                     key: self
                         .key
                         .expect("required parameter is set by the type state"),
-                    scope: self
-                        .scope
-                        .expect("required parameter is set by the type state"),
+                    scope: self.scope,
                     domain: self.domain,
                 };
                 let client = self.client;
@@ -4139,8 +4146,9 @@ pub mod registry {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub scope: ::std::vec::Vec<::std::string::String>,
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            #[serde(default, skip_serializing_if = "Option::is_none")]
+            pub scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -4158,12 +4166,10 @@ pub mod registry {
         pub type Response = ::std::vec::Vec<::std::string::String>;
         #[doc = "`i/registry/keys` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
-        #[doc = "必須パラメータ（型状態のスロットの順）: `scope`。すべて設定すると、呼び出しを await できる。"]
-        pub struct Call<'a, S = (crate::builder::Unset,)> {
+        pub struct Call<'a> {
             client: &'a crate::generated::v2025_10_0::Client,
             scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             domain: ::std::option::Option<::std::option::Option<::std::string::String>>,
-            _state: ::std::marker::PhantomData<S>,
         }
         impl<'a> Call<'a> {
             pub(crate) fn new(client: &'a crate::generated::v2025_10_0::Client) -> Self {
@@ -4171,11 +4177,27 @@ pub mod registry {
                     client,
                     scope: ::std::option::Option::None,
                     domain: ::std::option::Option::None,
-                    _state: ::std::marker::PhantomData,
                 }
             }
         }
-        impl<'a, S0> Call<'a, (S0,)> {
+        impl<'a> Call<'a> {
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            pub fn scope(
+                self,
+                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            ) -> Self {
+                self.maybe_scope(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `scope` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_scope(
+                mut self,
+                value: ::std::option::Option<
+                    impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+                >,
+            ) -> Self {
+                self.scope = value.map(|value| value.into());
+                self
+            }
             pub fn domain(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_domain(::std::option::Option::Some(value))
             }
@@ -4192,27 +4214,13 @@ pub mod registry {
                 self.domain = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub fn scope(
-                self,
-                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
-            ) -> Call<'a, (crate::builder::Set,)> {
-                Call {
-                    client: self.client,
-                    scope: ::std::option::Option::Some(value.into()),
-                    domain: self.domain,
-                    _state: ::std::marker::PhantomData,
-                }
-            }
         }
-        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set,)> {
+        impl<'a> ::std::future::IntoFuture for Call<'a> {
             type Output = ::std::result::Result<Response, crate::Error>;
             type IntoFuture = crate::builder::CallFuture<'a, Response>;
             fn into_future(self) -> Self::IntoFuture {
                 let request = Request {
-                    scope: self
-                        .scope
-                        .expect("required parameter is set by the type state"),
+                    scope: self.scope,
                     domain: self.domain,
                 };
                 let client = self.client;
@@ -4226,8 +4234,9 @@ pub mod registry {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub scope: ::std::vec::Vec<::std::string::String>,
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            #[serde(default, skip_serializing_if = "Option::is_none")]
+            pub scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -4246,12 +4255,10 @@ pub mod registry {
             ::std::collections::HashMap<::std::string::String, ::std::string::String>;
         #[doc = "`i/registry/keys-with-type` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
-        #[doc = "必須パラメータ（型状態のスロットの順）: `scope`。すべて設定すると、呼び出しを await できる。"]
-        pub struct Call<'a, S = (crate::builder::Unset,)> {
+        pub struct Call<'a> {
             client: &'a crate::generated::v2025_10_0::Client,
             scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             domain: ::std::option::Option<::std::option::Option<::std::string::String>>,
-            _state: ::std::marker::PhantomData<S>,
         }
         impl<'a> Call<'a> {
             pub(crate) fn new(client: &'a crate::generated::v2025_10_0::Client) -> Self {
@@ -4259,11 +4266,27 @@ pub mod registry {
                     client,
                     scope: ::std::option::Option::None,
                     domain: ::std::option::Option::None,
-                    _state: ::std::marker::PhantomData,
                 }
             }
         }
-        impl<'a, S0> Call<'a, (S0,)> {
+        impl<'a> Call<'a> {
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            pub fn scope(
+                self,
+                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            ) -> Self {
+                self.maybe_scope(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `scope` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_scope(
+                mut self,
+                value: ::std::option::Option<
+                    impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+                >,
+            ) -> Self {
+                self.scope = value.map(|value| value.into());
+                self
+            }
             pub fn domain(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_domain(::std::option::Option::Some(value))
             }
@@ -4280,27 +4303,13 @@ pub mod registry {
                 self.domain = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub fn scope(
-                self,
-                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
-            ) -> Call<'a, (crate::builder::Set,)> {
-                Call {
-                    client: self.client,
-                    scope: ::std::option::Option::Some(value.into()),
-                    domain: self.domain,
-                    _state: ::std::marker::PhantomData,
-                }
-            }
         }
-        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set,)> {
+        impl<'a> ::std::future::IntoFuture for Call<'a> {
             type Output = ::std::result::Result<Response, crate::Error>;
             type IntoFuture = crate::builder::CallFuture<'a, Response>;
             fn into_future(self) -> Self::IntoFuture {
                 let request = Request {
-                    scope: self
-                        .scope
-                        .expect("required parameter is set by the type state"),
+                    scope: self.scope,
                     domain: self.domain,
                 };
                 let client = self.client;
@@ -4315,8 +4324,9 @@ pub mod registry {
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub key: ::std::string::String,
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub scope: ::std::vec::Vec<::std::string::String>,
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            #[serde(default, skip_serializing_if = "Option::is_none")]
+            pub scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -4334,8 +4344,8 @@ pub mod registry {
         pub type Response = ();
         #[doc = "`i/registry/remove` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
-        #[doc = "必須パラメータ（型状態のスロットの順）: `key`、`scope`。すべて設定すると、呼び出しを await できる。"]
-        pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
+        #[doc = "必須パラメータ（型状態のスロットの順）: `key`。すべて設定すると、呼び出しを await できる。"]
+        pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2025_10_0::Client,
             key: ::std::option::Option<::std::string::String>,
             scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -4353,7 +4363,24 @@ pub mod registry {
                 }
             }
         }
-        impl<'a, S0, S1> Call<'a, (S0, S1)> {
+        impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            pub fn scope(
+                self,
+                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            ) -> Self {
+                self.maybe_scope(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `scope` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_scope(
+                mut self,
+                value: ::std::option::Option<
+                    impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+                >,
+            ) -> Self {
+                self.scope = value.map(|value| value.into());
+                self
+            }
             pub fn domain(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_domain(::std::option::Option::Some(value))
             }
@@ -4373,7 +4400,7 @@ pub mod registry {
             pub fn key(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
-            ) -> Call<'a, (crate::builder::Set, S1)> {
+            ) -> Call<'a, (crate::builder::Set,)> {
                 Call {
                     client: self.client,
                     key: ::std::option::Option::Some(value.into()),
@@ -4382,21 +4409,8 @@ pub mod registry {
                     _state: ::std::marker::PhantomData,
                 }
             }
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub fn scope(
-                self,
-                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
-            ) -> Call<'a, (S0, crate::builder::Set)> {
-                Call {
-                    client: self.client,
-                    key: self.key,
-                    scope: ::std::option::Option::Some(value.into()),
-                    domain: self.domain,
-                    _state: ::std::marker::PhantomData,
-                }
-            }
         }
-        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set, crate::builder::Set)> {
+        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set,)> {
             type Output = ::std::result::Result<Response, crate::Error>;
             type IntoFuture = crate::builder::CallFuture<'a, Response>;
             fn into_future(self) -> Self::IntoFuture {
@@ -4404,9 +4418,7 @@ pub mod registry {
                     key: self
                         .key
                         .expect("required parameter is set by the type state"),
-                    scope: self
-                        .scope
-                        .expect("required parameter is set by the type state"),
+                    scope: self.scope,
                     domain: self.domain,
                 };
                 let client = self.client;
@@ -4463,8 +4475,9 @@ pub mod registry {
             #[doc = "文字数は 1 以上。"]
             pub key: ::std::string::String,
             pub value: ::serde_json::Value,
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub scope: ::std::vec::Vec<::std::string::String>,
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            #[serde(default, skip_serializing_if = "Option::is_none")]
+            pub scope: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -4482,15 +4495,8 @@ pub mod registry {
         pub type Response = ();
         #[doc = "`i/registry/set` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
-        #[doc = "必須パラメータ（型状態のスロットの順）: `key`、`value`、`scope`。すべて設定すると、呼び出しを await できる。"]
-        pub struct Call<
-            'a,
-            S = (
-                crate::builder::Unset,
-                crate::builder::Unset,
-                crate::builder::Unset,
-            ),
-        > {
+        #[doc = "必須パラメータ（型状態のスロットの順）: `key`、`value`。すべて設定すると、呼び出しを await できる。"]
+        pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2025_10_0::Client,
             key: ::std::option::Option<::std::string::String>,
             value: ::std::option::Option<::serde_json::Value>,
@@ -4510,7 +4516,24 @@ pub mod registry {
                 }
             }
         }
-        impl<'a, S0, S1, S2> Call<'a, (S0, S1, S2)> {
+        impl<'a, S0, S1> Call<'a, (S0, S1)> {
+            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。省略時は `[]`。"]
+            pub fn scope(
+                self,
+                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+            ) -> Self {
+                self.maybe_scope(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `scope` を設定し、`None` なら設定を消して送らない。"]
+            pub fn maybe_scope(
+                mut self,
+                value: ::std::option::Option<
+                    impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
+                >,
+            ) -> Self {
+                self.scope = value.map(|value| value.into());
+                self
+            }
             pub fn domain(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_domain(::std::option::Option::Some(value))
             }
@@ -4531,7 +4554,7 @@ pub mod registry {
             pub fn key(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
-            ) -> Call<'a, (crate::builder::Set, S1, S2)> {
+            ) -> Call<'a, (crate::builder::Set, S1)> {
                 Call {
                     client: self.client,
                     key: ::std::option::Option::Some(value.into()),
@@ -4544,7 +4567,7 @@ pub mod registry {
             pub fn value(
                 self,
                 value: impl ::std::convert::Into<::serde_json::Value>,
-            ) -> Call<'a, (S0, crate::builder::Set, S2)> {
+            ) -> Call<'a, (S0, crate::builder::Set)> {
                 Call {
                     client: self.client,
                     key: self.key,
@@ -4554,31 +4577,8 @@ pub mod registry {
                     _state: ::std::marker::PhantomData,
                 }
             }
-            #[doc = "各要素の形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
-            pub fn scope(
-                self,
-                value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
-            ) -> Call<'a, (S0, S1, crate::builder::Set)> {
-                Call {
-                    client: self.client,
-                    key: self.key,
-                    value: self.value,
-                    scope: ::std::option::Option::Some(value.into()),
-                    domain: self.domain,
-                    _state: ::std::marker::PhantomData,
-                }
-            }
         }
-        impl<'a> ::std::future::IntoFuture
-            for Call<
-                'a,
-                (
-                    crate::builder::Set,
-                    crate::builder::Set,
-                    crate::builder::Set,
-                ),
-            >
-        {
+        impl<'a> ::std::future::IntoFuture for Call<'a, (crate::builder::Set, crate::builder::Set)> {
             type Output = ::std::result::Result<Response, crate::Error>;
             type IntoFuture = crate::builder::CallFuture<'a, Response>;
             fn into_future(self) -> Self::IntoFuture {
@@ -4589,9 +4589,7 @@ pub mod registry {
                     value: self
                         .value
                         .expect("required parameter is set by the type state"),
-                    scope: self
-                        .scope
-                        .expect("required parameter is set by the type state"),
+                    scope: self.scope,
                     domain: self.domain,
                 };
                 let client = self.client;
