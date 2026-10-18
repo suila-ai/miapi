@@ -111,6 +111,7 @@ pub mod games {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -121,6 +122,7 @@ pub mod games {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "省略時は `false`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub my: ::std::option::Option<bool>,
     }
@@ -157,6 +159,7 @@ pub mod games {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -212,6 +215,7 @@ pub mod games {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn my(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_my(::std::option::Option::Some(value))
         }
@@ -289,12 +293,14 @@ pub mod r#match {
             with = "crate::serde_helpers::double_option"
         )]
         pub user_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "noIrregularRules",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub no_irregular_rules: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub multiple: ::std::option::Option<bool>,
     }
@@ -342,6 +348,7 @@ pub mod r#match {
             self.user_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn no_irregular_rules(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_no_irregular_rules(::std::option::Option::Some(value))
         }
@@ -353,6 +360,7 @@ pub mod r#match {
             self.no_irregular_rules = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn multiple(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_multiple(::std::option::Option::Some(value))
         }

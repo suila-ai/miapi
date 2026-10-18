@@ -21,8 +21,10 @@ pub mod apps {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
+        #[doc = "省略時は `0`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub offset: ::std::option::Option<i64>,
     }
@@ -51,6 +53,7 @@ pub mod apps {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -62,6 +65,7 @@ pub mod apps {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `0`。"]
         pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_offset(::std::option::Option::Some(value))
         }

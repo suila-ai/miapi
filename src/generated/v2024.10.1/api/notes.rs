@@ -4,6 +4,7 @@
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
 #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
 pub struct Request {
+    #[doc = "省略時は `false`。"]
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub local: ::std::option::Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -14,6 +15,7 @@ pub struct Request {
     pub with_files: ::std::option::Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub poll: ::std::option::Option<bool>,
+    #[doc = "1 以上 100 以下。省略時は `10`。"]
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub limit: ::std::option::Option<i64>,
     #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -154,6 +156,7 @@ impl<'a> Call<'a> {
     pub fn user_list_timeline(&self) -> user_list_timeline::Call<'a> {
         user_list_timeline::Call::new(self.client)
     }
+    #[doc = "省略時は `false`。"]
     pub fn local(self, value: impl ::std::convert::Into<bool>) -> Self {
         self.maybe_local(::std::option::Option::Some(value))
     }
@@ -209,6 +212,7 @@ impl<'a> Call<'a> {
         self.poll = value.map(|value| value.into());
         self
     }
+    #[doc = "1 以上 100 以下。省略時は `10`。"]
     pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
         self.maybe_limit(::std::option::Option::Some(value))
     }
@@ -269,6 +273,7 @@ pub mod children {
     pub struct Request {
         #[serde(rename = "noteId")]
         pub note_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -308,6 +313,7 @@ pub mod children {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -440,8 +446,10 @@ pub mod conversation {
     pub struct Request {
         #[serde(rename = "noteId")]
         pub note_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
+        #[doc = "省略時は `0`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub offset: ::std::option::Option<i64>,
     }
@@ -475,6 +483,7 @@ pub mod conversation {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -486,6 +495,7 @@ pub mod conversation {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `0`。"]
         pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_offset(::std::option::Option::Some(value))
         }
@@ -558,6 +568,7 @@ pub mod create {
     }
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct RequestPoll {
+        #[doc = "要素数は 2 以上 10 以下。要素は重複させない。各要素の文字数は 1 以上 50 以下。"]
         pub choices: ::std::vec::Vec<::std::string::String>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub multiple: ::std::option::Option<bool>,
@@ -568,6 +579,7 @@ pub mod create {
             with = "crate::serde_helpers::double_option"
         )]
         pub expires_at: ::std::option::Option<::std::option::Option<i64>>,
+        #[doc = "1 以上。"]
         #[serde(
             rename = "expiredAfter",
             default,
@@ -585,20 +597,24 @@ pub mod create {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:notes*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "省略時は `\"public\"`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub visibility: ::std::option::Option<RequestVisibility>,
+        #[doc = "要素は重複させない。"]
         #[serde(
             rename = "visibleUserIds",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub visible_user_ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[doc = "文字数は 1 以上 100 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
             with = "crate::serde_helpers::double_option"
         )]
         pub cw: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "localOnly", default, skip_serializing_if = "Option::is_none")]
         pub local_only: ::std::option::Option<bool>,
         #[serde(
@@ -609,18 +625,21 @@ pub mod create {
         )]
         pub reaction_acceptance:
             ::std::option::Option<::std::option::Option<RequestReactionAcceptance>>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "noExtractMentions",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub no_extract_mentions: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "noExtractHashtags",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub no_extract_hashtags: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "noExtractEmojis",
             default,
@@ -648,14 +667,17 @@ pub mod create {
             with = "crate::serde_helpers::double_option"
         )]
         pub channel_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "文字数は 1 以上 3000 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
             with = "crate::serde_helpers::double_option"
         )]
         pub text: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "要素数は 1 以上 16 以下。要素は重複させない。"]
         #[serde(rename = "fileIds", default, skip_serializing_if = "Option::is_none")]
         pub file_ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[doc = "要素数は 1 以上 16 以下。要素は重複させない。"]
         #[serde(rename = "mediaIds", default, skip_serializing_if = "Option::is_none")]
         pub media_ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
         #[serde(
@@ -716,6 +738,7 @@ pub mod create {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "省略時は `\"public\"`。"]
         pub fn visibility(self, value: impl ::std::convert::Into<RequestVisibility>) -> Self {
             self.maybe_visibility(::std::option::Option::Some(value))
         }
@@ -727,6 +750,7 @@ pub mod create {
             self.visibility = value.map(|value| value.into());
             self
         }
+        #[doc = "要素は重複させない。"]
         pub fn visible_user_ids(
             self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
@@ -743,6 +767,7 @@ pub mod create {
             self.visible_user_ids = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub fn cw(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_cw(::std::option::Option::Some(value))
         }
@@ -759,6 +784,7 @@ pub mod create {
             self.cw = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn local_only(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_local_only(::std::option::Option::Some(value))
         }
@@ -789,6 +815,7 @@ pub mod create {
             self.reaction_acceptance = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn no_extract_mentions(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_no_extract_mentions(::std::option::Option::Some(value))
         }
@@ -800,6 +827,7 @@ pub mod create {
             self.no_extract_mentions = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn no_extract_hashtags(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_no_extract_hashtags(::std::option::Option::Some(value))
         }
@@ -811,6 +839,7 @@ pub mod create {
             self.no_extract_hashtags = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn no_extract_emojis(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_no_extract_emojis(::std::option::Option::Some(value))
         }
@@ -870,6 +899,7 @@ pub mod create {
             self.channel_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "文字数は 1 以上 3000 以下。"]
         pub fn text(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_text(::std::option::Option::Some(value))
         }
@@ -886,6 +916,7 @@ pub mod create {
             self.text = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "要素数は 1 以上 16 以下。要素は重複させない。"]
         pub fn file_ids(
             self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
@@ -902,6 +933,7 @@ pub mod create {
             self.file_ids = value.map(|value| value.into());
             self
         }
+        #[doc = "要素数は 1 以上 16 以下。要素は重複させない。"]
         pub fn media_ids(
             self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::string::String>>,
@@ -1169,6 +1201,7 @@ pub mod featured {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
@@ -1208,6 +1241,7 @@ pub mod featured {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -1267,14 +1301,17 @@ pub mod global_timeline {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "withFiles", default, skip_serializing_if = "Option::is_none")]
         pub with_files: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "withRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub with_renotes: ::std::option::Option<bool>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1321,6 +1358,7 @@ pub mod global_timeline {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "省略時は `false`。"]
         pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_files(::std::option::Option::Some(value))
         }
@@ -1332,6 +1370,7 @@ pub mod global_timeline {
             self.with_files = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_renotes(::std::option::Option::Some(value))
         }
@@ -1343,6 +1382,7 @@ pub mod global_timeline {
             self.with_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -1423,6 +1463,7 @@ pub mod hybrid_timeline {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1433,38 +1474,45 @@ pub mod hybrid_timeline {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "allowPartial",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub allow_partial: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeMyRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_my_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeRenotedMyNotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_renoted_my_notes: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeLocalRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_local_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "withFiles", default, skip_serializing_if = "Option::is_none")]
         pub with_files: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "withRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub with_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "withReplies",
             default,
@@ -1517,6 +1565,7 @@ pub mod hybrid_timeline {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -1572,6 +1621,7 @@ pub mod hybrid_timeline {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_allow_partial(::std::option::Option::Some(value))
         }
@@ -1583,6 +1633,7 @@ pub mod hybrid_timeline {
             self.allow_partial = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_my_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_my_renotes(::std::option::Option::Some(value))
         }
@@ -1594,6 +1645,7 @@ pub mod hybrid_timeline {
             self.include_my_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_renoted_my_notes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_renoted_my_notes(::std::option::Option::Some(value))
         }
@@ -1605,6 +1657,7 @@ pub mod hybrid_timeline {
             self.include_renoted_my_notes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_local_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_local_renotes(::std::option::Option::Some(value))
         }
@@ -1616,6 +1669,7 @@ pub mod hybrid_timeline {
             self.include_local_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_files(::std::option::Option::Some(value))
         }
@@ -1627,6 +1681,7 @@ pub mod hybrid_timeline {
             self.with_files = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_renotes(::std::option::Option::Some(value))
         }
@@ -1638,6 +1693,7 @@ pub mod hybrid_timeline {
             self.with_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn with_replies(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_replies(::std::option::Option::Some(value))
         }
@@ -1679,26 +1735,31 @@ pub mod local_timeline {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "withFiles", default, skip_serializing_if = "Option::is_none")]
         pub with_files: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "withRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub with_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "withReplies",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub with_replies: ::std::option::Option<bool>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
         pub since_id: ::std::option::Option<::std::string::String>,
         #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
         pub until_id: ::std::option::Option<::std::string::String>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "allowPartial",
             default,
@@ -1749,6 +1810,7 @@ pub mod local_timeline {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "省略時は `false`。"]
         pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_files(::std::option::Option::Some(value))
         }
@@ -1760,6 +1822,7 @@ pub mod local_timeline {
             self.with_files = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_renotes(::std::option::Option::Some(value))
         }
@@ -1771,6 +1834,7 @@ pub mod local_timeline {
             self.with_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn with_replies(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_replies(::std::option::Option::Some(value))
         }
@@ -1782,6 +1846,7 @@ pub mod local_timeline {
             self.with_replies = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -1815,6 +1880,7 @@ pub mod local_timeline {
             self.until_id = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_allow_partial(::std::option::Option::Some(value))
         }
@@ -1875,8 +1941,10 @@ pub mod mentions {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "省略時は `false`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub following: ::std::option::Option<bool>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1917,6 +1985,7 @@ pub mod mentions {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "省略時は `false`。"]
         pub fn following(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_following(::std::option::Option::Some(value))
         }
@@ -1928,6 +1997,7 @@ pub mod mentions {
             self.following = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -2016,10 +2086,13 @@ pub mod polls {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
+            #[doc = "省略時は `0`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub offset: ::std::option::Option<i64>,
+            #[doc = "省略時は `false`。"]
             #[serde(
                 rename = "excludeChannels",
                 default,
@@ -2054,6 +2127,7 @@ pub mod polls {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -2065,6 +2139,7 @@ pub mod polls {
                 self.limit = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `0`。"]
             pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_offset(::std::option::Option::Some(value))
             }
@@ -2076,6 +2151,7 @@ pub mod polls {
                 self.offset = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn exclude_channels(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_exclude_channels(::std::option::Option::Some(value))
             }
@@ -2195,6 +2271,7 @@ pub mod reactions {
             with = "crate::serde_helpers::double_option"
         )]
         pub r#type: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -2260,6 +2337,7 @@ pub mod reactions {
             self.r#type = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -2472,6 +2550,7 @@ pub mod renotes {
     pub struct Request {
         #[serde(rename = "noteId")]
         pub note_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -2511,6 +2590,7 @@ pub mod renotes {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -2587,6 +2667,7 @@ pub mod replies {
         pub since_id: ::std::option::Option<::std::string::String>,
         #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
         pub until_id: ::std::option::Option<::std::string::String>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
     }
@@ -2644,6 +2725,7 @@ pub mod replies {
             self.until_id = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -2706,6 +2788,7 @@ pub mod search_by_tag {
         )]
         pub renote: ::std::option::Option<::std::option::Option<bool>>,
         #[doc = "Only show notes that have attached files."]
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "withFiles", default, skip_serializing_if = "Option::is_none")]
         pub with_files: ::std::option::Option<bool>,
         #[serde(
@@ -2718,11 +2801,14 @@ pub mod search_by_tag {
         pub since_id: ::std::option::Option<::std::string::String>,
         #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
         pub until_id: ::std::option::Option<::std::string::String>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
+        #[doc = "文字数は 1 以上。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub tag: ::std::option::Option<::std::string::String>,
         #[doc = "The outer arrays are chained with OR, the inner arrays are chained with AND."]
+        #[doc = "要素数は 1 以上。各要素の要素数は 1 以上。各要素の各要素の文字数は 1 以上。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub query: ::std::option::Option<::std::vec::Vec<::std::vec::Vec<::std::string::String>>>,
     }
@@ -2798,6 +2884,7 @@ pub mod search_by_tag {
             self
         }
         #[doc = "Only show notes that have attached files."]
+        #[doc = "省略時は `false`。"]
         pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_files(::std::option::Option::Some(value))
         }
@@ -2847,6 +2934,7 @@ pub mod search_by_tag {
             self.until_id = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -2858,6 +2946,7 @@ pub mod search_by_tag {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 1 以上。"]
         pub fn tag(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_tag(::std::option::Option::Some(value))
         }
@@ -2870,6 +2959,7 @@ pub mod search_by_tag {
             self
         }
         #[doc = "The outer arrays are chained with OR, the inner arrays are chained with AND."]
+        #[doc = "要素数は 1 以上。各要素の要素数は 1 以上。各要素の各要素の文字数は 1 以上。"]
         pub fn query(
             self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::vec::Vec<::std::string::String>>>,
@@ -2918,8 +3008,10 @@ pub mod search {
         pub since_id: ::std::option::Option<::std::string::String>,
         #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
         pub until_id: ::std::option::Option<::std::string::String>,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
+        #[doc = "省略時は `0`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub offset: ::std::option::Option<i64>,
         #[doc = "The local host is represented with `.`."]
@@ -3002,6 +3094,7 @@ pub mod search {
             self.until_id = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -3013,6 +3106,7 @@ pub mod search {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `0`。"]
         pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_offset(::std::option::Option::Some(value))
         }
@@ -3381,6 +3475,7 @@ pub mod timeline {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -3391,32 +3486,38 @@ pub mod timeline {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "allowPartial",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub allow_partial: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeMyRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_my_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeRenotedMyNotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_renoted_my_notes: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeLocalRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_local_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "withFiles", default, skip_serializing_if = "Option::is_none")]
         pub with_files: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "withRenotes",
             default,
@@ -3467,6 +3568,7 @@ pub mod timeline {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -3522,6 +3624,7 @@ pub mod timeline {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_allow_partial(::std::option::Option::Some(value))
         }
@@ -3533,6 +3636,7 @@ pub mod timeline {
             self.allow_partial = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_my_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_my_renotes(::std::option::Option::Some(value))
         }
@@ -3544,6 +3648,7 @@ pub mod timeline {
             self.include_my_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_renoted_my_notes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_renoted_my_notes(::std::option::Option::Some(value))
         }
@@ -3555,6 +3660,7 @@ pub mod timeline {
             self.include_renoted_my_notes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_local_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_local_renotes(::std::option::Option::Some(value))
         }
@@ -3566,6 +3672,7 @@ pub mod timeline {
             self.include_local_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_files(::std::option::Option::Some(value))
         }
@@ -3577,6 +3684,7 @@ pub mod timeline {
             self.with_files = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_renotes(::std::option::Option::Some(value))
         }
@@ -3764,6 +3872,7 @@ pub mod user_list_timeline {
     pub struct Request {
         #[serde(rename = "listId")]
         pub list_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -3774,30 +3883,35 @@ pub mod user_list_timeline {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "allowPartial",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub allow_partial: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeMyRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_my_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeRenotedMyNotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_renoted_my_notes: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "includeLocalRenotes",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub include_local_renotes: ::std::option::Option<bool>,
+        #[doc = "省略時は `true`。"]
         #[serde(
             rename = "withRenotes",
             default,
@@ -3805,6 +3919,7 @@ pub mod user_list_timeline {
         )]
         pub with_renotes: ::std::option::Option<bool>,
         #[doc = "Only show notes that have attached files."]
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "withFiles", default, skip_serializing_if = "Option::is_none")]
         pub with_files: ::std::option::Option<bool>,
     }
@@ -3856,6 +3971,7 @@ pub mod user_list_timeline {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -3911,6 +4027,7 @@ pub mod user_list_timeline {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_allow_partial(::std::option::Option::Some(value))
         }
@@ -3922,6 +4039,7 @@ pub mod user_list_timeline {
             self.allow_partial = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_my_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_my_renotes(::std::option::Option::Some(value))
         }
@@ -3933,6 +4051,7 @@ pub mod user_list_timeline {
             self.include_my_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_renoted_my_notes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_renoted_my_notes(::std::option::Option::Some(value))
         }
@@ -3944,6 +4063,7 @@ pub mod user_list_timeline {
             self.include_renoted_my_notes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn include_local_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_include_local_renotes(::std::option::Option::Some(value))
         }
@@ -3955,6 +4075,7 @@ pub mod user_list_timeline {
             self.include_local_renotes = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `true`。"]
         pub fn with_renotes(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_renotes(::std::option::Option::Some(value))
         }
@@ -3967,6 +4088,7 @@ pub mod user_list_timeline {
             self
         }
         #[doc = "Only show notes that have attached files."]
+        #[doc = "省略時は `false`。"]
         pub fn with_files(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_with_files(::std::option::Option::Some(value))
         }

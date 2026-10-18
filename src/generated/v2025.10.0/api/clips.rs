@@ -140,9 +140,12 @@ pub mod create {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub name: ::std::string::String,
+        #[doc = "省略時は `false`。"]
         #[serde(rename = "isPublic", default, skip_serializing_if = "Option::is_none")]
         pub is_public: ::std::option::Option<bool>,
+        #[doc = "文字数は 2048 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
@@ -180,6 +183,7 @@ pub mod create {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "省略時は `false`。"]
         pub fn is_public(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_is_public(::std::option::Option::Some(value))
         }
@@ -191,6 +195,7 @@ pub mod create {
             self.is_public = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 2048 以下。"]
         pub fn description(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_description(::std::option::Option::Some(value))
         }
@@ -207,6 +212,7 @@ pub mod create {
             self.description = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub fn name(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
@@ -362,6 +368,7 @@ pub mod list {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -404,6 +411,7 @@ pub mod list {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -519,6 +527,7 @@ pub mod notes {
     pub struct Request {
         #[serde(rename = "clipId")]
         pub clip_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -529,6 +538,7 @@ pub mod notes {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "文字数は 1 以上 100 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
@@ -574,6 +584,7 @@ pub mod notes {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -629,6 +640,7 @@ pub mod notes {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub fn search(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_search(::std::option::Option::Some(value))
         }
@@ -889,10 +901,12 @@ pub mod update {
     pub struct Request {
         #[serde(rename = "clipId")]
         pub clip_id: ::std::string::String,
+        #[doc = "文字数は 1 以上 100 以下。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub name: ::std::option::Option<::std::string::String>,
         #[serde(rename = "isPublic", default, skip_serializing_if = "Option::is_none")]
         pub is_public: ::std::option::Option<bool>,
+        #[doc = "文字数は 2048 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
@@ -932,6 +946,7 @@ pub mod update {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "文字数は 1 以上 100 以下。"]
         pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_name(::std::option::Option::Some(value))
         }
@@ -954,6 +969,7 @@ pub mod update {
             self.is_public = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 2048 以下。"]
         pub fn description(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_description(::std::option::Option::Some(value))
         }

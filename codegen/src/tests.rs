@@ -419,6 +419,76 @@ fn request_alternatives_are_documented() {
 }
 
 #[test]
+fn request_constraints_are_documented() {
+    let limit = json!({"type": "integer", "minimum": 1, "maximum": 100, "default": 10});
+    let tree = build_tree(&spec(
+        json!({"Page": {"type": "object", "properties": {"limit": limit.clone()}}}),
+        json!({"/notes": post(Some(json!({"type": "object", "properties": {
+            "limit": limit,
+            "text": {"type": ["string", "null"], "description": "本文", "minLength": 1, "maxLength": 3000},
+            "choices": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 50}, "minItems": 2},
+            "fileIds": {"type": "array", "items": {"type": "string"}, "minItems": 0, "maxItems": 16},
+            "offset": {"type": "integer", "minimum": 0},
+            "scores": {"type": "array", "items": {"type": "number", "minimum": 0, "maximum": 1}},
+            "color": {"type": "string", "description": "[任意] 色", "pattern": "^#[0-9a-f]{6}$"},
+            "tags": {"type": "array", "items": {"type": "string", "pattern": "^\\w+$"}, "uniqueItems": true, "default": ["a"]},
+            "cw": {"type": ["string", "null"], "minLength": 0, "default": null},
+            "visibility": {"type": "string", "default": "public"},
+            "scope": {"type": "array", "items": {"type": "string"}, "default": []}
+        }, "required": ["scope"]})), json!({"204": {"description": "none"}}))}),
+    ))
+    .unwrap();
+    let request = &endpoint(&tree, "notes").request;
+    assert_eq!(
+        field(request, "limit").docs,
+        ["1 以上 100 以下。省略時は `10`。"]
+    );
+    assert_eq!(
+        field(request, "text").docs,
+        ["本文", "文字数は 1 以上 3000 以下。"]
+    );
+    assert_eq!(
+        field(request, "choices").docs,
+        ["要素数は 2 以上。各要素の文字数は 1 以上 50 以下。"]
+    );
+    // 文字数と要素数の下限の 0 は書かない。
+    assert_eq!(field(request, "fileIds").docs, ["要素数は 16 以下。"]);
+    // 数値の下限の 0 は書く。
+    assert_eq!(field(request, "offset").docs, ["0 以上。"]);
+    assert_eq!(
+        field(request, "scores").docs,
+        ["各要素の値は 0 以上 1 以下。"]
+    );
+    assert_eq!(
+        field(request, "color").docs,
+        ["[任意] 色", "形式は正規表現 `^#[0-9a-f]{6}$` に合うもの。"]
+    );
+    assert_eq!(
+        field(request, "tags").docs,
+        ["要素は重複させない。各要素の形式は正規表現 `^\\w+$` に合うもの。省略時は `[\"a\"]`。"]
+    );
+    assert!(field(request, "cw").docs.is_empty());
+    assert_eq!(
+        field(request, "visibility").docs,
+        ["省略時は `\"public\"`。"]
+    );
+    // 必須のパラメータは省略できないので、既定値を書かない。
+    assert!(field(request, "scope").docs.is_empty());
+    // 応答やエンティティの型には出さない。
+    assert!(
+        field(find_struct(&tree.types, "Page"), "limit")
+            .docs
+            .is_empty()
+    );
+    let notes = source_of(&tree, "api/notes.rs");
+    assert!(notes.contains("#[doc=\"1以上100以下。省略時は`10`。\"]pubfnlimit("));
+    // code span の外の `[` `]` だけをエスケープする。
+    assert!(notes.contains(
+        r#"#[doc="\\[任意\\]色"]#[doc="形式は正規表現`^#[0-9a-f]{6}$`に合うもの。"]pubfncolor("#
+    ));
+}
+
+#[test]
 fn multipart_file_field_is_skipped_by_serde() {
     let tree = build_tree(&spec(
         json!({}),

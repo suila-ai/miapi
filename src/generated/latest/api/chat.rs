@@ -33,8 +33,10 @@ pub mod history {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:chat*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
+        #[doc = "省略時は `false`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub room: ::std::option::Option<bool>,
     }
@@ -63,6 +65,7 @@ pub mod history {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -74,6 +77,7 @@ pub mod history {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn room(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_room(::std::option::Option::Some(value))
         }
@@ -154,6 +158,7 @@ pub mod messages {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 2000 以下。"]
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -195,6 +200,7 @@ pub mod messages {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "文字数は 2000 以下。"]
             pub fn text(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_text(::std::option::Option::Some(value))
             }
@@ -257,6 +263,7 @@ pub mod messages {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 2000 以下。"]
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -298,6 +305,7 @@ pub mod messages {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "文字数は 2000 以下。"]
             pub fn text(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_text(::std::option::Option::Some(value))
             }
@@ -498,6 +506,7 @@ pub mod messages {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -548,6 +557,7 @@ pub mod messages {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -644,7 +654,9 @@ pub mod messages {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 1 以上 256 以下。"]
             pub query: ::std::string::String,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(
@@ -694,6 +706,7 @@ pub mod messages {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -737,6 +750,7 @@ pub mod messages {
                 self.room_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "文字数は 1 以上 256 以下。"]
             pub fn query(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -912,6 +926,7 @@ pub mod messages {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -962,6 +977,7 @@ pub mod messages {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -1151,7 +1167,9 @@ pub mod rooms {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 256 以下。"]
             pub name: ::std::string::String,
+            #[doc = "文字数は 1024 以下。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub description: ::std::option::Option<::std::string::String>,
         }
@@ -1183,6 +1201,7 @@ pub mod rooms {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "文字数は 1024 以下。"]
             pub fn description(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -1197,6 +1216,7 @@ pub mod rooms {
                 self.description = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 256 以下。"]
             pub fn name(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -1464,6 +1484,7 @@ pub mod rooms {
                 Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize,
             )]
             pub struct Request {
+                #[doc = "1 以上 100 以下。省略時は `30`。"]
                 #[serde(default, skip_serializing_if = "Option::is_none")]
                 pub limit: ::std::option::Option<i64>,
                 #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1507,6 +1528,7 @@ pub mod rooms {
                 }
             }
             impl<'a> Call<'a> {
+                #[doc = "1 以上 100 以下。省略時は `30`。"]
                 pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                     self.maybe_limit(::std::option::Option::Some(value))
                 }
@@ -1595,6 +1617,7 @@ pub mod rooms {
             pub struct Request {
                 #[serde(rename = "roomId")]
                 pub room_id: ::std::string::String,
+                #[doc = "1 以上 100 以下。省略時は `30`。"]
                 #[serde(default, skip_serializing_if = "Option::is_none")]
                 pub limit: ::std::option::Option<i64>,
                 #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1643,6 +1666,7 @@ pub mod rooms {
                 }
             }
             impl<'a, S0> Call<'a, (S0,)> {
+                #[doc = "1 以上 100 以下。省略時は `30`。"]
                 pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                     self.maybe_limit(::std::option::Option::Some(value))
                 }
@@ -1806,6 +1830,7 @@ pub mod rooms {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1848,6 +1873,7 @@ pub mod rooms {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -1988,6 +2014,7 @@ pub mod rooms {
         pub struct Request {
             #[serde(rename = "roomId")]
             pub room_id: ::std::string::String,
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -2035,6 +2062,7 @@ pub mod rooms {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -2209,6 +2237,7 @@ pub mod rooms {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:chat*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -2251,6 +2280,7 @@ pub mod rooms {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -2391,8 +2421,10 @@ pub mod rooms {
         pub struct Request {
             #[serde(rename = "roomId")]
             pub room_id: ::std::string::String,
+            #[doc = "文字数は 256 以下。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub name: ::std::option::Option<::std::string::String>,
+            #[doc = "文字数は 1024 以下。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub description: ::std::option::Option<::std::string::String>,
         }
@@ -2426,6 +2458,7 @@ pub mod rooms {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "文字数は 256 以下。"]
             pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_name(::std::option::Option::Some(value))
             }
@@ -2437,6 +2470,7 @@ pub mod rooms {
                 self.name = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 1024 以下。"]
             pub fn description(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,

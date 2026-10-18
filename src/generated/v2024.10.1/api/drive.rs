@@ -73,6 +73,7 @@ pub mod files {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -86,6 +87,7 @@ pub mod files {
             with = "crate::serde_helpers::double_option"
         )]
         pub folder_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "形式は正規表現 `^[a-zA-Z\\/\\-*]+$` に合うもの。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
@@ -168,6 +170,7 @@ pub mod files {
         pub fn upload_from_url(&self) -> upload_from_url::Call<'a> {
             upload_from_url::Call::new(self.client)
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -217,6 +220,7 @@ pub mod files {
             self.folder_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "形式は正規表現 `^[a-zA-Z\\/\\-*]+$` に合うもの。"]
         pub fn r#type(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_type(::std::option::Option::Some(value))
         }
@@ -276,6 +280,7 @@ pub mod files {
             pub since_id: ::std::option::Option<::std::string::String>,
             #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
             pub until_id: ::std::option::Option<::std::string::String>,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "fileId")]
@@ -335,6 +340,7 @@ pub mod files {
                 self.until_id = value.map(|value| value.into());
                 self
             }
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -455,18 +461,21 @@ pub mod files {
                 with = "crate::serde_helpers::double_option"
             )]
             pub name: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "文字数は 512 以下。"]
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
                 with = "crate::serde_helpers::double_option"
             )]
             pub comment: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "省略時は `false`。"]
             #[serde(
                 rename = "isSensitive",
                 default,
                 skip_serializing_if = "Option::is_none"
             )]
             pub is_sensitive: ::std::option::Option<bool>,
+            #[doc = "省略時は `false`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub force: ::std::option::Option<bool>,
             #[doc = "The file contents."]
@@ -551,6 +560,7 @@ pub mod files {
                 self.name = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "文字数は 512 以下。"]
             pub fn comment(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_comment(::std::option::Option::Some(value))
             }
@@ -567,6 +577,7 @@ pub mod files {
                 self.comment = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn is_sensitive(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_is_sensitive(::std::option::Option::Some(value))
             }
@@ -578,6 +589,7 @@ pub mod files {
                 self.is_sensitive = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn force(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_force(::std::option::Option::Some(value))
             }
@@ -929,6 +941,7 @@ pub mod files {
                 skip_serializing_if = "Option::is_none"
             )]
             pub is_sensitive: ::std::option::Option<bool>,
+            #[doc = "文字数は 512 以下。"]
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -1011,6 +1024,7 @@ pub mod files {
                 self.is_sensitive = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 512 以下。"]
             pub fn comment(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_comment(::std::option::Option::Some(value))
             }
@@ -1074,12 +1088,14 @@ pub mod files {
                 with = "crate::serde_helpers::double_option"
             )]
             pub folder_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "省略時は `false`。"]
             #[serde(
                 rename = "isSensitive",
                 default,
                 skip_serializing_if = "Option::is_none"
             )]
             pub is_sensitive: ::std::option::Option<bool>,
+            #[doc = "文字数は 512 以下。"]
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
@@ -1092,6 +1108,7 @@ pub mod files {
                 with = "crate::serde_helpers::double_option"
             )]
             pub marker: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "省略時は `false`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub force: ::std::option::Option<bool>,
         }
@@ -1150,6 +1167,7 @@ pub mod files {
                 self.folder_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn is_sensitive(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_is_sensitive(::std::option::Option::Some(value))
             }
@@ -1161,6 +1179,7 @@ pub mod files {
                 self.is_sensitive = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 512 以下。"]
             pub fn comment(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_comment(::std::option::Option::Some(value))
             }
@@ -1193,6 +1212,7 @@ pub mod files {
                 self.marker = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn force(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_force(::std::option::Option::Some(value))
             }
@@ -1246,6 +1266,7 @@ pub mod folders {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1309,6 +1330,7 @@ pub mod folders {
         pub fn update(&self) -> update::Call<'a> {
             update::Call::new(self.client)
         }
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -1379,6 +1401,7 @@ pub mod folders {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 200 以下。省略時は `\"Untitled\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub name: ::std::option::Option<::std::string::String>,
             #[serde(
@@ -1414,6 +1437,7 @@ pub mod folders {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "文字数は 200 以下。省略時は `\"Untitled\"`。"]
             pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_name(::std::option::Option::Some(value))
             }
@@ -1675,6 +1699,7 @@ pub mod folders {
         pub struct Request {
             #[serde(rename = "folderId")]
             pub folder_id: ::std::string::String,
+            #[doc = "文字数は 200 以下。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub name: ::std::option::Option<::std::string::String>,
             #[serde(
@@ -1715,6 +1740,7 @@ pub mod folders {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "文字数は 200 以下。"]
             pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_name(::std::option::Option::Some(value))
             }
@@ -1781,12 +1807,14 @@ pub mod stream {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
         pub since_id: ::std::option::Option<::std::string::String>,
         #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
         pub until_id: ::std::option::Option<::std::string::String>,
+        #[doc = "形式は正規表現 `^[a-zA-Z\\/\\-*]+$` に合うもの。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub r#type: ::std::option::Option<::std::string::String>,
     }
@@ -1819,6 +1847,7 @@ pub mod stream {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -1852,6 +1881,7 @@ pub mod stream {
             self.until_id = value.map(|value| value.into());
             self
         }
+        #[doc = "形式は正規表現 `^[a-zA-Z\\/\\-*]+$` に合うもの。"]
         pub fn r#type(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_type(::std::option::Option::Some(value))
         }

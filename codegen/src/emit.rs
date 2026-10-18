@@ -258,7 +258,7 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
     let optional_setters = optional.iter().flat_map(|f| {
         let name = ident(&f.ident);
         let base = type_tokens(&f.base, module);
-        let doc = doc_attrs(f.docs.as_slice());
+        let doc = doc_attrs(&f.docs);
         let stored = stored_value(f);
         let maybe_name = format_ident!("{}", f.maybe_setter());
         let mut maybe_doc = format!("`Some` なら `{}` を設定し、`None` なら設定を消して送らない。", f.json_name);
@@ -297,7 +297,7 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
     let required_setters = required.iter().enumerate().flat_map(|(index, f)| {
         let name = ident(&f.ident);
         let base = type_tokens(&f.base, module);
-        let doc = doc_attrs(f.docs.as_slice());
+        let doc = doc_attrs(&f.docs);
         let output: Vec<TokenStream> = slots
             .iter()
             .enumerate()
@@ -419,7 +419,7 @@ fn struct_tokens(def: &StructDef, module: &Ident) -> TokenStream {
     let fields = def.fields.iter().map(|f| {
         let fname = ident(&f.ident);
         let ty = type_tokens(&f.declared_type(def.kind), module);
-        let doc = doc_attrs(f.docs.as_slice());
+        let doc = doc_attrs(&f.docs);
         let mut attrs: Vec<TokenStream> = Vec::new();
         if f.base == RustType::FilePart {
             attrs.push(quote! { skip });
@@ -560,8 +560,19 @@ fn doc_attrs(docs: &[String]) -> TokenStream {
 }
 
 /// spec の description にある `[...]` が、rustdoc のリンクとして解釈されないようにする。
+/// code span（codegen が書く正規表現や既定値）の中はリンクにならず、`\` もそのまま出るので、置き換えない。
 fn escape_doc(doc: &str) -> String {
-    doc.replace('[', "\\[").replace(']', "\\]")
+    doc.split('`')
+        .enumerate()
+        .map(|(i, part)| {
+            if i % 2 == 0 {
+                part.replace('[', "\\[").replace(']', "\\]")
+            } else {
+                part.to_owned()
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("`")
 }
 
 /// クレートの直下に出すバージョンセットの名前。ほかは、feature と同じ名前のモジュールに入れる。

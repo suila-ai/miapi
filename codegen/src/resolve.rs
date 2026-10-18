@@ -303,10 +303,14 @@ impl<'a> Resolver<'a> {
         let (base, nullable) = self
             .resolve_inner(cx, schema, &hint, strict_enum)
             .map_err(|e| format!("{owner}.{json_name}: {e}"))?;
+        let mut docs = docs_of(schema);
+        if cx.kind == StructKind::Request {
+            docs.extend(constraint_doc(schema, required));
+        }
         Ok(Field {
             ident: snake(json_name),
             json_name: json_name.to_owned(),
-            docs: schema.description.clone(),
+            docs,
             required,
             nullable,
             base,
@@ -351,7 +355,7 @@ impl<'a> Resolver<'a> {
                             ));
                         }
                         existing.required |= field.required;
-                        if existing.docs.is_none() {
+                        if existing.docs.is_empty() {
                             existing.docs = field.docs;
                         }
                     }
@@ -792,6 +796,66 @@ impl<'a> Resolver<'a> {
 
 fn docs_of(schema: &Schema) -> Vec<String> {
     schema.description.iter().cloned().collect()
+}
+
+/// リクエストのパラメータについて、サーバが検査する条件と既定値を、doc の 1 行にする。
+/// 必須のパラメータは、ビルダーで設定しないと呼び出せないので、既定値を書かない。
+/// 既定値の `null` は、`Schema::default` の `Option` が `None` に読むので出ない。
+/// 省略しても `null` を送っても同じになるので、困らない。
+fn constraint_doc(schema: &Schema, required: bool) -> Option<String> {
+    let mut doc = validation_doc(schema, "");
+    if !required && let Some(value) = &schema.default {
+        doc.push_str(&format!("省略時は `{value}`。"));
+    }
+    (!doc.is_empty()).then_some(doc)
+}
+
+/// 範囲・文字数・要素数・形式・重複の文。配列は、要素の制約も `of` に「各要素の」を重ねて続ける。
+/// 文字列はサーバ（ajv）がコードポイントで数えるので、`str::len()` のバイト数と紛れる「長さ」と書かない。
+/// 文字数と要素数は 0 を下回らないので、下限の 0 は書かない。
+fn validation_doc(schema: &Schema, of: &str) -> String {
+    fn range<T: std::fmt::Display>(
+        of: &str,
+        subject: &str,
+        min: Option<T>,
+        max: Option<T>,
+    ) -> Option<String> {
+        match (min, max) {
+            (Some(min), Some(max)) => Some(format!("{of}{subject}{min} 以上 {max} 以下。")),
+            (Some(min), None) => Some(format!("{of}{subject}{min} 以上。")),
+            (None, Some(max)) => Some(format!("{of}{subject}{max} 以下。")),
+            (None, None) => None,
+        }
+    }
+    let positive = |n: Option<u64>| n.filter(|&n| n > 0);
+    let value = if of.is_empty() { "" } else { "値は " };
+    let mut doc: String = [
+        range(of, value, schema.minimum.as_ref(), schema.maximum.as_ref()),
+        range(
+            of,
+            "文字数は ",
+            positive(schema.min_length),
+            schema.max_length,
+        ),
+        range(
+            of,
+            "要素数は ",
+            positive(schema.min_items),
+            schema.max_items,
+        ),
+        schema
+            .pattern
+            .as_ref()
+            .map(|pattern| format!("{of}形式は正規表現 `{pattern}` に合うもの。")),
+        (schema.unique_items == Some(true)).then(|| format!("{of}要素は重複させない。")),
+    ]
+    .into_iter()
+    .flatten()
+    .collect();
+    if let Some(items) = &schema.items {
+        doc.push_str(&validation_doc(items, &format!("{of}各要素の")));
+    }
+    doc
 }
 
 /// スキーマが union になるときの、null 以外のメンバー。

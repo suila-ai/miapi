@@ -57,6 +57,7 @@ pub mod register {
         pub endpoint: ::std::string::String,
         pub auth: ::std::string::String,
         pub publickey: ::std::string::String,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "sendReadMessage",
             default,
@@ -102,6 +103,7 @@ pub mod register {
         }
     }
     impl<'a, S0, S1, S2> Call<'a, (S0, S1, S2)> {
+        #[doc = "省略時は `false`。"]
         pub fn send_read_message(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_send_read_message(::std::option::Option::Some(value))
         }

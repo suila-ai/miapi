@@ -79,6 +79,7 @@ pub mod active_users {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub span: RequestSpan,
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(
@@ -117,6 +118,7 @@ pub mod active_users {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -199,6 +201,7 @@ pub mod ap_request {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub span: RequestSpan,
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(
@@ -237,6 +240,7 @@ pub mod ap_request {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -337,6 +341,7 @@ pub mod drive {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub span: RequestSpan,
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(
@@ -375,6 +380,7 @@ pub mod drive {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -463,6 +469,7 @@ pub mod federation {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub span: RequestSpan,
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(
@@ -501,6 +508,7 @@ pub mod federation {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -635,6 +643,7 @@ pub mod instance {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub span: RequestSpan,
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(
@@ -676,6 +685,7 @@ pub mod instance {
         }
     }
     impl<'a, S0, S1> Call<'a, (S0, S1)> {
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -801,6 +811,7 @@ pub mod notes {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub span: RequestSpan,
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(
@@ -839,6 +850,7 @@ pub mod notes {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -960,6 +972,7 @@ pub mod user {
         #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub span: RequestSpan,
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(
@@ -1002,6 +1015,7 @@ pub mod user {
             }
         }
         impl<'a, S0, S1> Call<'a, (S0, S1)> {
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -1131,6 +1145,7 @@ pub mod user {
         #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub span: RequestSpan,
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(
@@ -1173,6 +1188,7 @@ pub mod user {
             }
         }
         impl<'a, S0, S1> Call<'a, (S0, S1)> {
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -1278,6 +1294,7 @@ pub mod user {
         #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub span: RequestSpan,
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(
@@ -1320,6 +1337,7 @@ pub mod user {
             }
         }
         impl<'a, S0, S1> Call<'a, (S0, S1)> {
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -1425,6 +1443,7 @@ pub mod user {
         #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub span: RequestSpan,
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(
@@ -1467,6 +1486,7 @@ pub mod user {
             }
         }
         impl<'a, S0, S1> Call<'a, (S0, S1)> {
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -1570,6 +1590,7 @@ pub mod user {
         #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub span: RequestSpan,
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(
@@ -1612,6 +1633,7 @@ pub mod user {
             }
         }
         impl<'a, S0, S1> Call<'a, (S0, S1)> {
+            #[doc = "1 以上 500 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -1720,6 +1742,7 @@ pub mod users {
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub span: RequestSpan,
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(
@@ -1758,6 +1781,7 @@ pub mod users {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 500 以下。省略時は `30`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }

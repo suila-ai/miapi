@@ -69,7 +69,9 @@ pub mod create {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "文字数は 1 以上 128 以下。"]
         pub name: ::std::string::String,
+        #[doc = "文字数は 1 以上 2048 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
@@ -83,6 +85,7 @@ pub mod create {
             with = "crate::serde_helpers::double_option"
         )]
         pub banner_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "文字数は 1 以上 16 以下。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub color: ::std::option::Option<::std::string::String>,
         #[serde(
@@ -136,6 +139,7 @@ pub mod create {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "文字数は 1 以上 2048 以下。"]
         pub fn description(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_description(::std::option::Option::Some(value))
         }
@@ -168,6 +172,7 @@ pub mod create {
             self.banner_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "文字数は 1 以上 16 以下。"]
         pub fn color(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_color(::std::option::Option::Some(value))
         }
@@ -213,6 +218,7 @@ pub mod create {
                 ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "文字数は 1 以上 128 以下。"]
         pub fn name(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
@@ -417,6 +423,7 @@ pub mod followed {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "1 以上 100 以下。省略時は `5`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
     }
@@ -495,6 +502,7 @@ pub mod followed {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `5`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -572,6 +580,7 @@ pub mod owned {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "1 以上 100 以下。省略時は `5`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
     }
@@ -650,6 +659,7 @@ pub mod owned {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `5`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -695,6 +705,7 @@ pub mod search {
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub query: ::std::string::String,
+        #[doc = "省略時は `\"nameAndDescription\"`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub r#type: ::std::option::Option<RequestType>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -705,6 +716,7 @@ pub mod search {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "1 以上 100 以下。省略時は `5`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
     }
@@ -746,6 +758,7 @@ pub mod search {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "省略時は `\"nameAndDescription\"`。"]
         pub fn r#type(self, value: impl ::std::convert::Into<RequestType>) -> Self {
             self.maybe_type(::std::option::Option::Some(value))
         }
@@ -801,6 +814,7 @@ pub mod search {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上 100 以下。省略時は `5`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -917,6 +931,7 @@ pub mod timeline {
     pub struct Request {
         #[serde(rename = "channelId")]
         pub channel_id: ::std::string::String,
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -927,6 +942,7 @@ pub mod timeline {
         pub since_date: ::std::option::Option<i64>,
         #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
         pub until_date: ::std::option::Option<i64>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "allowPartial",
             default,
@@ -972,6 +988,7 @@ pub mod timeline {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -1027,6 +1044,7 @@ pub mod timeline {
             self.until_date = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn allow_partial(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_allow_partial(::std::option::Option::Some(value))
         }
@@ -1203,8 +1221,10 @@ pub mod update {
     pub struct Request {
         #[serde(rename = "channelId")]
         pub channel_id: ::std::string::String,
+        #[doc = "文字数は 1 以上 128 以下。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub name: ::std::option::Option<::std::string::String>,
+        #[doc = "文字数は 1 以上 2048 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
@@ -1231,6 +1251,7 @@ pub mod update {
             skip_serializing_if = "Option::is_none"
         )]
         pub pinned_note_ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
+        #[doc = "文字数は 1 以上 16 以下。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub color: ::std::option::Option<::std::string::String>,
         #[serde(
@@ -1290,6 +1311,7 @@ pub mod update {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "文字数は 1 以上 128 以下。"]
         pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_name(::std::option::Option::Some(value))
         }
@@ -1301,6 +1323,7 @@ pub mod update {
             self.name = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 1 以上 2048 以下。"]
         pub fn description(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_description(::std::option::Option::Some(value))
         }
@@ -1365,6 +1388,7 @@ pub mod update {
             self.pinned_note_ids = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 1 以上 16 以下。"]
         pub fn color(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_color(::std::option::Option::Some(value))
         }

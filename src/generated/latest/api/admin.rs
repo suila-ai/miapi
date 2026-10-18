@@ -235,6 +235,7 @@ pub mod abuse_report {
             pub struct Request {
                 #[serde(rename = "isActive")]
                 pub is_active: bool,
+                #[doc = "文字数は 1 以上 255 以下。"]
                 pub name: ::std::string::String,
                 pub method: RequestMethod,
                 #[serde(rename = "userId", default, skip_serializing_if = "Option::is_none")]
@@ -329,6 +330,7 @@ pub mod abuse_report {
                         _state: ::std::marker::PhantomData,
                     }
                 }
+                #[doc = "文字数は 1 以上 255 以下。"]
                 pub fn name(
                     self,
                     value: impl ::std::convert::Into<::std::string::String>,
@@ -604,6 +606,7 @@ pub mod abuse_report {
                 pub id: ::std::string::String,
                 #[serde(rename = "isActive")]
                 pub is_active: bool,
+                #[doc = "文字数は 1 以上 255 以下。"]
                 pub name: ::std::string::String,
                 pub method: RequestMethod,
                 #[serde(rename = "userId", default, skip_serializing_if = "Option::is_none")]
@@ -717,6 +720,7 @@ pub mod abuse_report {
                         _state: ::std::marker::PhantomData,
                     }
                 }
+                #[doc = "文字数は 1 以上 255 以下。"]
                 pub fn name(
                     self,
                     value: impl ::std::convert::Into<::std::string::String>,
@@ -848,6 +852,7 @@ pub mod abuse_user_reports {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:abuse-user-reports*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -864,12 +869,14 @@ pub mod abuse_user_reports {
             with = "crate::serde_helpers::double_option"
         )]
         pub state: ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "省略時は `\"combined\"`。"]
         #[serde(
             rename = "reporterOrigin",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub reporter_origin: ::std::option::Option<RequestReporterOrigin>,
+        #[doc = "省略時は `\"combined\"`。"]
         #[serde(
             rename = "targetUserOrigin",
             default,
@@ -914,6 +921,7 @@ pub mod abuse_user_reports {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -985,6 +993,7 @@ pub mod abuse_user_reports {
             self.state = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "省略時は `\"combined\"`。"]
         pub fn reporter_origin(
             self,
             value: impl ::std::convert::Into<RequestReporterOrigin>,
@@ -999,6 +1008,7 @@ pub mod abuse_user_reports {
             self.reporter_origin = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `\"combined\"`。"]
         pub fn target_user_origin(
             self,
             value: impl ::std::convert::Into<RequestTargetUserOrigin>,
@@ -1267,7 +1277,9 @@ pub mod accounts {
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "形式は正規表現 `^\\w{1,20}$` に合うもの。"]
             pub username: ::std::string::String,
+            #[doc = "文字数は 1 以上。"]
             pub password: ::std::string::String,
             #[serde(
                 rename = "setupPassword",
@@ -1325,6 +1337,7 @@ pub mod accounts {
                 self.setup_password = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "形式は正規表現 `^\\w{1,20}$` に合うもの。"]
             pub fn username(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -1337,6 +1350,7 @@ pub mod accounts {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn password(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -1523,6 +1537,7 @@ pub mod ad {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:ad*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 1 以上。"]
             pub url: ::std::string::String,
             pub memo: ::std::string::String,
             pub place: ::std::string::String,
@@ -1532,6 +1547,7 @@ pub mod ad {
             pub expires_at: i64,
             #[serde(rename = "startsAt")]
             pub starts_at: i64,
+            #[doc = "文字数は 1 以上。"]
             #[serde(rename = "imageUrl")]
             pub image_url: ::std::string::String,
             #[serde(rename = "dayOfWeek")]
@@ -1611,6 +1627,7 @@ pub mod ad {
                 self.is_sensitive = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn url(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -1744,6 +1761,7 @@ pub mod ad {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn image_url(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -1902,6 +1920,7 @@ pub mod ad {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:ad*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -1952,6 +1971,7 @@ pub mod ad {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -2050,8 +2070,10 @@ pub mod ad {
             pub id: ::std::string::String,
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub memo: ::std::option::Option<::std::string::String>,
+            #[doc = "文字数は 1 以上。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub url: ::std::option::Option<::std::string::String>,
+            #[doc = "文字数は 1 以上。"]
             #[serde(rename = "imageUrl", default, skip_serializing_if = "Option::is_none")]
             pub image_url: ::std::option::Option<::std::string::String>,
             #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -2130,6 +2152,7 @@ pub mod ad {
                 self.memo = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn url(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_url(::std::option::Option::Some(value))
             }
@@ -2141,6 +2164,7 @@ pub mod ad {
                 self.url = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn image_url(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -2351,22 +2375,29 @@ pub mod announcements {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:announcements*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 1 以上。"]
             pub title: ::std::string::String,
+            #[doc = "文字数は 1 以上。"]
             pub text: ::std::string::String,
             #[serde(rename = "imageUrl")]
             pub image_url: ::std::option::Option<::std::string::String>,
+            #[doc = "省略時は `\"info\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub icon: ::std::option::Option<RequestIcon>,
+            #[doc = "省略時は `\"normal\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub display: ::std::option::Option<RequestDisplay>,
+            #[doc = "省略時は `false`。"]
             #[serde(
                 rename = "forExistingUsers",
                 default,
                 skip_serializing_if = "Option::is_none"
             )]
             pub for_existing_users: ::std::option::Option<bool>,
+            #[doc = "省略時は `false`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub silence: ::std::option::Option<bool>,
+            #[doc = "省略時は `false`。"]
             #[serde(
                 rename = "needConfirmationToRead",
                 default,
@@ -2429,6 +2460,7 @@ pub mod announcements {
             }
         }
         impl<'a, S0, S1, S2> Call<'a, (S0, S1, S2)> {
+            #[doc = "省略時は `\"info\"`。"]
             pub fn icon(self, value: impl ::std::convert::Into<RequestIcon>) -> Self {
                 self.maybe_icon(::std::option::Option::Some(value))
             }
@@ -2440,6 +2472,7 @@ pub mod announcements {
                 self.icon = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `\"normal\"`。"]
             pub fn display(self, value: impl ::std::convert::Into<RequestDisplay>) -> Self {
                 self.maybe_display(::std::option::Option::Some(value))
             }
@@ -2451,6 +2484,7 @@ pub mod announcements {
                 self.display = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn for_existing_users(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_for_existing_users(::std::option::Option::Some(value))
             }
@@ -2462,6 +2496,7 @@ pub mod announcements {
                 self.for_existing_users = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn silence(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_silence(::std::option::Option::Some(value))
             }
@@ -2473,6 +2508,7 @@ pub mod announcements {
                 self.silence = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `false`。"]
             pub fn need_confirmation_to_read(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_need_confirmation_to_read(::std::option::Option::Some(value))
             }
@@ -2500,6 +2536,7 @@ pub mod announcements {
                 self.user_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn title(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -2518,6 +2555,7 @@ pub mod announcements {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn text(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -2735,6 +2773,7 @@ pub mod announcements {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:announcements*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -2752,6 +2791,7 @@ pub mod announcements {
                 with = "crate::serde_helpers::double_option"
             )]
             pub user_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "省略時は `\"active\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub status: ::std::option::Option<RequestStatus>,
         }
@@ -2790,6 +2830,7 @@ pub mod announcements {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -2861,6 +2902,7 @@ pub mod announcements {
                 self.user_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "省略時は `\"active\"`。"]
             pub fn status(self, value: impl ::std::convert::Into<RequestStatus>) -> Self {
                 self.maybe_status(::std::option::Option::Some(value))
             }
@@ -2924,8 +2966,10 @@ pub mod announcements {
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub id: ::std::string::String,
+            #[doc = "文字数は 1 以上。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub title: ::std::option::Option<::std::string::String>,
+            #[doc = "文字数は 1 以上。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub text: ::std::option::Option<::std::string::String>,
             #[serde(
@@ -3000,6 +3044,7 @@ pub mod announcements {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "文字数は 1 以上。"]
             pub fn title(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_title(::std::option::Option::Some(value))
             }
@@ -3011,6 +3056,7 @@ pub mod announcements {
                 self.title = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn text(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_text(::std::option::Option::Some(value))
             }
@@ -3200,8 +3246,10 @@ pub mod avatar_decorations {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:avatar-decorations*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "文字数は 1 以上。"]
             pub name: ::std::string::String,
             pub description: ::std::string::String,
+            #[doc = "文字数は 1 以上。"]
             pub url: ::std::string::String,
             #[serde(
                 rename = "roleIdsThatCanBeUsedThisDecoration",
@@ -3292,6 +3340,7 @@ pub mod avatar_decorations {
                 self.category = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn name(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -3322,6 +3371,7 @@ pub mod avatar_decorations {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn url(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -3450,6 +3500,7 @@ pub mod avatar_decorations {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:avatar-decorations*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -3501,6 +3552,7 @@ pub mod avatar_decorations {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -3597,10 +3649,12 @@ pub mod avatar_decorations {
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
             pub id: ::std::string::String,
+            #[doc = "文字数は 1 以上。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub name: ::std::option::Option<::std::string::String>,
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub description: ::std::option::Option<::std::string::String>,
+            #[doc = "文字数は 1 以上。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub url: ::std::option::Option<::std::string::String>,
             #[serde(
@@ -3654,6 +3708,7 @@ pub mod avatar_decorations {
             }
         }
         impl<'a, S0> Call<'a, (S0,)> {
+            #[doc = "文字数は 1 以上。"]
             pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_name(::std::option::Option::Some(value))
             }
@@ -3679,6 +3734,7 @@ pub mod avatar_decorations {
                 self.description = value.map(|value| value.into());
                 self
             }
+            #[doc = "文字数は 1 以上。"]
             pub fn url(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_url(::std::option::Option::Some(value))
             }
@@ -4300,6 +4356,7 @@ pub mod drive {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:drive*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -4317,12 +4374,14 @@ pub mod drive {
                 with = "crate::serde_helpers::double_option"
             )]
             pub user_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "形式は正規表現 `^[a-zA-Z0-9\\/\\-*]+$` に合うもの。"]
             #[serde(
                 default,
                 skip_serializing_if = "Option::is_none",
                 with = "crate::serde_helpers::double_option"
             )]
             pub r#type: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "省略時は `\"local\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub origin: ::std::option::Option<RequestOrigin>,
             #[doc = "The local host is represented with `null`."]
@@ -4372,6 +4431,7 @@ pub mod drive {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -4443,6 +4503,7 @@ pub mod drive {
                 self.user_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "形式は正規表現 `^[a-zA-Z0-9\\/\\-*]+$` に合うもの。"]
             pub fn r#type(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_type(::std::option::Option::Some(value))
             }
@@ -4459,6 +4520,7 @@ pub mod drive {
                 self.r#type = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "省略時は `\"local\"`。"]
             pub fn origin(self, value: impl ::std::convert::Into<RequestOrigin>) -> Self {
                 self.maybe_origin(::std::option::Option::Some(value))
             }
@@ -4712,6 +4774,7 @@ pub mod emoji {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
             pub name: ::std::string::String,
             #[serde(rename = "fileId")]
             pub file_id: ::std::string::String,
@@ -4877,6 +4940,7 @@ pub mod emoji {
                     value.map(|value| value.into());
                 self
             }
+            #[doc = "形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
             pub fn name(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -5268,6 +5332,7 @@ pub mod emoji {
                 with = "crate::serde_helpers::double_option"
             )]
             pub query: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -5328,6 +5393,7 @@ pub mod emoji {
                 self.query = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -5420,6 +5486,7 @@ pub mod emoji {
                 with = "crate::serde_helpers::double_option"
             )]
             pub host: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
             #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -5499,6 +5566,7 @@ pub mod emoji {
                 self.host = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -5910,6 +5978,7 @@ pub mod emoji {
         pub struct Request {
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub id: ::std::option::Option<::std::string::String>,
+            #[doc = "形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub name: ::std::option::Option<::std::string::String>,
             #[serde(rename = "fileId", default, skip_serializing_if = "Option::is_none")]
@@ -5996,6 +6065,7 @@ pub mod emoji {
                 self.id = value.map(|value| value.into());
                 self
             }
+            #[doc = "形式は正規表現 `^[a-zA-Z0-9_]+$` に合うもの。"]
             pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_name(::std::option::Option::Some(value))
             }
@@ -6677,6 +6747,7 @@ pub mod invite {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:invite-codes*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `1`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub count: ::std::option::Option<i64>,
             #[serde(
@@ -6712,6 +6783,7 @@ pub mod invite {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `1`。"]
             pub fn count(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_count(::std::option::Option::Some(value))
             }
@@ -6790,10 +6862,13 @@ pub mod invite {
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:invite-codes*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
         pub struct Request {
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
+            #[doc = "省略時は `0`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub offset: ::std::option::Option<i64>,
+            #[doc = "省略時は `\"all\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub r#type: ::std::option::Option<RequestType>,
             #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -6828,6 +6903,7 @@ pub mod invite {
             }
         }
         impl<'a> Call<'a> {
+            #[doc = "1 以上 100 以下。省略時は `30`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -6839,6 +6915,7 @@ pub mod invite {
                 self.limit = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `0`。"]
             pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_offset(::std::option::Option::Some(value))
             }
@@ -6850,6 +6927,7 @@ pub mod invite {
                 self.offset = value.map(|value| value.into());
                 self
             }
+            #[doc = "省略時は `\"all\"`。"]
             pub fn r#type(self, value: impl ::std::convert::Into<RequestType>) -> Self {
                 self.maybe_type(::std::option::Option::Some(value))
             }
@@ -9257,6 +9335,7 @@ pub mod roles {
             pub is_moderator: bool,
             #[serde(rename = "isAdministrator")]
             pub is_administrator: bool,
+            #[doc = "省略時は `false`。"]
             #[serde(
                 rename = "isExplorable",
                 default,
@@ -9354,6 +9433,7 @@ pub mod roles {
         impl<'a, S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12>
             Call<'a, (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12)>
         {
+            #[doc = "省略時は `false`。"]
             pub fn is_explorable(self, value: impl ::std::convert::Into<bool>) -> Self {
                 self.maybe_is_explorable(::std::option::Option::Some(value))
             }
@@ -10801,6 +10881,7 @@ pub mod roles {
             pub since_date: ::std::option::Option<i64>,
             #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
             pub until_date: ::std::option::Option<i64>,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
         }
@@ -10884,6 +10965,7 @@ pub mod roles {
                 self.until_date = value.map(|value| value.into());
                 self
             }
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }
@@ -11124,6 +11206,7 @@ pub mod show_moderation_logs {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:show-moderation-log*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
         #[serde(rename = "sinceId", default, skip_serializing_if = "Option::is_none")]
@@ -11191,6 +11274,7 @@ pub mod show_moderation_logs {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -12186,14 +12270,18 @@ pub mod show_users {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:show-user*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub limit: ::std::option::Option<i64>,
+        #[doc = "省略時は `0`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub offset: ::std::option::Option<i64>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub sort: ::std::option::Option<RequestSort>,
+        #[doc = "省略時は `\"all\"`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub state: ::std::option::Option<RequestState>,
+        #[doc = "省略時は `\"combined\"`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub origin: ::std::option::Option<RequestOrigin>,
         #[serde(
@@ -12245,6 +12333,7 @@ pub mod show_users {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "1 以上 100 以下。省略時は `10`。"]
         pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_limit(::std::option::Option::Some(value))
         }
@@ -12256,6 +12345,7 @@ pub mod show_users {
             self.limit = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `0`。"]
         pub fn offset(self, value: impl ::std::convert::Into<i64>) -> Self {
             self.maybe_offset(::std::option::Option::Some(value))
         }
@@ -12278,6 +12368,7 @@ pub mod show_users {
             self.sort = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `\"all\"`。"]
         pub fn state(self, value: impl ::std::convert::Into<RequestState>) -> Self {
             self.maybe_state(::std::option::Option::Some(value))
         }
@@ -12289,6 +12380,7 @@ pub mod show_users {
             self.state = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `\"combined\"`。"]
         pub fn origin(self, value: impl ::std::convert::Into<RequestOrigin>) -> Self {
             self.maybe_origin(::std::option::Option::Some(value))
         }
@@ -12473,9 +12565,12 @@ pub mod system_webhook {
         pub struct Request {
             #[serde(rename = "isActive")]
             pub is_active: bool,
+            #[doc = "文字数は 1 以上 255 以下。"]
             pub name: ::std::string::String,
             pub on: ::std::vec::Vec<RequestOnItem>,
+            #[doc = "文字数は 1 以上 1024 以下。"]
             pub url: ::std::string::String,
+            #[doc = "文字数は 1024 以下。省略時は `\"\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub secret: ::std::option::Option<::std::string::String>,
         }
@@ -12521,6 +12616,7 @@ pub mod system_webhook {
             }
         }
         impl<'a, S0, S1, S2, S3> Call<'a, (S0, S1, S2, S3)> {
+            #[doc = "文字数は 1024 以下。省略時は `\"\"`。"]
             pub fn secret(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_secret(::std::option::Option::Some(value))
             }
@@ -12546,6 +12642,7 @@ pub mod system_webhook {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上 255 以下。"]
             pub fn name(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -12574,6 +12671,7 @@ pub mod system_webhook {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上 1024 以下。"]
             pub fn url(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -12978,9 +13076,12 @@ pub mod system_webhook {
             pub id: ::std::string::String,
             #[serde(rename = "isActive")]
             pub is_active: bool,
+            #[doc = "文字数は 1 以上 255 以下。"]
             pub name: ::std::string::String,
             pub on: ::std::vec::Vec<RequestOnItem>,
+            #[doc = "文字数は 1 以上 1024 以下。"]
             pub url: ::std::string::String,
+            #[doc = "文字数は 1024 以下。省略時は `\"\"`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub secret: ::std::option::Option<::std::string::String>,
         }
@@ -13029,6 +13130,7 @@ pub mod system_webhook {
             }
         }
         impl<'a, S0, S1, S2, S3, S4> Call<'a, (S0, S1, S2, S3, S4)> {
+            #[doc = "文字数は 1024 以下。省略時は `\"\"`。"]
             pub fn secret(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
                 self.maybe_secret(::std::option::Option::Some(value))
             }
@@ -13070,6 +13172,7 @@ pub mod system_webhook {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上 255 以下。"]
             pub fn name(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -13100,6 +13203,7 @@ pub mod system_webhook {
                     _state: ::std::marker::PhantomData,
                 }
             }
+            #[doc = "文字数は 1 以上 1024 以下。"]
             pub fn url(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -13631,6 +13735,7 @@ pub mod update_meta {
         )]
         pub prohibited_words_for_name_of_user:
             ::std::option::Option<::std::option::Option<::std::vec::Vec<::std::string::String>>>,
+        #[doc = "形式は正規表現 `^#[0-9a-fA-F]{6}$` に合うもの。"]
         #[serde(
             rename = "themeColor",
             default,
@@ -13916,12 +14021,14 @@ pub mod update_meta {
         )]
         pub sensitive_media_detection_api_key:
             ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "1 以上。"]
         #[serde(
             rename = "sensitiveMediaDetectionTimeout",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub sensitive_media_detection_timeout: ::std::option::Option<i64>,
+        #[doc = "1 以上。"]
         #[serde(
             rename = "sensitiveMediaDetectionMaxImagesPerRequest",
             default,
@@ -14087,6 +14194,7 @@ pub mod update_meta {
         )]
         pub object_storage_bucket:
             ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "形式は正規表現 `^[a-zA-Z0-9-._]*$` に合うもの。"]
         #[serde(
             rename = "objectStoragePrefix",
             default,
@@ -14902,6 +15010,7 @@ pub mod update_meta {
                 ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "形式は正規表現 `^#[0-9a-fA-F]{6}$` に合うもの。"]
         pub fn theme_color(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_theme_color(::std::option::Option::Some(value))
         }
@@ -15589,6 +15698,7 @@ pub mod update_meta {
                 ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "1 以上。"]
         pub fn sensitive_media_detection_timeout(
             self,
             value: impl ::std::convert::Into<i64>,
@@ -15603,6 +15713,7 @@ pub mod update_meta {
             self.sensitive_media_detection_timeout = value.map(|value| value.into());
             self
         }
+        #[doc = "1 以上。"]
         pub fn sensitive_media_detection_max_images_per_request(
             self,
             value: impl ::std::convert::Into<i64>,
@@ -16010,6 +16121,7 @@ pub mod update_meta {
             self.object_storage_bucket = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "形式は正規表現 `^[a-zA-Z0-9-._]*$` に合うもの。"]
         pub fn object_storage_prefix(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
@@ -17009,6 +17121,7 @@ pub mod update_proxy_account {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "文字数は 1 以上 1500 以下。"]
         #[serde(
             default,
             skip_serializing_if = "Option::is_none",
@@ -17039,6 +17152,7 @@ pub mod update_proxy_account {
         }
     }
     impl<'a> Call<'a> {
+        #[doc = "文字数は 1 以上 1500 以下。"]
         pub fn description(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_description(::std::option::Option::Some(value))
         }

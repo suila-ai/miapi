@@ -56,6 +56,7 @@ pub mod create {
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
         pub title: ::std::string::String,
+        #[doc = "文字数は 1 以上。形式は正規表現 `^[^\\s:\\/?#\\[\\]@!$&'()*+,;=\\\\%\\x00-\\x20]{1,256}$` に合うもの。"]
         pub name: ::std::string::String,
         #[serde(
             default,
@@ -75,14 +76,17 @@ pub mod create {
         )]
         pub eye_catching_image_id:
             ::std::option::Option<::std::option::Option<::std::string::String>>,
+        #[doc = "省略時は `\"sans-serif\"`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub font: ::std::option::Option<RequestFont>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "alignCenter",
             default,
             skip_serializing_if = "Option::is_none"
         )]
         pub align_center: ::std::option::Option<bool>,
+        #[doc = "省略時は `false`。"]
         #[serde(
             rename = "hideTitleWhenPinned",
             default,
@@ -183,6 +187,7 @@ pub mod create {
             self.eye_catching_image_id = ::std::option::Option::Some(::std::option::Option::None);
             self
         }
+        #[doc = "省略時は `\"sans-serif\"`。"]
         pub fn font(self, value: impl ::std::convert::Into<RequestFont>) -> Self {
             self.maybe_font(::std::option::Option::Some(value))
         }
@@ -194,6 +199,7 @@ pub mod create {
             self.font = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn align_center(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_align_center(::std::option::Option::Some(value))
         }
@@ -205,6 +211,7 @@ pub mod create {
             self.align_center = value.map(|value| value.into());
             self
         }
+        #[doc = "省略時は `false`。"]
         pub fn hide_title_when_pinned(self, value: impl ::std::convert::Into<bool>) -> Self {
             self.maybe_hide_title_when_pinned(::std::option::Option::Some(value))
         }
@@ -235,6 +242,7 @@ pub mod create {
                 _state: ::std::marker::PhantomData,
             }
         }
+        #[doc = "文字数は 1 以上。形式は正規表現 `^[^\\s:\\/?#\\[\\]@!$&'()*+,;=\\\\%\\x00-\\x20]{1,256}$` に合うもの。"]
         pub fn name(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
@@ -682,6 +690,7 @@ pub mod update {
         pub page_id: ::std::string::String,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub title: ::std::option::Option<::std::string::String>,
+        #[doc = "文字数は 1 以上。形式は正規表現 `^[^\\s:\\/?#\\[\\]@!$&'()*+,;=\\\\%\\x00-\\x20]{1,256}$` に合うもの。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub name: ::std::option::Option<::std::string::String>,
         #[serde(
@@ -784,6 +793,7 @@ pub mod update {
             self.title = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 1 以上。形式は正規表現 `^[^\\s:\\/?#\\[\\]@!$&'()*+,;=\\\\%\\x00-\\x20]{1,256}$` に合うもの。"]
         pub fn name(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_name(::std::option::Option::Some(value))
         }

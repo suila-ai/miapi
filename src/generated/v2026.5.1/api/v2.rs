@@ -109,6 +109,7 @@ pub mod admin {
                 pub is_sensitive: ::std::option::Option<bool>,
                 #[serde(rename = "localOnly", default, skip_serializing_if = "Option::is_none")]
                 pub local_only: ::std::option::Option<bool>,
+                #[doc = "省略時は `\"all\"`。"]
                 #[serde(rename = "hostType", default, skip_serializing_if = "Option::is_none")]
                 pub host_type: ::std::option::Option<RequestQueryHostType>,
                 #[serde(rename = "roleIds", default, skip_serializing_if = "Option::is_none")]
@@ -201,10 +202,12 @@ pub mod admin {
                 pub since_date: ::std::option::Option<i64>,
                 #[serde(rename = "untilDate", default, skip_serializing_if = "Option::is_none")]
                 pub until_date: ::std::option::Option<i64>,
+                #[doc = "1 以上 100 以下。省略時は `10`。"]
                 #[serde(default, skip_serializing_if = "Option::is_none")]
                 pub limit: ::std::option::Option<i64>,
                 #[serde(default, skip_serializing_if = "Option::is_none")]
                 pub page: ::std::option::Option<i64>,
+                #[doc = "省略時は `[\"-id\"]`。"]
                 #[serde(rename = "sortKeys", default, skip_serializing_if = "Option::is_none")]
                 pub sort_keys: ::std::option::Option<::std::vec::Vec<RequestSortKeysItem>>,
             }
@@ -310,6 +313,7 @@ pub mod admin {
                     self.until_date = value.map(|value| value.into());
                     self
                 }
+                #[doc = "1 以上 100 以下。省略時は `10`。"]
                 pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                     self.maybe_limit(::std::option::Option::Some(value))
                 }
@@ -332,6 +336,7 @@ pub mod admin {
                     self.page = value.map(|value| value.into());
                     self
                 }
+                #[doc = "省略時は `[\"-id\"]`。"]
                 pub fn sort_keys(
                     self,
                     value: impl ::std::convert::Into<::std::vec::Vec<RequestSortKeysItem>>,

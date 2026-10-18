@@ -19,8 +19,10 @@ pub struct Request {
     pub required: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub string: ::std::option::Option<::std::string::String>,
+    #[doc = "省略時は `\"hello\"`。"]
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub default: ::std::option::Option<::std::string::String>,
+    #[doc = "省略時は `\"hello\"`。"]
     #[serde(
         rename = "nullableDefault",
         default,
@@ -75,6 +77,7 @@ impl<'a, S0> Call<'a, (S0,)> {
         self.string = value.map(|value| value.into());
         self
     }
+    #[doc = "省略時は `\"hello\"`。"]
     pub fn default(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
         self.maybe_default(::std::option::Option::Some(value))
     }
@@ -86,6 +89,7 @@ impl<'a, S0> Call<'a, (S0,)> {
         self.default = value.map(|value| value.into());
         self
     }
+    #[doc = "省略時は `\"hello\"`。"]
     pub fn nullable_default(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
         self.maybe_nullable_default(::std::option::Option::Some(value))
     }

@@ -595,6 +595,7 @@ pub mod requests {
             pub since_id: ::std::option::Option<::std::string::String>,
             #[serde(rename = "untilId", default, skip_serializing_if = "Option::is_none")]
             pub until_id: ::std::option::Option<::std::string::String>,
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             #[serde(default, skip_serializing_if = "Option::is_none")]
             pub limit: ::std::option::Option<i64>,
         }
@@ -647,6 +648,7 @@ pub mod requests {
                 self.until_id = value.map(|value| value.into());
                 self
             }
+            #[doc = "1 以上 100 以下。省略時は `10`。"]
             pub fn limit(self, value: impl ::std::convert::Into<i64>) -> Self {
                 self.maybe_limit(::std::option::Option::Some(value))
             }

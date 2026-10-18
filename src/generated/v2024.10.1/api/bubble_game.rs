@@ -25,7 +25,9 @@ pub mod register {
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "0 以上。"]
         pub score: i64,
+        #[doc = "文字数は 1 以上 1024 以下。"]
         pub seed: ::std::string::String,
         pub logs: ::std::vec::Vec<::std::vec::Vec<f64>>,
         #[serde(rename = "gameMode")]
@@ -76,6 +78,7 @@ pub mod register {
         }
     }
     impl<'a, S0, S1, S2, S3, S4> Call<'a, (S0, S1, S2, S3, S4)> {
+        #[doc = "0 以上。"]
         pub fn score(
             self,
             value: impl ::std::convert::Into<i64>,
@@ -90,6 +93,7 @@ pub mod register {
                 _state: ::std::marker::PhantomData,
             }
         }
+        #[doc = "文字数は 1 以上 1024 以下。"]
         pub fn seed(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
