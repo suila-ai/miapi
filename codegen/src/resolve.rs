@@ -294,6 +294,8 @@ impl<'a> Resolver<'a> {
         required: bool,
         strict_props: &HashSet<String>,
     ) -> Result<Field> {
+        // サーバの ajv は `required` を検査する前に既定値を入れるので、既定値があれば省略できる。
+        let required = required && !(cx.kind == StructKind::Request && schema.default.is_some());
         let strict_enum = required
             && (strict_props.contains(json_name)
                 || self
@@ -305,7 +307,7 @@ impl<'a> Resolver<'a> {
             .map_err(|e| format!("{owner}.{json_name}: {e}"))?;
         let mut docs = docs_of(schema);
         if cx.kind == StructKind::Request {
-            docs.extend(constraint_doc(schema, required));
+            docs.extend(constraint_doc(schema));
         }
         Ok(Field {
             ident: snake(json_name),
@@ -799,12 +801,12 @@ fn docs_of(schema: &Schema) -> Vec<String> {
 }
 
 /// リクエストのパラメータについて、サーバが検査する条件と既定値を、doc の 1 行にする。
-/// 必須のパラメータは、ビルダーで設定しないと呼び出せないので、既定値を書かない。
-/// 既定値の `null` は、`Schema::default` の `Option` が `None` に読むので出ない。
-/// 省略しても `null` を送っても同じになるので、困らない。
-fn constraint_doc(schema: &Schema, required: bool) -> Option<String> {
+/// 既定値の `null` は書かない。省略しても `null` を送っても同じになるので、書く必要が無い。
+fn constraint_doc(schema: &Schema) -> Option<String> {
     let mut doc = validation_doc(schema, "");
-    if !required && let Some(value) = &schema.default {
+    if let Some(value) = &schema.default
+        && !value.is_null()
+    {
         doc.push_str(&format!("省略時は `{value}`。"));
     }
     (!doc.is_empty()).then_some(doc)

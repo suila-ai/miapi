@@ -27,6 +27,7 @@
 - 名前の衝突は自動で改名せずエラーにする（例外は union のバリアントの連番と `ResponseBody`）。
 - null 可の判定は、`nullable: true`、`type` の配列に `"null"`、enum に null、oneOf / anyOf / allOf のメンバーに `{"type": "null"}` のいずれか。
 - 省略と null を区別するのは Request だけ。必須で null 可なら `Option<T>`、任意で null 可なら `Option<Option<T>>`（`double_option`）。応答の型では、欠けていても null でも `None`。
+- Request のフィールドは、`required` に入っていても `default` があれば任意にする（サーバの ajv は `required` を検査する前に既定値を入れる）。
 - 文字列の enum は、値が 2 つ以上なら `Unrecognized(String)` を付ける。ただし union の判別に使う必須の enum には付けない（untagged の union で最初のバリアントが何でも受けてしまうため）。
 - oneOf / anyOf は、null 以外のメンバーが 2 つ以上なら untagged の enum にして末尾に `Unrecognized(Value)` を置く。union を指すメンバーはその中身に展開する。バリアントの並びは必須プロパティ数の降順。
 - 自分自身に戻る参照を持つフィールドは `Box` で包む。
