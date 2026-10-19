@@ -1,7 +1,7 @@
 //! OpenAPI 3.1 のうち、Misskey の `api.json` が使う部分。知らないキーは無視する。
 
 use indexmap::IndexMap;
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
 use serde_json::Value;
 
 #[derive(Debug, Deserialize)]
@@ -78,6 +78,7 @@ pub struct Schema {
     pub min_items: Option<u64>,
     pub max_items: Option<u64>,
     pub unique_items: Option<bool>,
+    #[serde(default, deserialize_with = "deserialize_some")]
     pub default: Option<Value>,
 }
 
@@ -127,4 +128,10 @@ impl Schema {
             .as_ref()
             .is_some_and(|required| required.iter().any(|r| r == name))
     }
+}
+
+/// 値が `null` でも `Some` にする。素の `Option` だと、`null` はキーが無いときと同じ `None` になる。
+/// サーバの ajv は `null` の既定値も入れるので、`default` ではこの 2 つを区別する。
+fn deserialize_some<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<Value>, D::Error> {
+    Value::deserialize(deserializer).map(Some)
 }

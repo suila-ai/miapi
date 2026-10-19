@@ -419,6 +419,33 @@ fn request_alternatives_are_documented() {
 }
 
 #[test]
+fn request_fields_with_defaults_are_optional() {
+    let scope = json!({"type": "array", "items": {"type": "string"}, "default": []});
+    let tree = build_tree(&spec(
+        json!({}),
+        json!({"/i/registry/get": post(Some(json!({"type": "object", "properties": {
+            "key": {"type": "string"},
+            "scope": scope.clone(),
+            "reply": {"type": ["boolean", "null"], "default": null},
+            "options": {"type": "object", "properties": {"limit": {"type": "integer", "default": 10}}, "required": ["limit"]}
+        }, "required": ["key", "scope", "reply"], "allOf": [
+            {"type": "object", "properties": {"detail": {"type": "boolean", "default": true}}, "required": ["detail"]}
+        ]})), ok(json!({"type": "object", "properties": {"scope": scope}, "required": ["scope"]})))}),
+    ))
+    .unwrap();
+    let registry = endpoint(&tree, "i/registry/get");
+    assert!(field(&registry.request, "key").required);
+    assert!(!field(&registry.request, "scope").required);
+    assert!(!field(&registry.request, "reply").required);
+    assert!(!field(&registry.request, "detail").required);
+    assert!(!field(find_struct(&registry.items, "RequestOptions"), "limit").required);
+    // 必須から外したパラメータにも、既定値を書く。
+    assert_eq!(field(&registry.request, "scope").docs, ["省略時は `[]`。"]);
+    // 応答の型では必須のまま。
+    assert!(field(find_struct(&registry.items, "Response"), "scope").required);
+}
+
+#[test]
 fn request_constraints_are_documented() {
     let limit = json!({"type": "integer", "minimum": 1, "maximum": 100, "default": 10});
     let tree = build_tree(&spec(
@@ -433,9 +460,8 @@ fn request_constraints_are_documented() {
             "color": {"type": "string", "description": "[任意] 色", "pattern": "^#[0-9a-f]{6}$"},
             "tags": {"type": "array", "items": {"type": "string", "pattern": "^\\w+$"}, "uniqueItems": true, "default": ["a"]},
             "cw": {"type": ["string", "null"], "minLength": 0, "default": null},
-            "visibility": {"type": "string", "default": "public"},
-            "scope": {"type": "array", "items": {"type": "string"}, "default": []}
-        }, "required": ["scope"]})), json!({"204": {"description": "none"}}))}),
+            "visibility": {"type": "string", "default": "public"}
+        }})), json!({"204": {"description": "none"}}))}),
     ))
     .unwrap();
     let request = &endpoint(&tree, "notes").request;
@@ -472,8 +498,6 @@ fn request_constraints_are_documented() {
         field(request, "visibility").docs,
         ["省略時は `\"public\"`。"]
     );
-    // 必須のパラメータは省略できないので、既定値を書かない。
-    assert!(field(request, "scope").docs.is_empty());
     // 応答やエンティティの型には出さない。
     assert!(
         field(find_struct(&tree.types, "Page"), "limit")
