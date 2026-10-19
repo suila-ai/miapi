@@ -613,7 +613,10 @@ fn corrections_relax_what_servers_do_not_honor() {
                 }}]}}
             }, "required": ["policies"]}]}
         }),
-        json!({}),
+        json!({
+            "/i/registry/get": post(None, ok(json!({"type": "object"}))),
+            "/i/registry/get-all": post(None, ok(json!({"type": "object"})))
+        }),
     );
     corrections::apply(&mut spec);
     let tree = build_tree(&spec).unwrap();
@@ -639,4 +642,12 @@ fn corrections_relax_what_servers_do_not_honor() {
     let policy = find_struct(&tree.types, "RolePoliciesValue");
     assert_eq!(field(policy, "value").base, RustType::Value);
     assert_eq!(field(policy, "priority").base, RustType::I64);
+    assert!(matches!(
+        &endpoint(&tree, "i/registry/get").response,
+        ResponseDef::Alias(RustType::Value)
+    ));
+    assert!(matches!(
+        &endpoint(&tree, "i/registry/get-all").response,
+        ResponseDef::Alias(RustType::JsonMap)
+    ));
 }
