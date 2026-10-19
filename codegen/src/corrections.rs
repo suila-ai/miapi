@@ -52,6 +52,21 @@ pub fn apply(spec: &mut Spec) {
     if let Some(value) = role_policy_value(schemas) {
         value.one_of = None;
     }
+
+    // `i/registry/get` は、`i/registry/set` で保存された値をそのまま返す。`set` の `value` はどんな JSON でもよく、
+    // Web クライアントも設定値を数値や文字列のまま保存する（`pizzax.ts`）。
+    // 値が null なら 204 になるが（`ApiCallService`）、`Value` は null も表せるので、
+    // spec に 204 を足して `Option` で包むことはしない。
+    if let Some(value) = response(spec, "/i/registry/get") {
+        value.schema_type = None;
+    }
+}
+
+/// `path` のエンドポイントが 200 で返す JSON のスキーマ。
+fn response<'a>(spec: &'a mut Spec, path: &str) -> Option<&'a mut Schema> {
+    let responses = &mut spec.paths.get_mut(path)?.post.as_mut()?.responses;
+    let content = responses.get_mut("200")?.content.as_mut()?;
+    Some(&mut content.get_mut("application/json")?.schema)
 }
 
 fn property<'a>(
