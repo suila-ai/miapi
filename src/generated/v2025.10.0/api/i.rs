@@ -3853,7 +3853,7 @@ pub mod registry {
                 crate::endpoint::json_body(&self)
             }
         }
-        pub type Response = ::serde_json::Map<::std::string::String, ::serde_json::Value>;
+        pub type Response = ::serde_json::Value;
         #[doc = "`i/registry/get` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `key`。すべて設定すると、呼び出しを await できる。"]

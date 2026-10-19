@@ -11,9 +11,9 @@ use crate::Error;
 pub trait Endpoint {
     /// `/api/` に続くエンドポイント名。たとえば `notes/create`。
     const PATH: &'static str;
-    /// 200 の応答のボディをデコードした結果の型。
+    /// 応答のボディをデコードした結果の型。204 の応答は null としてデコードするので、
     /// 204 だけを返すエンドポイントでは `()`、
-    /// 200 か 204 のどちらかを返すエンドポイントでは `Option<T>` にする。
+    /// 200 か 204 のどちらかを返すエンドポイントでは `Option<T>` か `serde_json::Value` にする。
     type Response: DeserializeOwned;
     /// リクエストを、送信するボディに変換する。認証情報はクライアントが足す。
     fn into_body(self) -> Result<Body, Error>;

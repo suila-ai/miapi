@@ -157,6 +157,26 @@ async fn nullable_response_endpoint_yields_none_on_204() {
 }
 
 #[tokio::test]
+async fn any_json_response_yields_scalar_and_null_on_204() {
+    let (server, client) = server_and_client().await;
+    Mock::given(path("/api/i/registry/get"))
+        .and(body_json(json!({"key": "theme", "i": "tok"})))
+        .respond_with(ResponseTemplate::new(200).set_body_json(json!("dark")))
+        .expect(1)
+        .mount(&server)
+        .await;
+    Mock::given(path("/api/i/registry/get"))
+        .and(body_json(json!({"key": "unset", "i": "tok"})))
+        .respond_with(ResponseTemplate::new(204))
+        .expect(1)
+        .mount(&server)
+        .await;
+    let registry = client.i().registry();
+    assert_eq!(registry.get().key("theme").await.unwrap(), json!("dark"));
+    assert_eq!(registry.get().key("unset").await.unwrap(), Value::Null);
+}
+
+#[tokio::test]
 async fn multipart_upload_through_builder() {
     let (server, client) = server_and_client().await;
     Mock::given(path("/api/drive/files/create"))
