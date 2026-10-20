@@ -17,3 +17,12 @@ updates:
    directory: "/"
    schedule:
      interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "/"
+   schedule:
+     interval: weekly
+   # 直接の依存が十数個あるので、互換性のある更新は 1 つの PR にまとめ、マージの回数を減らす。
+   # 互換性の無い更新（0.x の minor を含む）は、コードの修正が要ることがあるので、依存ごとの PR にする。
+   groups:
+     cargo:
+       update-types: ["minor", "patch"]
