@@ -280,7 +280,7 @@ async fn multipart_sends_token_fields_and_file() {
         String::from_utf8(server.received_requests().await.unwrap()[0].body.clone()).unwrap();
     assert!(
         !body.contains("folderId"),
-        "null fields must be omitted: {body}"
+        "null のフィールドが送られた: {body}"
     );
 }
 

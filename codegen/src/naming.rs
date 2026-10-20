@@ -17,22 +17,14 @@ const UNRAWABLE: &[&str] = &["self", "super", "crate", "Self"];
 /// フィールド・モジュール・メソッドに使う snake_case の識別子
 /// （`noteId` -> `note_id`、`2fa` -> `_2fa`、`self` -> `self_`）。
 /// キーワードはそのまま返す。生識別子にするのは [`ident`] である。
+/// 結果はそのままファイル名にも、serde の rename を付けるかの判定にも使うので、ここでも [`escape`] を通す。
 pub fn snake(name: &str) -> String {
-    let mut out = name.to_snake_case();
-    if out.is_empty() {
-        out = "_".to_owned();
-    }
-    if out.starts_with(|c: char| c.is_ascii_digit()) {
-        out.insert(0, '_');
-    }
-    if UNRAWABLE.contains(&out.as_str()) {
-        out.push('_');
-    }
-    out
+    let out = name.to_snake_case();
+    escape(if out.is_empty() { "empty" } else { &out })
 }
 
-/// 型と enum のバリアントに使う UpperCamelCase の識別子
-/// （`+createdAt` -> `PlusCreatedAt`、`reaction:grouped` -> `ReactionGrouped`、`1` -> `_1`）。
+/// 型と enum のバリアントに使う UpperCamelCase の名前
+/// （`+createdAt` -> `PlusCreatedAt`、`reaction:grouped` -> `ReactionGrouped`）。
 pub fn pascal(name: &str) -> String {
     let mut prefix = String::new();
     let rest = match name.chars().next() {
@@ -50,18 +42,28 @@ pub fn pascal(name: &str) -> String {
     if out.is_empty() {
         out = "Empty".to_owned();
     }
-    if out.starts_with(|c: char| c.is_ascii_digit()) {
-        out.insert(0, '_');
-    }
     out
 }
 
-/// 識別子の文字列をトークンにする。キーワードは生識別子にする（`type` -> `r#type`）。
+/// 識別子の文字列をトークンにする。キーワードは生識別子にし（`type` -> `r#type`）、それ以外は [`escape`] を通す（`Self` -> `Self_`、`1` -> `_1`）。
+/// [`pascal`] の結果は型名の途中にも使うので、そちらで足すと `FooSelf_Item` や `Foo_1Item` のような名前になり、
+/// non_camel_case_types の警告が出る。
 pub fn ident(name: &str) -> Ident {
     if KEYWORDS.contains(&name) {
         Ident::new_raw(name, Span::call_site())
     } else {
-        Ident::new(name, Span::call_site())
+        Ident::new(&escape(name), Span::call_site())
+    }
+}
+
+/// 生識別子にできない `Self` などは末尾に、数字で始まる名前は先頭に `_` を足す。
+fn escape(name: &str) -> String {
+    if name.starts_with(|c: char| c.is_ascii_digit()) {
+        format!("_{name}")
+    } else if UNRAWABLE.contains(&name) {
+        format!("{name}_")
+    } else {
+        name.to_owned()
     }
 }
 
@@ -70,7 +72,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn snake_handles_digits_and_unrawable_words() {
+    fn snake_handles_digits_symbols_and_unrawable_words() {
         assert_eq!(snake("noteId"), "note_id");
         assert_eq!(snake("abuse-user-reports"), "abuse_user_reports");
         assert_eq!(snake("type"), "type");
@@ -78,6 +80,7 @@ mod tests {
         assert_eq!(snake("2fa"), "_2fa");
         assert_eq!(snake("v2"), "v2");
         assert_eq!(snake("v2024.10.1"), "v2024_10_1");
+        assert_eq!(snake("-"), "empty");
     }
 
     #[test]
@@ -86,16 +89,19 @@ mod tests {
         assert_eq!(pascal("+createdAt"), "PlusCreatedAt");
         assert_eq!(pascal("-createdAt"), "MinusCreatedAt");
         assert_eq!(pascal("reaction:grouped"), "ReactionGrouped");
-        assert_eq!(pascal("1"), "_1");
+        assert_eq!(pascal("1"), "1");
         assert_eq!(pascal("followersLessThanOrEq"), "FollowersLessThanOrEq");
         assert_eq!(pascal("abuse-user-reports"), "AbuseUserReports");
+        assert_eq!(pascal("self"), "Self");
     }
 
     #[test]
-    fn ident_emits_raw_identifiers_for_keywords() {
+    fn ident_handles_keywords_digits_and_unrawable_words() {
         assert_eq!(ident("type").to_string(), "r#type");
         assert_eq!(ident("move").to_string(), "r#move");
         assert_eq!(ident("override").to_string(), "r#override");
         assert_eq!(ident("note_id").to_string(), "note_id");
+        assert_eq!(ident("Self").to_string(), "Self_");
+        assert_eq!(ident("1").to_string(), "_1");
     }
 }

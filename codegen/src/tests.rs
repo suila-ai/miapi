@@ -117,7 +117,7 @@ fn nullable_forms_become_option() {
     .unwrap();
     let a = find_struct(&tree.types, "A");
     for name in ["p1", "p2", "p3", "p4", "p6"] {
-        assert!(field(a, name).nullable, "{name} should be nullable");
+        assert!(field(a, name).nullable, "{name} が null 可になっていない");
         assert!(matches!(
             field(a, name).declared_type(StructKind::Entity),
             RustType::Option(_)
@@ -292,6 +292,25 @@ fn union_variants_are_ordered_by_transitive_required_count() {
     let user = variant_names(find_union(&tree.types, "User"));
     // union のメンバーである union は、そのメンバーに展開する。
     assert_eq!(user, ["Me", "NotMe", "UserLite"]);
+}
+
+#[test]
+fn union_variant_names_are_deduplicated_after_escape() {
+    let tree = build_tree(&spec(
+        json!({
+            "_1": {"type": "object", "properties": {"x": {"type": "string"}}},
+            "A": {"oneOf": [
+                {"$ref": "#/components/schemas/_1"},
+                {"type": "object", "properties": {"t": {"type": "string", "enum": ["1"]}}, "required": ["t"]}
+            ]}
+        }),
+        json!({}),
+    ))
+    .unwrap();
+    // 判別値 `1` のメンバーと、`_1` を指す $ref は、どちらもバリアント `_1` になる。
+    // 必須プロパティの少ない $ref が後に並ぶので、そちらに連番が付く。
+    let types = source_of(&tree, "types.rs");
+    assert!(types.contains("_12(crate::generated::v2024_10_1::types::_1),"));
 }
 
 #[test]
@@ -589,6 +608,60 @@ fn name_collisions_are_rejected() {
         error.contains("ビルダーのほかのメソッドと衝突する"),
         "{error}"
     );
+    // null 可の応答の本体を `ResponseBody` に改名すると、プロパティ `body` の入れ子の型と同じ名前になる。
+    let error = build_tree(&spec(
+        json!({}),
+        json!({"/x": post(None, ok(json!({"type": ["object", "null"], "properties": {
+            "body": {"type": "object", "properties": {"a": {"type": "string"}}, "required": ["a"]}
+        }, "required": ["body"]})))}),
+    ))
+    .unwrap_err();
+    assert!(error.contains("型名 `ResponseBody`"), "{error}");
+    // component の `Self` と `Self_` は、ident を通すとどちらも型名 `Self_` になる。
+    let error = build_tree(&spec(
+        json!({
+            "Self": {"type": "object", "properties": {}},
+            "Self_": {"type": "object", "properties": {}}
+        }),
+        json!({}),
+    ))
+    .unwrap_err();
+    assert!(error.contains("型名 `Self_`"), "{error}");
+}
+
+#[test]
+fn escape_is_applied_only_to_whole_identifiers() {
+    let tree = build_tree(&spec(
+        json!({"A": {"type": "object", "properties": {
+            "kind": {"type": "string", "enum": ["self", "1"]},
+            "u": {"oneOf": [
+                {"type": "object", "properties": {"t": {"type": "string", "enum": ["1"]}}, "required": ["t"]},
+                {"type": "object", "properties": {"t": {"type": "string", "enum": ["self"]}}, "required": ["t"]}
+            ]},
+            "self": {"type": "array", "items": {"type": "object", "properties": {"x": {"type": "string"}}}},
+            "2fa": {"type": "object", "properties": {"x": {"type": "string"}}}
+        }}}),
+        json!({"/x": post(Some(json!({"type": "object", "properties": {
+            "self": {"type": ["string", "null"]},
+            "2fa": {"type": ["string", "null"]}
+        }})), json!({"204": {"description": "none"}}))}),
+    ))
+    .unwrap();
+    // 型名の途中には `_` を足さない。`ASelf_Item` や `A_2fa` は non_camel_case_types の警告になる。
+    find_struct(&tree.types, "ASelfItem");
+    find_struct(&tree.types, "A2fa");
+    let types = source_of(&tree, "types.rs");
+    assert!(types.contains("_1(crate::generated::v2024_10_1::types::AU1),"));
+    assert!(types.contains("Self_(crate::generated::v2024_10_1::types::AUSelf),"));
+    assert!(types.contains("#[serde(rename=\"self\")]Self_,"));
+    assert!(types.contains("#[serde(rename=\"1\")]_1,"));
+    // setter の名前でも、つないだところに `_` を重ねない。`self__null` や `maybe__2fa` は non_snake_case の警告になる。
+    // `self_` の末尾の `_` も、つないだ後は要らないので落とす（`maybe_self`）。
+    let x = source_of(&tree, "api/x.rs");
+    assert!(x.contains("pubfnself_null(mutself)"));
+    assert!(x.contains("pubfn_2fa_null(mutself)"));
+    assert!(x.contains("pubfnmaybe_self(mutself"));
+    assert!(x.contains("pubfnmaybe_2fa(mutself"));
 }
 
 #[test]

@@ -1,5 +1,7 @@
 //! `resolve` が作り、`emit` が読む中間表現。
 
+use crate::naming::snake;
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum RustType {
     String,
@@ -106,13 +108,16 @@ impl Field {
     }
 
     /// null 可のフィールドに足す、`null` を送る setter の名前。
+    /// `ident` は `_` を足した形（`self_`）のことがあるので、つないでから [`snake`] で整え直す
+    /// （`self__null` は non_snake_case の警告になる）。
     pub fn null_setter(&self) -> String {
-        format!("{}_null", self.ident)
+        snake(&format!("{}_null", self.ident))
     }
 
     /// 任意のフィールドに足す、`Option` を受けて `Some` のときだけ設定する setter の名前。
+    /// [`null_setter`](Self::null_setter) と同じく、つないでから整え直す（`maybe__2fa` -> `maybe_2fa`）。
     pub fn maybe_setter(&self) -> String {
-        format!("maybe_{}", self.ident)
+        snake(&format!("maybe_{}", self.ident))
     }
 }
 

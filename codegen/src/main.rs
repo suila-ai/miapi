@@ -65,7 +65,8 @@ fn run() -> Result<(), String> {
             spec.paths.len()
         );
     }
-    files.push((out.join("mod.rs"), emit::selector_file(&names).to_string()));
+    let selector = out.join("mod.rs");
+    files.push((selector.clone(), emit::selector_file(&names).to_string()));
 
     if out.exists() {
         fs::remove_dir_all(&out).map_err(|e| format!("{}: {e}", out.display()))?;
@@ -76,7 +77,8 @@ fn run() -> Result<(), String> {
         }
         fs::write(path, source).map_err(|e| format!("{}: {e}", path.display()))?;
     }
-    rustfmt(files.iter().map(|(path, _)| path.as_path()))?;
+    // rustfmt は mod 宣言（`#[path]` 付きのものを含む）をたどって、子のファイルもすべて整形する。
+    rustfmt(&selector)?;
     println!(
         "{} 個のファイルを {} に書き出した",
         files.len(),
@@ -109,10 +111,10 @@ fn check_features(manifest: &Path, names: &[String]) -> Result<(), String> {
     ))
 }
 
-fn rustfmt<'a>(paths: impl Iterator<Item = &'a Path>) -> Result<(), String> {
+fn rustfmt(root: &Path) -> Result<(), String> {
     let status = Command::new("rustfmt")
         .args(["--edition", "2024"])
-        .args(paths)
+        .arg(root)
         .status()
         .map_err(|e| format!("生成したコードの整形には rustfmt が必要: {e}"))?;
     if status.success() {
