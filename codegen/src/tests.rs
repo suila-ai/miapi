@@ -641,7 +641,10 @@ fn escape_is_applied_only_to_whole_identifiers() {
             "self": {"type": "array", "items": {"type": "object", "properties": {"x": {"type": "string"}}}},
             "2fa": {"type": "object", "properties": {"x": {"type": "string"}}}
         }}}),
-        json!({}),
+        json!({"/x": post(Some(json!({"type": "object", "properties": {
+            "self": {"type": ["string", "null"]},
+            "2fa": {"type": ["string", "null"]}
+        }})), json!({"204": {"description": "none"}}))}),
     ))
     .unwrap();
     // 型名の途中には `_` を足さない。`ASelf_Item` や `A_2fa` は non_camel_case_types の警告になる。
@@ -652,6 +655,13 @@ fn escape_is_applied_only_to_whole_identifiers() {
     assert!(types.contains("Self_(crate::generated::v2024_10_1::types::AUSelf),"));
     assert!(types.contains("#[serde(rename=\"self\")]Self_,"));
     assert!(types.contains("#[serde(rename=\"1\")]_1,"));
+    // setter の名前でも、つないだところに `_` を重ねない。`self__null` や `maybe__2fa` は non_snake_case の警告になる。
+    // `self_` の末尾の `_` も、つないだ後は要らないので落とす（`maybe_self`）。
+    let x = source_of(&tree, "api/x.rs");
+    assert!(x.contains("pubfnself_null(mutself)"));
+    assert!(x.contains("pubfn_2fa_null(mutself)"));
+    assert!(x.contains("pubfnmaybe_self(mutself"));
+    assert!(x.contains("pubfnmaybe_2fa(mutself"));
 }
 
 #[test]
