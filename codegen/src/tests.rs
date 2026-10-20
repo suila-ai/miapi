@@ -665,7 +665,7 @@ fn escape_is_applied_only_to_whole_identifiers() {
 }
 
 #[test]
-fn corrections_relax_what_servers_do_not_honor() {
+fn corrections_match_what_servers_return() {
     let mut spec = spec(
         json!({
             "RolePolicies": {"type": "object", "properties": {"rateLimitFactor": {"type": "integer"}, "pinLimit": {"type": "integer"}}, "required": ["rateLimitFactor", "pinLimit"]},
@@ -688,7 +688,9 @@ fn corrections_relax_what_servers_do_not_honor() {
         }),
         json!({
             "/i/registry/get": post(None, ok(json!({"type": "object"}))),
-            "/i/registry/get-all": post(None, ok(json!({"type": "object"})))
+            "/i/registry/get-all": post(None, ok(json!({"type": "object"}))),
+            "/i/2fa/remove-key": post(None, json!({"204": {"description": "none"}})),
+            "/i/2fa/update-key": post(None, ok(json!({"type": "object"})))
         }),
     );
     corrections::apply(&mut spec);
@@ -721,6 +723,15 @@ fn corrections_relax_what_servers_do_not_honor() {
     ));
     assert!(matches!(
         &endpoint(&tree, "i/registry/get-all").response,
+        ResponseDef::Alias(RustType::JsonMap)
+    ));
+    assert!(matches!(
+        &endpoint(&tree, "i/2fa/remove-key").response,
+        ResponseDef::Struct
+    ));
+    // 上流が 200 を載せたら、補正せずにそのスキーマを使う。
+    assert!(matches!(
+        &endpoint(&tree, "i/2fa/update-key").response,
         ResponseDef::Alias(RustType::JsonMap)
     ));
 }
