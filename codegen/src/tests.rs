@@ -589,6 +589,15 @@ fn name_collisions_are_rejected() {
         error.contains("ビルダーのほかのメソッドと衝突する"),
         "{error}"
     );
+    // null 可の応答の本体を `ResponseBody` に改名すると、プロパティ `body` の入れ子の型と同じ名前になる。
+    let error = build_tree(&spec(
+        json!({}),
+        json!({"/x": post(None, ok(json!({"type": ["object", "null"], "properties": {
+            "body": {"type": "object", "properties": {"a": {"type": "string"}}, "required": ["a"]}
+        }, "required": ["body"]})))}),
+    ))
+    .unwrap_err();
+    assert!(error.contains("型名 `ResponseBody`"), "{error}");
 }
 
 #[test]

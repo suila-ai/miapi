@@ -61,17 +61,26 @@ impl Ctx {
     }
 
     fn push(&mut self, item: Item) -> Result<()> {
-        if self
-            .items
-            .iter()
-            .any(|existing| existing.name() == item.name())
-        {
-            return Err(format!(
-                "型名 `{}` が同じモジュールで 2 回生成される",
-                item.name()
-            ));
-        }
+        self.ensure_unused(item.name())?;
         self.items.push(item);
+        Ok(())
+    }
+
+    fn rename(&mut self, from: &str, to: &str) -> Result<()> {
+        self.ensure_unused(to)?;
+        let item = self
+            .items
+            .iter_mut()
+            .find(|item| item.name() == from)
+            .ok_or_else(|| format!("改名する型 `{from}` が無い"))?;
+        item.set_name(to);
+        Ok(())
+    }
+
+    fn ensure_unused(&self, name: &str) -> Result<()> {
+        if self.items.iter().any(|item| item.name() == name) {
+            return Err(format!("型名 `{name}` が同じモジュールで 2 回生成される"));
+        }
         Ok(())
     }
 }
@@ -787,9 +796,7 @@ impl<'a> Resolver<'a> {
             // `Response` は `Option<ResponseBody>` の別名にするので、本体のアイテムの名前を変える。
             // 入れ子の型の名前には必ず接尾辞が付くので、`Response` という名前のアイテムは本体だけで、
             // ほかのアイテムから参照されることもない。
-            if let Some(body) = cx.items.iter_mut().find(|item| item.name() == "Response") {
-                body.set_name("ResponseBody");
-            }
+            cx.rename("Response", "ResponseBody")?;
             ty = RustType::Local("ResponseBody".to_owned());
         }
         Ok(ResponseDef::Alias(if optional { ty.option() } else { ty }))
