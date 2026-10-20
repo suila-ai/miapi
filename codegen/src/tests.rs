@@ -630,18 +630,28 @@ fn name_collisions_are_rejected() {
 }
 
 #[test]
-fn self_is_escaped_only_as_a_whole_identifier() {
+fn escape_is_applied_only_to_whole_identifiers() {
     let tree = build_tree(&spec(
         json!({"A": {"type": "object", "properties": {
-            "kind": {"type": "string", "enum": ["self", "other"]},
-            "self": {"type": "array", "items": {"type": "object", "properties": {"x": {"type": "string"}}}}
+            "kind": {"type": "string", "enum": ["self", "1"]},
+            "u": {"oneOf": [
+                {"type": "object", "properties": {"t": {"type": "string", "enum": ["1"]}}, "required": ["t"]},
+                {"type": "object", "properties": {"t": {"type": "string", "enum": ["self"]}}, "required": ["t"]}
+            ]},
+            "self": {"type": "array", "items": {"type": "object", "properties": {"x": {"type": "string"}}}},
+            "2fa": {"type": "object", "properties": {"x": {"type": "string"}}}
         }}}),
         json!({}),
     ))
     .unwrap();
-    // 型名の途中には `_` を足さない。`ASelf_Item` は non_camel_case_types の警告になる。
+    // 型名の途中には `_` を足さない。`ASelf_Item` や `A_2fa` は non_camel_case_types の警告になる。
     find_struct(&tree.types, "ASelfItem");
-    assert!(source_of(&tree, "types.rs").contains("#[serde(rename=\"self\")]Self_,"));
+    find_struct(&tree.types, "A2fa");
+    let types = source_of(&tree, "types.rs");
+    assert!(types.contains("_1(crate::generated::v2024_10_1::types::AU1),"));
+    assert!(types.contains("Self_(crate::generated::v2024_10_1::types::AUSelf),"));
+    assert!(types.contains("#[serde(rename=\"self\")]Self_,"));
+    assert!(types.contains("#[serde(rename=\"1\")]_1,"));
 }
 
 #[test]
