@@ -117,7 +117,7 @@ fn nullable_forms_become_option() {
     .unwrap();
     let a = find_struct(&tree.types, "A");
     for name in ["p1", "p2", "p3", "p4", "p6"] {
-        assert!(field(a, name).nullable, "{name} should be nullable");
+        assert!(field(a, name).nullable, "{name} が null 可になっていない");
         assert!(matches!(
             field(a, name).declared_type(StructKind::Entity),
             RustType::Option(_)
