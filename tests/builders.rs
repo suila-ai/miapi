@@ -177,6 +177,28 @@ async fn any_json_response_yields_scalar_and_null_on_204() {
 }
 
 #[tokio::test]
+async fn empty_object_response_decodes_into_empty_struct() {
+    let (server, client) = server_and_client().await;
+    Mock::given(path("/api/i/2fa/update-key"))
+        .and(body_json(
+            json!({"credentialId": "key1", "name": "renamed", "i": "tok"}),
+        ))
+        .respond_with(ResponseTemplate::new(200).set_body_json(json!({})))
+        .expect(1)
+        .mount(&server)
+        .await;
+    let updated = client
+        .i()
+        ._2fa()
+        .update_key()
+        .credential_id("key1")
+        .name("renamed")
+        .await
+        .unwrap();
+    assert_eq!(updated, api::i::_2fa::update_key::Response {});
+}
+
+#[tokio::test]
 async fn multipart_upload_through_builder() {
     let (server, client) = server_and_client().await;
     Mock::given(path("/api/drive/files/create"))
