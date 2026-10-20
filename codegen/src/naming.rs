@@ -57,8 +57,13 @@ pub fn pascal(name: &str) -> String {
 }
 
 /// 識別子の文字列をトークンにする。キーワードは生識別子にする（`type` -> `r#type`）。
+/// 生識別子にできない `Self` などは、末尾に `_` を足す（`Self` -> `Self_`）。
+/// [`pascal`] の結果は型名の途中にも使うので、そちらで足すと `FooSelf_Item` のような名前になり、
+/// non_camel_case_types の警告が出る。
 pub fn ident(name: &str) -> Ident {
-    if KEYWORDS.contains(&name) {
+    if UNRAWABLE.contains(&name) {
+        Ident::new(&format!("{name}_"), Span::call_site())
+    } else if KEYWORDS.contains(&name) {
         Ident::new_raw(name, Span::call_site())
     } else {
         Ident::new(name, Span::call_site())
@@ -89,13 +94,15 @@ mod tests {
         assert_eq!(pascal("1"), "_1");
         assert_eq!(pascal("followersLessThanOrEq"), "FollowersLessThanOrEq");
         assert_eq!(pascal("abuse-user-reports"), "AbuseUserReports");
+        assert_eq!(pascal("self"), "Self");
     }
 
     #[test]
-    fn ident_emits_raw_identifiers_for_keywords() {
+    fn ident_handles_keywords_and_unrawable_words() {
         assert_eq!(ident("type").to_string(), "r#type");
         assert_eq!(ident("move").to_string(), "r#move");
         assert_eq!(ident("override").to_string(), "r#override");
         assert_eq!(ident("note_id").to_string(), "note_id");
+        assert_eq!(ident("Self").to_string(), "Self_");
     }
 }

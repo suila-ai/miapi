@@ -9,7 +9,7 @@ use indexmap::IndexMap;
 use serde_json::Value;
 
 use crate::model::*;
-use crate::naming::{pascal, snake};
+use crate::naming::{ident, pascal, snake};
 use crate::spec::{AdditionalProperties, Operation, Schema, SchemaType, Spec};
 
 pub type Error = String;
@@ -78,8 +78,11 @@ impl Ctx {
     }
 
     fn ensure_unused(&self, name: &str) -> Result<()> {
-        if self.items.iter().any(|item| item.name() == name) {
-            return Err(format!("型名 `{name}` が同じモジュールで 2 回生成される"));
+        // 出力する識別子（ident を通した名前）で比べる。component の名前は pascal を通らないので、
+        // `Self` と `Self_` のように、別の名前がどちらも `Self_` になることがある。
+        let token = ident(name);
+        if self.items.iter().any(|item| ident(item.name()) == token) {
+            return Err(format!("型名 `{token}` が同じモジュールで 2 回生成される"));
         }
         Ok(())
     }
@@ -408,12 +411,13 @@ impl<'a> Resolver<'a> {
         // 必須プロパティの多いメンバーから並べる。同数のメンバーは、安定ソートなので spec の順のままになる。
         members.sort_by_cached_key(|member| Reverse(self.required_count(member, 0)));
         let mut variants = Vec::new();
-        let mut used: HashSet<String> = HashSet::new();
+        // バリアント名も ensure_unused と同じく、ident を通した名前で重複を見る。
+        let mut used = HashSet::new();
         for member in members {
             let base_name = self.variant_name(member);
             let mut variant = base_name.clone();
             let mut counter = 2;
-            while !used.insert(variant.clone()) {
+            while !used.insert(ident(&variant)) {
                 variant = format!("{base_name}{counter}");
                 counter += 1;
             }
