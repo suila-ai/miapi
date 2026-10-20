@@ -20,7 +20,7 @@ const UNRAWABLE: &[&str] = &["self", "super", "crate", "Self"];
 /// 結果はそのままファイル名にも、serde の rename を付けるかの判定にも使うので、ここでも [`escape`] を通す。
 pub fn snake(name: &str) -> String {
     let out = name.to_snake_case();
-    escape(if out.is_empty() { "_" } else { &out })
+    escape(if out.is_empty() { "empty" } else { &out })
 }
 
 /// 型と enum のバリアントに使う UpperCamelCase の名前
@@ -72,7 +72,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn snake_handles_digits_and_unrawable_words() {
+    fn snake_handles_digits_symbols_and_unrawable_words() {
         assert_eq!(snake("noteId"), "note_id");
         assert_eq!(snake("abuse-user-reports"), "abuse_user_reports");
         assert_eq!(snake("type"), "type");
@@ -80,6 +80,7 @@ mod tests {
         assert_eq!(snake("2fa"), "_2fa");
         assert_eq!(snake("v2"), "v2");
         assert_eq!(snake("v2024.10.1"), "v2024_10_1");
+        assert_eq!(snake("-"), "empty");
     }
 
     #[test]
