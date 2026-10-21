@@ -23,6 +23,7 @@ jobs:
         with:
           node-version-file: .node-version
       - run: npm ci
+      - run: npm run check
       - name: 生成物が spec と一致することを確かめる
         run: cargo codegen && git add -A src/generated && git diff --cached --exit-code -- src/generated
       - run: scripts/test-all-versions.sh
