@@ -183,9 +183,70 @@ fn endpoint_tokens(endpoint: &EndpointDef, module: &Ident) -> TokenStream {
     }
 }
 
+/// 型状態のビルダーの出力の指定。
+/// REST の `Call` とストリーミングの `Connect` が、所有者と終端の呼び出しを替えて使う。
+pub struct BuilderSpec<'a> {
+    /// ビルダーの型名。子のビルダーも同じ名前を持つ。
+    pub builder: Ident,
+    /// ビルダーが参照で持つ所有者の型と、そのフィールド名。
+    pub owner: TokenStream,
+    pub owner_field: Ident,
+    pub docs: Vec<String>,
+    /// setter で集めるパラメータ。
+    pub fields: &'a [Field],
+    /// 子のビルダーを作るアクセサ（メソッド名, doc）。
+    pub children: Vec<(Ident, String)>,
+    /// await したときの動作。無ければ、await できない名前空間だけのビルダーになる。
+    pub terminal: Option<Terminal>,
+}
+
+/// ビルダーを await したときに組み立てる構造体と、それを渡す所有者のメソッド。
+pub struct Terminal {
+    /// 組み立てる構造体の型。
+    pub request: Ident,
+    /// await の結果の型。
+    pub output: TokenStream,
+    /// 組み立てた構造体を受け取り、await すると `output` を返す、所有者のメソッド。
+    pub method: Ident,
+}
+
 fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
+    let docs = match &node.endpoint {
+        Some(endpoint) => {
+            let mut docs = vec![format!("`{}` のビルダー。", endpoint.path)];
+            docs.extend(endpoint.docs.iter().skip(1).cloned());
+            docs
+        }
+        None => vec![node_doc(node)],
+    };
+    let children = node
+        .children
+        .iter()
+        .map(|child| (ident(&child.ident), node_doc(child)))
+        .collect();
+    let terminal = node.endpoint.as_ref().map(|_| Terminal {
+        request: format_ident!("Request"),
+        output: quote! { Response },
+        method: format_ident!("call"),
+    });
+    let spec = BuilderSpec {
+        builder: format_ident!("Call"),
+        owner: quote! { crate::generated::#module::Client },
+        owner_field: format_ident!("client"),
+        docs,
+        fields: node.endpoint.as_ref().map_or(&[], |e| &e.request.fields),
+        children,
+        terminal,
+    };
+    builder_tokens(&spec, module)
+}
+
+pub fn builder_tokens(spec: &BuilderSpec<'_>, module: &Ident) -> TokenStream {
     let kind = StructKind::Request;
-    let fields: &[Field] = node.endpoint.as_ref().map_or(&[], |e| &e.request.fields);
+    let builder = &spec.builder;
+    let owner = &spec.owner;
+    let owner_field = &spec.owner_field;
+    let fields = spec.fields;
     let required: Vec<&Field> = fields.iter().filter(|f| f.required).collect();
     let optional: Vec<&Field> = fields.iter().filter(|f| !f.required).collect();
     let slots: Vec<Ident> = (0..required.len()).map(|i| format_ident!("S{i}")).collect();
@@ -193,22 +254,14 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
     let set = vec![quote! { crate::builder::Set }; required.len()];
     let typed = !required.is_empty();
 
-    let docs = match &node.endpoint {
-        Some(endpoint) => {
-            let mut docs = vec![format!("`{}` のビルダー。", endpoint.path)];
-            docs.extend(endpoint.docs.iter().skip(1).cloned());
-            if typed {
-                let names: Vec<String> =
-                    required.iter().map(|f| format!("`{}`", f.ident)).collect();
-                docs.push(format!(
-                    "必須パラメータ（型状態のスロットの順）: {}。すべて設定すると、呼び出しを await できる。",
-                    names.join("、")
-                ));
-            }
-            docs
-        }
-        None => vec![node_doc(node)],
-    };
+    let mut docs = spec.docs.clone();
+    if typed {
+        let names: Vec<String> = required.iter().map(|f| format!("`{}`", f.ident)).collect();
+        docs.push(format!(
+            "必須パラメータ（型状態のスロットの順）: {}。すべて設定すると、呼び出しを await できる。",
+            names.join("、")
+        ));
+    }
     let docs = doc_attrs(&docs);
 
     let storage = fields.iter().map(|f| {
@@ -236,18 +289,16 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
         (quote! { <'a> }, quote! {}, quote! {})
     };
     let setters_impl = if typed {
-        quote! { impl<'a, #(#slots),*> Call<'a, (#(#slots,)*)> }
+        quote! { impl<'a, #(#slots),*> #builder<'a, (#(#slots,)*)> }
     } else {
-        quote! { impl<'a> Call<'a> }
+        quote! { impl<'a> #builder<'a> }
     };
 
-    let children = node.children.iter().map(|child| {
-        let name = ident(&child.ident);
-        let doc = node_doc(child);
+    let children = spec.children.iter().map(|(name, doc)| {
         quote! {
             #[doc = #doc]
-            pub fn #name(&self) -> #name::Call<'a> {
-                #name::Call::new(self.client)
+            pub fn #name(&self) -> #name::#builder<'a> {
+                #name::#builder::new(self.#owner_field)
             }
         }
     });
@@ -317,8 +368,8 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
         let set_moves = moves(quote! { ::std::option::Option::Some(#stored) });
         let mut setters = vec![quote! {
             #doc
-            pub fn #name(self, value: impl ::std::convert::Into<#base>) -> Call<'a, (#(#output,)*)> {
-                Call { client: self.client, #(#set_moves)* _state: ::std::marker::PhantomData }
+            pub fn #name(self, value: impl ::std::convert::Into<#base>) -> #builder<'a, (#(#output,)*)> {
+                #builder { #owner_field: self.#owner_field, #(#set_moves)* _state: ::std::marker::PhantomData }
             }
         }];
         if f.nullable {
@@ -327,19 +378,19 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
             let null_moves = moves(quote! { ::std::option::Option::Some(::std::option::Option::None) });
             setters.push(quote! {
                 #[doc = #null_doc]
-                pub fn #null_name(self) -> Call<'a, (#(#output,)*)> {
-                    Call { client: self.client, #(#null_moves)* _state: ::std::marker::PhantomData }
+                pub fn #null_name(self) -> #builder<'a, (#(#output,)*)> {
+                    #builder { #owner_field: self.#owner_field, #(#null_moves)* _state: ::std::marker::PhantomData }
                 }
             });
         }
         setters
     });
 
-    let into_future = node.endpoint.is_some().then(|| {
+    let into_future = spec.terminal.as_ref().map(|terminal| {
         let state = if typed {
-            quote! { Call<'a, (#(#set,)*)> }
+            quote! { #builder<'a, (#(#set,)*)> }
         } else {
-            quote! { Call<'a> }
+            quote! { #builder<'a> }
         };
         let inits = fields.iter().map(|f| {
             let name = ident(&f.ident);
@@ -349,14 +400,19 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
                 quote! { #name: self.#name, }
             }
         });
+        let Terminal {
+            request,
+            output,
+            method,
+        } = terminal;
         quote! {
             impl<'a> ::std::future::IntoFuture for #state {
-                type Output = ::std::result::Result<Response, crate::Error>;
-                type IntoFuture = crate::builder::CallFuture<'a, Response>;
+                type Output = ::std::result::Result<#output, crate::Error>;
+                type IntoFuture = crate::builder::CallFuture<'a, #output>;
                 fn into_future(self) -> Self::IntoFuture {
-                    let request = Request { #(#inits)* };
-                    let client = self.client;
-                    ::std::boxed::Box::pin(async move { client.call(request).await })
+                    let request = #request { #(#inits)* };
+                    let #owner_field = self.#owner_field;
+                    ::std::boxed::Box::pin(async move { #owner_field.#method(request).await })
                 }
             }
         }
@@ -364,14 +420,14 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
 
     quote! {
         #docs
-        pub struct Call #generics {
-            client: &'a crate::generated::#module::Client,
+        pub struct #builder #generics {
+            #owner_field: &'a #owner,
             #(#storage)*
             #state_field
         }
-        impl<'a> Call<'a> {
-            pub(crate) fn new(client: &'a crate::generated::#module::Client) -> Self {
-                Call { client, #(#init)* #state_init }
+        impl<'a> #builder<'a> {
+            pub(crate) fn new(#owner_field: &'a #owner) -> Self {
+                #builder { #owner_field, #(#init)* #state_init }
             }
         }
         #setters_impl {
