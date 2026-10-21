@@ -5,7 +5,7 @@ Misskey の API を呼ぶ Rust ライブラリです。エンドポイントと�
 ```rust
 use miapi::Client;
 
-let client = Client::new("https://misskey.example.com", Some("access token"));
+let client = Client::new("https://misskey.example.com", Some("access token"))?;
 let note = client.notes().show().note_id("xxxxxxxxxx").await?;      // types::Note
 let created = client.notes().create().text("hello").await?;          // api::notes::create::Response
 let timeline = client.notes().local_timeline().limit(20).await?;     // Vec<types::Note>
@@ -28,7 +28,7 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 固定版は、feature と同じ名前のモジュール（`.` は `_`）から使います。
 
 ```rust
-let old = miapi::v2024_10_1::Client::new("https://old.example.com", Some("access token"));
+let old = miapi::v2024_10_1::Client::new("https://old.example.com", Some("access token"))?;
 let notes = old.notes().local_timeline().limit(20).await?;           // Vec<miapi::v2024_10_1::types::Note>
 ```
 

@@ -21,7 +21,7 @@ fn drive_file_json() -> Value {
 
 async fn server_and_client() -> (MockServer, Client) {
     let server = MockServer::start().await;
-    let client = Client::new(&server.uri(), Some("tok"));
+    let client = Client::new(&server.uri(), Some("tok")).unwrap();
     (server, client)
 }
 

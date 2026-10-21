@@ -113,7 +113,7 @@ async fn error_fixture_maps_to_api_error() {
         )
         .mount(&server)
         .await;
-    let client = Client::new(&server.uri(), None);
+    let client = Client::new(&server.uri(), None).unwrap();
     match client.notes().show().note_id("nonexistent").await {
         Err(Error::Api(error)) => {
             assert_eq!(error.code, "NO_SUCH_NOTE");

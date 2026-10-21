@@ -8,7 +8,7 @@ async fn main() -> Result<(), miapi::Error> {
     let origin = std::env::args()
         .nth(1)
         .expect("usage: cargo run --example meta -- <origin>");
-    let client = Client::new(&origin, None);
+    let client = Client::new(&origin, None)?;
     let (name, version) = match client.meta().detail(true).await? {
         api::meta::Response::MetaDetailed(meta) => (meta.name, meta.version),
         api::meta::Response::MetaLite(meta) => (meta.name, meta.version),

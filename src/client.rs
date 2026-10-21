@@ -20,7 +20,7 @@ use crate::error::{ApiError, Error};
 #[derive(Clone)]
 pub struct Client<V> {
     http: reqwest::Client,
-    origin: String,
+    origin: reqwest::Url,
     token: Option<String>,
     _version: PhantomData<fn() -> V>,
 }
@@ -32,29 +32,53 @@ struct ErrorEnvelope {
 
 impl<V> Client<V> {
     /// `origin` はサーバのベース URL で、`https://misskey.example.com` のように書く。
-    /// 末尾のスラッシュは無視する。
+    /// 前後の空白と末尾のスラッシュは無視する。
+    /// http か https の URL として読めない `origin` と、クエリかフラグメントが付いた `origin` には、
+    /// [`Error::InvalidOrigin`] を返す。
     /// `token` はアクセストークンで、認証の要らないエンドポイントを呼ぶなら `None` でよい。
     ///
     /// HTTP クライアントは `reqwest::Client::new()` で作るので、タイムアウトは無い。
     /// タイムアウト、プロキシ、ユーザーエージェントなどは、設定した `reqwest::Client` を
     /// [`with_http_client`](Self::with_http_client) に渡して使う。
-    pub fn new(origin: &str, token: Option<&str>) -> Self {
+    pub fn new(origin: &str, token: Option<&str>) -> Result<Self, Error> {
         Self::with_http_client(reqwest::Client::new(), origin, token)
     }
 
     /// [`new`](Self::new) と同じだが、HTTP クライアントに `http` をそのまま使う。
     /// `http` は miapi と同じ版の reqwest で作る。`miapi::reqwest::Client::builder()` を使えば版がそろう。
-    pub fn with_http_client(http: reqwest::Client, origin: &str, token: Option<&str>) -> Self {
-        Self {
+    pub fn with_http_client(
+        http: reqwest::Client,
+        origin: &str,
+        token: Option<&str>,
+    ) -> Result<Self, Error> {
+        let invalid = |source: Box<dyn std::error::Error + Send + Sync>| Error::InvalidOrigin {
+            origin: origin.to_owned(),
+            source,
+        };
+        let mut url = reqwest::Url::parse(origin.trim()).map_err(|error| invalid(error.into()))?;
+        if !matches!(url.scheme(), "http" | "https") {
+            return Err(invalid("scheme must be http or https".into()));
+        }
+        if url.query().is_some() || url.fragment().is_some() {
+            return Err(invalid("must not have a query or fragment".into()));
+        }
+        // 末尾の / は、文字列でなく、読んだ後の URL のパスから除く。URL のパーサは途中の改行やタブを消すので、
+        // 文字列の上で除くと、`https://h/misskey/\t/` の / が残って重なる。
+        let path = url.path().trim_end_matches('/').to_owned();
+        url.set_path(&path);
+        Ok(Self {
             http,
-            origin: origin.trim_end_matches('/').to_owned(),
+            origin: url,
             token: token.map(str::to_owned),
             _version: PhantomData,
-        }
+        })
     }
 
+    /// サーバのベース URL。[`new`](Self::new) に渡した `origin` を URL として読んだ形（ホスト名は小文字にし、
+    /// 既定のポートは省く）で返し、末尾のスラッシュは付けない。
     pub fn origin(&self) -> &str {
-        &self.origin
+        // パスが空の URL は、`https://h/` のように / で終わる。
+        self.origin.as_str().trim_end_matches('/')
     }
 
     /// `request` のエンドポイントを呼び、応答をその `Response` 型にデコードする。
@@ -73,7 +97,12 @@ impl<V> Client<V> {
     }
 
     async fn send(&self, path: &str, body: Body) -> Result<(u16, bytes::Bytes), Error> {
-        let request = self.http.post(format!("{}/api/{}", self.origin, path));
+        let mut url = self.origin.clone();
+        url.path_segments_mut()
+            .expect("http and https URLs can be a base")
+            .push("api")
+            .extend(path.split('/'));
+        let request = self.http.post(url);
         let request = match body {
             Body::Json(value) => {
                 let mut object = into_object(value)?;
@@ -150,7 +179,7 @@ fn decode<T: DeserializeOwned>(endpoint: &str, status: u16, bytes: &[u8]) -> Res
 impl<V> fmt::Debug for Client<V> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("Client")
-            .field("origin", &self.origin)
+            .field("origin", &self.origin())
             .finish_non_exhaustive()
     }
 }

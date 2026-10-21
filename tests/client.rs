@@ -84,7 +84,7 @@ impl Endpoint for Upload {
 
 async fn server_and_client(token: Option<&str>) -> (MockServer, Client) {
     let server = MockServer::start().await;
-    let client = Client::new(&format!("{}/", server.uri()), token);
+    let client = Client::new(&format!("{}/", server.uri()), token).unwrap();
     (server, client)
 }
 
@@ -155,7 +155,7 @@ async fn with_http_client_uses_the_given_client() {
         .user_agent("miapi-test/1")
         .build()
         .unwrap();
-    let client = Client::with_http_client(http, &server.uri(), None);
+    let client = Client::with_http_client(http, &server.uri(), None).unwrap();
     Mock::given(path("/api/i"))
         .and(header("user-agent", "miapi-test/1"))
         .respond_with(ResponseTemplate::new(200).set_body_json(json!({})))
@@ -321,6 +321,47 @@ fn non_object_multipart_fields_are_rejected() {
     assert_invalid_request(multipart_fields(&[1]).unwrap_err(), "JSON object");
 }
 
+#[test]
+fn invalid_origin_fails_to_create_client() {
+    // スキームが無いと URL として読めず、host:port だけだと host がスキームとして読まれる。
+    // wss:// は URL として読めるが、http でも https でもない。https:// は host が無いので読めない。
+    // クエリやフラグメントの付いた URL は、ベース URL にならない。
+    for origin in [
+        "misskey.example.com",
+        "localhost:3000",
+        "wss://misskey.example.com",
+        "https://",
+        "https://misskey.example.com/?lang=ja",
+        "https://misskey.example.com/#top",
+    ] {
+        match Client::new(origin, None) {
+            Err(Error::InvalidOrigin { origin: given, .. }) => assert_eq!(given, origin),
+            other => panic!("想定外の結果: {other:?}"),
+        }
+    }
+}
+
+#[tokio::test]
+async fn sub_path_in_origin_is_kept() {
+    let server = MockServer::start().await;
+    Mock::given(path("/misskey/api/ping"))
+        .respond_with(ResponseTemplate::new(200).set_body_json(json!({"pong": 0})))
+        .expect(3)
+        .mount(&server)
+        .await;
+    // 末尾の改行は、ファイルから読んだ origin に残りやすい。
+    // 途中の改行やタブは URL として読むときに消えるので、その前後の / も末尾の / として除く。
+    for origin in [
+        format!("{}/misskey/", server.uri()),
+        format!("{}/misskey//\n", server.uri()),
+        format!("{}/misskey/\t/", server.uri()),
+    ] {
+        let client = Client::new(&origin, None).unwrap();
+        assert_eq!(client.origin(), format!("{}/misskey", server.uri()));
+        client.call_raw("ping", json!({})).await.unwrap();
+    }
+}
+
 #[tokio::test]
 async fn call_raw_returns_json_value() {
     let (server, client) = server_and_client(Some("tok")).await;
@@ -339,6 +380,6 @@ async fn call_raw_returns_json_value() {
 #[test]
 fn call_future_is_send() {
     fn assert_send<T: Send>(_: T) {}
-    let client = Client::new("https://example.com", None);
+    let client = Client::new("https://example.com", None).unwrap();
     assert_send(client.call(Me));
 }
