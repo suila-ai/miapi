@@ -34,6 +34,12 @@ jobs:
           TAG: ${{ steps.tag.outputs.tag }}
         run: scripts/update-spec.sh --tag "$TAG"
       - if: steps.changes.outputs.changed == 'true'
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+      - if: steps.changes.outputs.changed == 'true'
+        run: npm ci
+      - if: steps.changes.outputs.changed == 'true'
         env:
           TAG: ${{ steps.tag.outputs.tag }}
         run: scripts/update-fixtures.sh --tag "$TAG"
