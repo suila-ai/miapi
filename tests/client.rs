@@ -1,4 +1,4 @@
-use miapi::endpoint::{Body, json_body};
+use miapi::endpoint::{Body, json_body, multipart_fields};
 use miapi::{Endpoint, Error, FilePart};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
@@ -86,6 +86,16 @@ async fn server_and_client(token: Option<&str>) -> (MockServer, Client) {
     let server = MockServer::start().await;
     let client = Client::new(&format!("{}/", server.uri()), token);
     (server, client)
+}
+
+/// `error` が `Error::InvalidRequest` で、原因の文言に `expected` を含むことを確かめる。
+fn assert_invalid_request(error: Error, expected: &str) {
+    match error {
+        Error::InvalidRequest(source) => {
+            assert!(source.to_string().contains(expected), "{source}");
+        }
+        other => panic!("想定外のエラー: {other:?}"),
+    }
 }
 
 #[tokio::test]
@@ -282,6 +292,33 @@ async fn multipart_sends_token_fields_and_file() {
         !body.contains("folderId"),
         "null のフィールドが送られた: {body}"
     );
+}
+
+#[tokio::test]
+async fn invalid_content_type_fails_before_sending() {
+    let (server, client) = server_and_client(Some("tok")).await;
+    let file = FilePart {
+        file_name: "photo.png".into(),
+        content_type: Some("image png".into()),
+        data: b"PNGDATA".to_vec(),
+    };
+    assert_invalid_request(client.call(Upload { file }).await.unwrap_err(), "image png");
+    assert!(server.received_requests().await.unwrap().is_empty());
+}
+
+#[tokio::test]
+async fn non_object_json_body_fails_before_sending() {
+    let (server, client) = server_and_client(Some("tok")).await;
+    assert_invalid_request(
+        client.call_raw("ping", json!([1])).await.unwrap_err(),
+        "JSON object",
+    );
+    assert!(server.received_requests().await.unwrap().is_empty());
+}
+
+#[test]
+fn non_object_multipart_fields_are_rejected() {
+    assert_invalid_request(multipart_fields(&[1]).unwrap_err(), "JSON object");
 }
 
 #[tokio::test]

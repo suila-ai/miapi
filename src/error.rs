@@ -42,6 +42,7 @@ pub enum Error {
         status: u16,
         body: String,
     },
-    #[error("failed to serialize request")]
-    Serialize(#[source] serde_json::Error),
+    /// 送る前に分かったリクエストの誤り。サーバには送っていない。
+    #[error("invalid request")]
+    InvalidRequest(#[source] Box<dyn std::error::Error + Send + Sync>),
 }

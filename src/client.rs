@@ -2,9 +2,9 @@ use std::fmt;
 use std::marker::PhantomData;
 
 use serde::de::DeserializeOwned;
-use serde_json::{Map, Value};
+use serde_json::Value;
 
-use crate::endpoint::{Body, Endpoint};
+use crate::endpoint::{Body, Endpoint, into_object};
 use crate::error::{ApiError, Error};
 
 /// 1 つの Misskey サーバを相手にする HTTP クライアント。
@@ -73,24 +73,14 @@ impl<V> Client<V> {
     }
 
     async fn send(&self, path: &str, body: Body) -> Result<(u16, bytes::Bytes), Error> {
-        let url = format!("{}/api/{}", self.origin, path);
+        let request = self.http.post(format!("{}/api/{}", self.origin, path));
         let request = match body {
             Body::Json(value) => {
-                let mut object = match value {
-                    Value::Object(object) => object,
-                    Value::Null => Map::new(),
-                    _ => {
-                        return Err(Error::Serialize(
-                            <serde_json::Error as serde::ser::Error>::custom(
-                                "request body must be a JSON object",
-                            ),
-                        ));
-                    }
-                };
+                let mut object = into_object(value)?;
                 if let Some(token) = &self.token {
                     object.insert("i".to_owned(), Value::String(token.clone()));
                 }
-                self.http.post(&url).json(&object)
+                request.json(&object)
             }
             Body::Multipart {
                 fields,
@@ -112,9 +102,15 @@ impl<V> Client<V> {
                 }
                 let mut part = reqwest::multipart::Part::bytes(file.data).file_name(file.file_name);
                 if let Some(content_type) = &file.content_type {
-                    part = part.mime_str(content_type)?;
+                    part = part.mime_str(content_type).map_err(|error| {
+                        // reqwest の builder エラーの Display は "builder error" だけなので、原因の mime のエラーを書く。
+                        let reason = std::error::Error::source(&error).unwrap_or(&error);
+                        Error::InvalidRequest(
+                            format!("invalid content type {content_type:?}: {reason}").into(),
+                        )
+                    })?;
                 }
-                self.http.post(&url).multipart(form.part(name, part))
+                request.multipart(form.part(name, part))
             }
         };
         let response = request.send().await?;

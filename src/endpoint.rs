@@ -43,7 +43,26 @@ pub struct FilePart {
 
 /// リクエストの構造体を [`Body::Json`] にシリアライズする。
 pub fn json_body<T: Serialize>(request: &T) -> Result<Body, Error> {
-    serde_json::to_value(request)
-        .map(Body::Json)
-        .map_err(Error::Serialize)
+    to_value(request).map(Body::Json)
+}
+
+/// リクエストの構造体を、[`Body::Multipart`] のファイル以外のフィールドにシリアライズする。
+/// ファイルのフィールドは `#[serde(skip)]` で除いておく。
+pub fn multipart_fields<T: Serialize>(request: &T) -> Result<Map<String, Value>, Error> {
+    to_value(request).and_then(into_object)
+}
+
+fn to_value<T: Serialize>(request: &T) -> Result<Value, Error> {
+    serde_json::to_value(request).map_err(|error| Error::InvalidRequest(error.into()))
+}
+
+/// リクエストのパラメータを JSON の object として取り出す。null は [`Body::Json`] と同じく、パラメータが無いものとして空の object にする。
+pub(crate) fn into_object(params: Value) -> Result<Map<String, Value>, Error> {
+    match params {
+        Value::Object(object) => Ok(object),
+        Value::Null => Ok(Map::new()),
+        _ => Err(Error::InvalidRequest(
+            "request parameters must be a JSON object".into(),
+        )),
+    }
 }

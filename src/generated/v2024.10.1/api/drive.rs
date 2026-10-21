@@ -486,10 +486,7 @@ pub mod files {
             const PATH: &'static str = "drive/files/create";
             type Response = Response;
             fn into_body(self) -> ::std::result::Result<crate::Body, crate::Error> {
-                let fields = match ::serde_json::to_value(&self).map_err(crate::Error::Serialize)? {
-                    ::serde_json::Value::Object(fields) => fields,
-                    _ => ::serde_json::Map::new(),
-                };
+                let fields = crate::endpoint::multipart_fields(&self)?;
                 ::std::result::Result::Ok(crate::Body::Multipart {
                     fields,
                     file: ("file", self.file),
