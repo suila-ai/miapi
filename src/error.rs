@@ -54,4 +54,36 @@ pub enum Error {
         #[source]
         source: Box<dyn std::error::Error + Send + Sync>,
     },
+    // ストリーミングのバリアントは feature streaming を切っても残す。Error は #[non_exhaustive] でないので、feature で
+    // 増減させると、別のクレートが streaming を有効にしたときに、網羅的な match がコンパイルできなくなる。
+    /// ストリーミング（WebSocket）の接続か送受信の失敗。
+    #[error("streaming transport error")]
+    Streaming(#[source] Box<dyn std::error::Error + Send + Sync>),
+    /// ストリーミングで受け取ったイベントを、そのイベントの型にデコードできなかった。
+    #[error("failed to decode streaming event {} from {channel}", .r#type)]
+    DecodeEvent {
+        /// `localTimeline` のようなチャンネル名。ストリーム全体のイベント（`noteUpdated` など）では `broadcast`。
+        channel: String,
+        /// イベントの `type`。
+        r#type: String,
+        #[source]
+        source: serde_json::Error,
+        /// イベントの `body` の JSON。
+        body: String,
+    },
+    /// チャンネルにつないだが、サーバが受け付けた応答（`connected`）が
+    /// [`CONNECT_ACK_TIMEOUT`](crate::stream::CONNECT_ACK_TIMEOUT) のうちに来なかった。
+    /// サーバは次の接続に応答しない。
+    ///
+    /// - 認証の無い接続からの、要認証のチャンネル
+    /// - 権限の無いチャンネルと、知らないチャンネル名
+    /// - params の無いチャンネルへの、同じストリームからの 2 回目の接続
+    /// - 1 つのストリームで 32 本を超える接続
+    /// - params が指すリストやアンテナなどが、無いか使えない接続
+    ///   （2025.10.0 までのサーバは受け付けて、イベントを送らない）
+    #[error("channel {channel} did not become connected")]
+    ChannelUnavailable { channel: String },
+    /// ストリームが閉じた後に送受信しようとした。
+    #[error("streaming connection is closed")]
+    StreamClosed,
 }

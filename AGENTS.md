@@ -8,12 +8,12 @@
 |---|---|
 | 生成物を作り直す | `cargo codegen`（`cargo run -p miapi-codegen` の別名。`specs/*.json` ごとに `src/generated/<name>/` を書き、rustfmt を当てる） |
 | CI と同じ検査 | `.github/workflows/ci.yml` の `run:` を上から順に実行する |
-| feature を 1 つ選んで検査 | `cargo clippy -p miapi --all-targets --no-default-features --features v2024.10.1 -- -D warnings`、`cargo test -p miapi --no-default-features --features v2024.10.1` |
+| バージョンセットを 1 つ選んで検査 | `cargo clippy -p miapi --all-targets --no-default-features --features v2024.10.1,streaming -- -D warnings`、`cargo test -p miapi --no-default-features --features v2024.10.1,streaming` |
 
 - パッケージは `-p` で 1 つずつ選ぶ。`--workspace` にすると、codegen が有効にする serde_json の `preserve_order` が miapi のビルドにも入り、利用者が使うのとは違う構成を検査することになる。
 - `src/` に単体テストは無く、テストは `tests/` の結合テストと doctest。`src/` に足すなら `Cargo.toml` の `test = false` を戻す（理由はそこのコメントにある）。
-- テストは feature を 1 つだけ有効にして実行する（2 つ以上だと `tests/common/mod.rs` の `version` が重複する）。
-- 全 feature を検査する `scripts/test-all-versions.sh` は、生成コードが大きいので時間がかかる。開発中は feature を 1 つ選んで検査する。
+- テストは、バージョンセットの feature を 1 つだけ有効にして実行する（2 つ以上だと `tests/common/mod.rs` の `version` が重複する）。
+- 全 feature を検査する `scripts/test-all-versions.sh` は、生成コードが大きいので時間がかかる。開発中はバージョンセットを 1 つ選んで検査する。
 - spec と fixture の更新には docker・curl・jq が要る。手順は README の「開発」。
 
 ## 構成

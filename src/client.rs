@@ -37,15 +37,22 @@ impl<V> Client<V> {
     /// [`Error::InvalidOrigin`] を返す。
     /// `token` はアクセストークンで、認証の要らないエンドポイントを呼ぶなら `None` でよい。
     ///
-    /// HTTP クライアントは `reqwest::Client::new()` で作るので、タイムアウトは無い。
+    /// HTTP クライアントは `reqwest::Client::new()` と同じ設定で作るので、タイムアウトは無い。
+    /// ただし feature `streaming` が有効なら、HTTP/1.1 だけを使う。WebSocket の upgrade は HTTP/1.1 でしか成立せず、
+    /// HTTP/2 で開いた接続には乗らないためである。
     /// タイムアウト、プロキシ、ユーザーエージェントなどは、設定した `reqwest::Client` を
     /// [`with_http_client`](Self::with_http_client) に渡して使う。
     pub fn new(origin: &str, token: Option<&str>) -> Result<Self, Error> {
-        Self::with_http_client(reqwest::Client::new(), origin, token)
+        #[cfg(feature = "streaming")]
+        let http = reqwest::Client::builder().http1_only().build()?;
+        #[cfg(not(feature = "streaming"))]
+        let http = reqwest::Client::new();
+        Self::with_http_client(http, origin, token)
     }
 
     /// [`new`](Self::new) と同じだが、HTTP クライアントに `http` をそのまま使う。
     /// `http` は miapi と同じ版の reqwest で作る。`miapi::reqwest::Client::builder()` を使えば版がそろう。
+    /// ストリーミングを使うなら、`http1_only()` を付けて作る（[`new`](Self::new) の説明を参照）。
     pub fn with_http_client(
         http: reqwest::Client,
         origin: &str,
@@ -94,6 +101,21 @@ impl<V> Client<V> {
     pub async fn call_raw(&self, path: &str, params: Value) -> Result<Value, Error> {
         let (status, bytes) = self.send(path, Body::Json(params)).await?;
         decode(path, status, &bytes)
+    }
+
+    /// ストリーミング API（WebSocket の `/streaming`）につなぐ。認証はクエリの `i` で送る（misskey-js と同じ）。
+    /// ハンドシェイクに失敗したら（認証に失敗した 401 など）[`Error::Streaming`] を返す。
+    /// HTTP クライアントは HTTP/1.1 だけを使うものにしておくこと（[`new`](Self::new) の説明を参照）。
+    #[cfg(feature = "streaming")]
+    pub async fn streaming(&self) -> Result<crate::stream::Stream<V>, Error> {
+        let mut url = self.origin.clone();
+        url.path_segments_mut()
+            .expect("http and https URLs can be a base")
+            .push("streaming");
+        if let Some(token) = &self.token {
+            url.query_pairs_mut().append_pair("i", token);
+        }
+        crate::stream::Stream::open(self.http.clone(), url).await
     }
 
     async fn send(&self, path: &str, body: Body) -> Result<(u16, bytes::Bytes), Error> {
