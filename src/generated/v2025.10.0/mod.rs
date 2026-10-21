@@ -1,5 +1,7 @@
-#![doc = "`api.json` から生成したバインディング。手で編集せず、`cargo codegen` を実行すること。"]
+#![doc = "`api.json` と misskey-js の型定義から生成したバインディング。手で編集せず、`cargo codegen` を実行すること。"]
 pub mod api;
+#[cfg(feature = "streaming")]
+pub mod streaming;
 pub mod types;
 #[doc = "このバインディングの生成元である `api.json` の `info.version`。"]
 pub const API_VERSION: &str = "2025.10.0";

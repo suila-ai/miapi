@@ -19,9 +19,10 @@ client.notes().create().text("hi").maybe_reply_id(reply_id).await?;  // Option �
 
 ```toml
 [dependencies]
-miapi = { git = "https://github.com/suila-ai/miapi" }                                                     # latest（最新のリリース）
-miapi = { git = "https://github.com/suila-ai/miapi", features = ["v2024.10.1"] }                           # latest と固定版
-miapi = { git = "https://github.com/suila-ai/miapi", default-features = false, features = ["v2024.10.1"] } # 固定版だけ
+miapi = { git = "https://github.com/suila-ai/miapi" }                                                                  # latest（最新のリリース）
+miapi = { git = "https://github.com/suila-ai/miapi", features = ["v2024.10.1"] }                                        # latest と固定版
+miapi = { git = "https://github.com/suila-ai/miapi", default-features = false, features = ["v2024.10.1", "streaming"] } # 固定版だけ
+miapi = { git = "https://github.com/suila-ai/miapi", default-features = false, features = ["latest"] }                  # ストリーミング API なし
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
@@ -40,7 +41,29 @@ let notes = old.notes().local_timeline().limit(20).await?;           // Vec<miap
 - `Client` はバージョンセットごとに別の型で、ビルダーは、そのバージョンにあるエンドポイントのものだけが出ます。クレートの直下の `Client`・`api`・`types` が latest のもので、固定版のものは `miapi::v2024_10_1` のように、バージョンのモジュールにあります。
 - `miapi::API_VERSION`（固定版は `miapi::v2024_10_1::API_VERSION`）で、生成元のバージョンが分かります。
 
-認証はアクセストークンをボディの `i` で送ります（misskey-js と同じ）。ストリーミング API には、まだ対応していません。
+認証はアクセストークンをボディの `i` で送ります（misskey-js と同じ）。
+
+### ストリーミング API
+
+```rust
+use miapi::streaming;
+
+let stream = client.streaming().await?;                                   // WebSocket を 1 本つなぐ。切れたら自動でつなぎ直す
+let mut timeline = stream.local_timeline().with_renotes(false).await?;    // チャンネルにつなぐ。params は setter
+while let Some(event) = timeline.recv().await {
+    if let streaming::local_timeline::Event::Note(note) = event? { println!("{}", note.id); }
+}
+let mut chat = stream.chat_user().other_id("xxxxxxxxxx").await?;
+chat.send(streaming::chat_user::Message::Read(streaming::chat_user::Read { id: "yyyyyyyyyy".into() }))?;  // チャンネルへ送る
+let mut events = stream.broadcast();                                       // noteUpdated・emojiAdded など → streaming::BroadcastEvent
+stream.subscribe_note("xxxxxxxxxx")?;                                     // 以後、このノートの noteUpdated が届く
+```
+
+- チャンネルは misskey-js の `streaming.types.ts` から生成してあり、`Stream` のメソッドになります（`localTimeline` は `stream.local_timeline()`）。params は setter で設定し、必須の params（`userList` の `list_id` など）を設定するまで `.await` できません。await すると `connect` を送り、サーバが受け付けた応答を 5 秒まで待ちます。来なければ `Error::ChannelUnavailable` です。サーバは受け付けない接続（権限の無いチャンネル、存在しないリストなど）に応答しません。どんな接続を受け付けないかは、`Error::ChannelUnavailable` の doc にあります。
+- 届くイベントは各チャンネルの `Event` で、知らない `type` は `Unrecognized` に入ります。`recv()` は、デコードできないイベントを `Err` で 1 件返して続きます。送るメッセージのあるチャンネル（`serverStats` の `requestLog`、`chatUser` の `read` など）には `Message` があり、`send()` で送ります。
+- `broadcast()` はストリーム全体のイベント（`noteUpdated`・`emojiAdded`・`announcementCreated` など）の受け口で、`subscribe_note()` したノートの `noteUpdated` もここに届きます。
+- 切れたらつなぎ直して、つないであったチャンネルと購読中のノートを登録し直します。切れていた間のイベントは届かないので、`stream.state()` が `Connected` に戻ったのを見て、REST で取り直してください。`stream.close()` で閉じます。
+- `with_http_client` に渡す `reqwest::Client` は `http1_only()` で作ってください。WebSocket の upgrade は HTTP/1.1 でしか成立しません。`Client::new` が作るクライアントも、feature `streaming` が有効なら HTTP/1.1 だけを使います。feature `streaming` を切ると REST だけになり、HTTP/2 も使います。
 
 ## 対応バージョン
 
@@ -64,7 +87,7 @@ feature を有効にした数だけ、コンパイルは長くなります。
 
 ## 開発
 
-latest の更新は、GitHub Actions（`update-spec.yml`）が週次で実行して PR を作ります。手で行うときも、同じ順に実行します（docker・curl・jq が要ります）。
+latest の更新は、GitHub Actions（`update-spec.yml`）が週次で実行して PR を作ります。手で行うときも、同じ順に実行します（docker・curl・jq と、Node.js 26 で `npm ci` した typescript が要ります）。
 
 ```sh
 scripts/update-spec.sh --tag 2026.10.0
@@ -75,4 +98,4 @@ scripts/propose-pins.sh        # コミットの前に実行する
 
 - 固定版を足すときは、`update-spec.sh` と `update-fixtures.sh` に `--pin` を付け、`Cargo.toml` の feature、`tests/common/mod.rs` の `version` の行、「対応バージョン」の表の行を足してから `cargo codegen` を実行します（表は、1 つ古い行の上限も直します）。いまの latest を固定版にするだけなら `scripts/pin-latest.sh` で済みます。
 - 固定版は 2024.10.0 以降から選びます。それより前のバージョンセットは、2024.10.0 以降のサーバで `users/followers` などを読めません（他人の二要素認証の状態が返らなくなったためです）。
-- Misskey のフォークに合わせるときは、このリポジトリを fork し、`scripts/update-spec.sh --origin https://fork.example.com --pin` で spec を取って固定版を作り、git 依存で使ってください。fixture は、`scripts/fixture-server/compose.yml` のイメージ名と `scripts/update-fixtures.sh` の取得元をフォークのものに変えて作ります。
+- Misskey のフォークに合わせるときは、このリポジトリを fork し、`scripts/update-spec.sh --origin https://fork.example.com --pin --repo owner/name` で spec を取って固定版を作り、git 依存で使ってください（`--repo` は、ストリーミングの型定義を取る GitHub のリポジトリで、`api.json` のバージョンと同じ名前のタグが要ります）。fixture は、`scripts/fixture-server/compose.yml` のイメージ名と `scripts/update-fixtures.sh` の取得元をフォークのものに変えて作ります。

@@ -6,7 +6,8 @@
 
 | 目的 | コマンド |
 |---|---|
-| 生成物を作り直す | `cargo codegen`（`cargo run -p miapi-codegen` の別名。`specs/<name>/api.json` ごとに `src/generated/<name>/` を書き、rustfmt を当てる） |
+| 生成物を作り直す | `cargo codegen`（`cargo run -p miapi-codegen` の別名。`specs/<name>/` ごとに `src/generated/<name>/` を書き、rustfmt を当てる。Node.js 26 と、`npm ci` で入れる typescript が要る） |
+| TypeScript のスクリプトを検査する | `npm run check`（`tsc --noEmit`） |
 | CI と同じ検査 | `.github/workflows/ci.yml` の `run:` を上から順に実行する |
 | バージョンセットを 1 つ選んで検査 | `cargo clippy -p miapi --all-targets --no-default-features --features v2024.10.1,streaming -- -D warnings`、`cargo test -p miapi --no-default-features --features v2024.10.1,streaming` |
 
@@ -35,6 +36,21 @@
 - `string` + `format: date-time` は `chrono::DateTime<Utc>` にする。
 - 応答が null 可か 204 も返すエンドポイントは `type Response = Option<ResponseBody>`、200 の JSON が無ければ `()`。
 
+ストリーミングの型は、misskey-js の `streaming.types.ts`（と、それが参照する `entities.ts`・`consts.ts`）から作る。`codegen/ts-types.ts` が TypeScript の compiler API で構文木を JSON にし（名前の解決や型の意味づけはしない）、`streaming.rs` がそれを解決する。`ts-types.ts` で compiler API に触るのは `parseSourceFile` と、`SyntaxKind`・ノードの判定関数（`is〜`）・ノードの型だけで、走査はノードのプロパティ名で行う（typescript 7 の `typescript/sync` と `typescript/ast` へ差し替えやすくするため）。`streaming.rs` の決めごとは次のとおり。
+
+- 名前は、そのファイルの宣言 → import 元 → `export *` の再輸出先の順に引く。`./autogen/models.js` に解決した名前は `api.json` のコンポーネント（無ければエラー）。それ以外のモジュール（`./autogen/types.js`、npm パッケージ）に解決したらエラー。
+- `Channels` の各メンバーが 1 チャンネル。`params` は null か object、`events` は名前 → 型、`receives` は null か object。チャンネルのモジュールに `Params`（`stream::Channel` を実装）・`Event`・`Message`（`receives` があるときだけ）・`Connect`・`Connection` を生成する。`BroadcastEvents` は `streaming/mod.rs` の `BroadcastEvent`。
+- `events` の値が関数型なら第 1 引数が本文（`() => void` は本文なし）、関数型でなければその型が本文。本文の型が null、または null と `Record<string, never>` だけの union なら、本文なし（`body` は null）。
+- `string` → `String`、`number` → `f64`、`boolean` → `bool`、`any` / `unknown` → `Value`、`T[]` → `Vec`、`Record<string, T>` → `HashMap<String, T>`（`T` が `never` / `unknown` / `any` なら `serde_json::Map`）。文字列リテラル 1 つは値 1 つの StrEnum（受け皿なし）、真偽・数値リテラルは `bool` / `f64`。
+- object literal は構造体。`events` の本文は Entity、`params` と `receives` は Request として扱う。`?` は任意。メンバーと同じ行の `//` コメントを doc にする。
+- union は null を除き、残りが全部文字列リテラルなら StrEnum（2 つ以上なら `Unrecognized(String)` 付き）、1 つならその型、全部 object literal で必須の `type` が互いに違う文字列リテラルなら TaggedUnion（`type` で変種を選び、残りのフィールドの構造体に読む。末尾に `Unrecognized(Value)`）、それ以外は REST と同じ untagged の union。
+- intersection は object 同士ならプロパティを併合（同名で型が違えばエラー）、object と union なら union の各メンバーに分配する。
+- 添字アクセスは、添字が文字列リテラル 1 つならそのプロパティの型（X がコンポーネントなら REST で生成したそのフィールドの型。union のコンポーネントは、展開した全メンバーで同じ型でなければエラー）、`typeof arr[number]` なら定数配列の値の StrEnum、それ以外（型パラメータ、リテラルの union、`keyof`）なら `Value`。
+- generic な alias は型引数を置き換えて展開し、使った側のモジュールにその名前で生成する。関数型の `<K extends C>` は `K` を `C` に置き換える。
+- generic でない名前付きの型（`Channels` と `BroadcastEvents` 自体は除く）は、到達したものだけを `streaming/types.rs` に 1 回生成する。無名の型は、イベント名・メッセージ名から作った名前で、使った側のモジュールに生成する。名前の衝突は改名せずエラーにする（REST と同じ）。
+- mapped type・条件型などの未対応の構文は、到達したときだけエラーにする。
+- `{type, body}` の enum（`Event`・`Message`・`BroadcastEvent`）の serde は derive でなく、`stream::Envelope` を介した impl を書き出す。受け皿の `Unrecognized` は受け取る側（`Event`・`BroadcastEvent`）だけに付ける。
+
 ### バージョンセット
 
 - 1 バージョンセットは `specs/<name>/`、`src/generated/<name>/`、`tests/fixtures/<name>/`、`Cargo.toml` の feature `<name>`、`tests/common/mod.rs` の `version` の行、README の「対応バージョン」の表の行、の 6 か所で対になる。固定版を増やすときも消すときも、全部をそろえる（`scripts/pin-latest.sh` が latest を固定版として残す側の手順）。
@@ -53,7 +69,7 @@
 ### 生成物・spec・fixture
 
 - `src/generated/` は手で編集せず、`cargo codegen` で作り直す。CI が再生成して差分が無いことを検査する。
-- `specs/` は上流の出力のまま置く。misskey-js の `streaming.types.ts`・`entities.ts`・`consts.ts` と `LICENSE`（MIT）も、`specs/<name>/misskey-js/` に原文のまま置く。spec と実際の応答の食い違いは `codegen/src/corrections.rs` に足して、生成前に補正する。
+- `specs/` は上流の出力のまま置く。misskey-js の `streaming.types.ts`・`entities.ts`・`consts.ts` と `LICENSE`（MIT）も、`specs/<name>/misskey-js/` に原文のまま置く。spec（`api.json` と misskey-js の型定義）と実際の応答の食い違いは `codegen/src/corrections.rs` に足して、生成前に補正する。
 - コミットする spec は `scripts/update-spec.sh --tag` の結果にする。`--origin` で取るサーバの `/api.json` は、自己参照（`PageBlock.section.children` など）を素の object に潰し、古いリリースでは条件付きでしか返されない項目まで `required` に入れている。
 - latest の更新は、spec・生成物・fixture を 1 コミットにし、件名を `build(api): Misskey API を 2026.x.y に更新する` とする。
 - fixture に実在のサーバの応答は入れない。固定版の spec と fixture は、足した後は更新しない。
