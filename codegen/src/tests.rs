@@ -3,8 +3,58 @@ use serde_json::{Value, json};
 use crate::corrections;
 use crate::emit;
 use crate::model::*;
-use crate::resolve::build_tree;
 use crate::spec::Spec;
+use crate::ts;
+
+/// チャンネルの無い、最小のストリーミングの型定義。
+fn empty_ts() -> ts::Files {
+    streaming_ts(json!({}), json!({}), json!([]))
+}
+
+/// `Channels` と `BroadcastEvents` のメンバーと、entities.ts の型の宣言から、型定義を組み立てる。
+fn streaming_ts(channels: Value, broadcast: Value, entities: Value) -> ts::Files {
+    let object = |members: Value| {
+        obj(members
+            .as_object()
+            .unwrap()
+            .iter()
+            .map(|(name, ty)| member(name, false, ty.clone()))
+            .collect())
+    };
+    serde_json::from_value(json!({
+        "streaming.types.ts": {
+            "imports": [
+                {"name": "Note", "from": "./autogen/models.js"},
+                {"name": "PageEvent", "from": "./entities.js"},
+                {"name": "Keys", "from": "./consts.js"},
+                {"name": "Generic", "from": "./entities.js"},
+            ],
+            "reexports": [],
+            "types": [
+                {"name": "Channels", "typeParams": [], "type": object(channels)},
+                {"name": "BroadcastEvents", "typeParams": [], "type": object(broadcast)},
+            ],
+            "consts": [],
+        },
+        "entities.ts": {
+            "imports": [{"name": "Note", "from": "./autogen/models.js"}],
+            "reexports": ["./autogen/models.js"],
+            "types": entities,
+            "consts": [],
+        },
+        "consts.ts": {
+            "imports": [],
+            "reexports": [],
+            "types": [{"name": "Keys", "typeParams": [], "type": indexed(json!({"kind": "typeof", "name": "keys"}), kw("number"))}],
+            "consts": [{"name": "keys", "values": ["a", "b"]}],
+        },
+    }))
+    .unwrap()
+}
+
+fn build_tree(spec: &Spec) -> Result<Tree, String> {
+    crate::resolve::build_tree(spec, &empty_ts())
+}
 
 fn spec(components: Value, paths: Value) -> Spec {
     serde_json::from_value(json!({
@@ -560,6 +610,11 @@ fn selector_file_puts_latest_at_the_root_and_the_rest_in_modules() {
     );
     assert!(
         source.contains(
+            "#[cfg(all(feature=\"latest\",feature=\"streaming\"))]pubuselatest::streaming;"
+        )
+    );
+    assert!(
+        source.contains(
             "#[cfg(feature=\"v2024.10.1\")]#[path=\"v2024.10.1/mod.rs\"]pubmodv2024_10_1;"
         )
     );
@@ -734,4 +789,520 @@ fn corrections_match_what_servers_return() {
         &endpoint(&tree, "i/2fa/update-key").response,
         ResponseDef::Alias(RustType::JsonMap)
     ));
+}
+
+// ストリーミングの型定義（ts-types.ts の JSON）の解決。
+
+fn kw(name: &str) -> Value {
+    json!({"kind": "keyword", "name": name})
+}
+
+fn lit(value: &str) -> Value {
+    json!({"kind": "literal", "value": value})
+}
+
+fn refn(name: &str) -> Value {
+    json!({"kind": "ref", "name": name, "args": []})
+}
+
+fn member(name: &str, optional: bool, ty: Value) -> Value {
+    json!({"name": name, "optional": optional, "type": ty, "doc": null})
+}
+
+fn obj(members: Vec<Value>) -> Value {
+    json!({"kind": "object", "members": members})
+}
+
+fn union(types: Vec<Value>) -> Value {
+    json!({"kind": "union", "types": types})
+}
+
+/// `(payload: T) => void`。`None` なら `() => void`。
+fn func(payload: Option<Value>) -> Value {
+    let params: Vec<Value> = payload.into_iter().collect();
+    json!({"kind": "function", "typeParams": [], "params": params})
+}
+
+fn indexed(object: Value, index: Value) -> Value {
+    json!({"kind": "indexed", "object": object, "index": index})
+}
+
+fn channel(params: Value, events: Vec<Value>, receives: Value) -> Value {
+    obj(vec![
+        member("params", false, params),
+        member("events", false, obj(events)),
+        member("receives", false, receives),
+    ])
+}
+
+fn note_spec() -> Spec {
+    spec(
+        json!({"Note": {"type": "object", "properties": {"id": {"type": "string"}, "text": {"type": ["string", "null"]}}, "required": ["id", "text"]}}),
+        json!({}),
+    )
+}
+
+fn streaming_tree(channels: Value, broadcast: Value, entities: Value) -> Result<Tree, String> {
+    crate::resolve::build_tree(&note_spec(), &streaming_ts(channels, broadcast, entities))
+}
+
+fn find_tagged<'a>(items: &'a [Item], name: &str) -> &'a TaggedUnionDef {
+    items
+        .iter()
+        .find_map(|item| match item {
+            Item::Tagged(def) if def.name == name => Some(def),
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("tagged union {name} が無い"))
+}
+
+fn payloads(def: &EnvelopeDef) -> Vec<(&str, Option<&RustType>)> {
+    def.variants
+        .iter()
+        .map(|v| (v.ident.as_str(), v.payload.as_ref()))
+        .collect()
+}
+
+#[test]
+fn streaming_channels_have_params_events_and_messages() {
+    let tree = streaming_tree(
+        json!({
+            "tl": channel(
+                obj(vec![
+                    member("withFiles", true, kw("boolean")),
+                    json!({"name": "listId", "optional": false, "type": kw("string"), "doc": "リスト"}),
+                ]),
+                vec![
+                    member("note", false, func(Some(refn("Note")))),
+                    member("cleared", false, func(None)),
+                    member("deleted", false, func(Some(indexed(refn("Note"), lit("id"))))),
+                    member("report", false, obj(vec![member("id", false, kw("string"))])),
+                ],
+                obj(vec![
+                    member("read", false, obj(vec![member("id", false, kw("string"))])),
+                    member("cancel", false, union(vec![kw("null"), json!({"kind": "ref", "name": "Record", "args": [kw("string"), kw("never")]})])),
+                ]),
+            ),
+            "main": channel(kw("null"), vec![], kw("null")),
+        }),
+        json!({}),
+        json!([]),
+    )
+    .unwrap();
+    let [tl, main] = tree.streaming.channels.as_slice() else {
+        panic!("チャンネルが 2 つのはず");
+    };
+    assert_eq!((tl.name.as_str(), tl.ident.as_str()), ("tl", "tl"));
+    assert_eq!(tl.params.kind, StructKind::Request);
+    assert!(!field(&tl.params, "withFiles").required);
+    let list_id = field(&tl.params, "listId");
+    assert!(list_id.required);
+    assert_eq!(list_id.docs, vec!["リスト"]);
+    assert_eq!(
+        payloads(&tl.events),
+        vec![
+            ("Note", Some(&component("Note"))),
+            ("Cleared", None),
+            ("Deleted", Some(&RustType::String)),
+            ("Report", Some(&RustType::Local("Report".into()))),
+        ]
+    );
+    assert!(tl.events.catch_all);
+    let messages = tl.messages.as_ref().unwrap();
+    assert_eq!(
+        payloads(messages),
+        vec![
+            ("Read", Some(&RustType::Local("Read".into()))),
+            ("Cancel", None)
+        ]
+    );
+    assert!(!messages.catch_all);
+    assert_eq!(find_struct(&tl.items, "Report").kind, StructKind::Entity);
+    let read = find_struct(&tl.items, "Read");
+    assert_eq!(read.kind, StructKind::Request);
+    assert!(read.derive_default);
+    assert!(main.params.fields.is_empty());
+    assert!(main.params.derive_default);
+    assert!(main.messages.is_none());
+    assert!(tree.streaming.types.is_empty());
+}
+
+#[test]
+fn streaming_named_types_are_generated_once_in_streaming_types() {
+    let page_event = json!({"name": "PageEvent", "typeParams": [], "type": obj(vec![
+        member("pageId", false, indexed(refn("Note"), lit("id"))),
+        member("var", false, kw("any")),
+        member("note", false, refn("Note")),
+    ])});
+    let tree = streaming_tree(
+        json!({
+            "a": channel(kw("null"), vec![member("page", false, func(Some(refn("PageEvent")))), member("key", false, func(Some(refn("Keys"))))], kw("null")),
+            "b": channel(kw("null"), vec![member("page", false, func(Some(refn("PageEvent"))))], kw("null")),
+        }),
+        json!({"page": func(Some(refn("PageEvent")))}),
+        json!([page_event]),
+    )
+    .unwrap();
+    let names: Vec<&str> = tree.streaming.types.iter().map(Item::name).collect();
+    assert_eq!(names, vec!["PageEvent", "Keys"]);
+    let page = find_struct(&tree.streaming.types, "PageEvent");
+    assert_eq!(field(page, "pageId").base, RustType::String);
+    assert_eq!(field(page, "var").base, RustType::Value);
+    assert_eq!(field(page, "note").base, component("Note"));
+    let keys = find_enum(&tree.streaming.types, "Keys");
+    assert_eq!(
+        keys.variants,
+        vec![("A".into(), "a".into()), ("B".into(), "b".into())]
+    );
+    assert!(keys.other);
+    for channel in &tree.streaming.channels {
+        assert_eq!(
+            channel.events.variants[0].payload,
+            Some(RustType::Streaming("PageEvent".into()))
+        );
+    }
+    let broadcast = tree
+        .streaming
+        .items
+        .iter()
+        .find_map(|item| match item {
+            Item::Envelope(def) => Some(def),
+            _ => None,
+        })
+        .unwrap();
+    assert_eq!(broadcast.name, "BroadcastEvent");
+    assert_eq!(
+        payloads(broadcast),
+        vec![("Page", Some(&RustType::Streaming("PageEvent".into())))]
+    );
+}
+
+#[test]
+fn streaming_unions_become_enums_unions_and_tagged_unions() {
+    let tree = streaming_tree(
+        json!({
+            "c": channel(kw("null"), vec![
+                member("mode", false, func(Some(union(vec![lit("x"), lit("y")])))),
+                member("maybe", false, func(Some(union(vec![kw("null"), kw("string")])))),
+                member("either", false, func(Some(union(vec![refn("Note"), obj(vec![member("a", false, kw("string")), member("b", false, kw("number")), member("c", false, kw("boolean"))])])))),
+                member("tagged", false, func(Some(union(vec![
+                    obj(vec![member("type", false, lit("x")), member("body", false, obj(vec![member("a", false, kw("string"))]))]),
+                    obj(vec![member("type", false, lit("y"))]),
+                ])))),
+                member("spread", false, func(Some(json!({"kind": "intersection", "types": [
+                    obj(vec![member("id", false, kw("string"))]),
+                    union(vec![obj(vec![member("type", false, lit("x"))]), obj(vec![member("type", false, lit("y"))])]),
+                ]})))),
+            ], kw("null")),
+        }),
+        json!({}),
+        json!([]),
+    )
+    .unwrap();
+    let c = &tree.streaming.channels[0];
+    let mode = find_enum(&c.items, "Mode");
+    assert_eq!(mode.variants.len(), 2);
+    assert!(mode.other);
+    assert_eq!(
+        payloads(&c.events)[1],
+        ("Maybe", Some(&RustType::Option(Box::new(RustType::String))))
+    );
+    // object literal のほうが必須プロパティが多いので先になる。
+    let either = find_union(&c.items, "Either");
+    assert_eq!(variant_names(either), vec!["Object", "Note"]);
+    assert_eq!(either.variants[0].1, RustType::Local("EitherObject".into()));
+    let tagged = find_tagged(&c.items, "Tagged");
+    let variants: Vec<(&str, &str)> = tagged
+        .variants
+        .iter()
+        .map(|v| (v.ident.as_str(), v.value.as_str()))
+        .collect();
+    assert_eq!(variants, vec![("X", "x"), ("Y", "y")]);
+    assert_eq!(tagged.variants[0].ty, RustType::Local("TaggedX".into()));
+    assert_eq!(
+        field(find_struct(&c.items, "TaggedX"), "body").base,
+        RustType::Local("TaggedXBody".into())
+    );
+    assert!(find_struct(&c.items, "TaggedY").fields.is_empty());
+    let spread = find_tagged(&c.items, "Spread");
+    assert_eq!(spread.variants.len(), 2);
+    assert_eq!(
+        field(find_struct(&c.items, "SpreadX"), "id").base,
+        RustType::String
+    );
+}
+
+#[test]
+fn streaming_unions_expand_union_components_into_their_members() {
+    // `UserDetailed | UserLite` のような union は、union のコンポーネントを中身に展開してから、
+    // 必須プロパティの多い順に並べる。展開しないと、UserDetailed の受け皿が UserLite の値まで受けてしまう。
+    let spec = spec(
+        json!({
+            "Lite": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]},
+            "NotMe": {"type": "object", "properties": {"id": {"type": "string"}, "a": {"type": "string"}, "b": {"type": "string"}}, "required": ["id", "a", "b"]},
+            "Me": {"type": "object", "properties": {"id": {"type": "string"}, "a": {"type": "string"}}, "required": ["id", "a"]},
+            "Detailed": {"oneOf": [{"$ref": "#/components/schemas/NotMe"}, {"$ref": "#/components/schemas/Me"}]},
+        }),
+        json!({}),
+    );
+    let ts = serde_json::from_value(json!({
+        "streaming.types.ts": {
+            "imports": [{"name": "Lite", "from": "./autogen/models.js"}, {"name": "Detailed", "from": "./autogen/models.js"}],
+            "reexports": [],
+            "types": [
+                {"name": "Channels", "typeParams": [], "type": obj(vec![member("c", false, channel(kw("null"), vec![member("followed", false, func(Some(union(vec![refn("Lite"), refn("Detailed")]))))], kw("null")))])},
+                {"name": "BroadcastEvents", "typeParams": [], "type": obj(vec![])},
+            ],
+            "consts": [],
+        },
+    }))
+    .unwrap();
+    let tree = crate::resolve::build_tree(&spec, &ts).unwrap();
+    let followed = find_union(&tree.streaming.channels[0].items, "Followed");
+    assert_eq!(variant_names(followed), vec!["NotMe", "Me", "Lite"]);
+    assert_eq!(followed.variants[2].1, component("Lite"));
+}
+
+#[test]
+fn streaming_generics_substitute_type_arguments_and_constraints() {
+    let generic = json!({"name": "Generic", "typeParams": [{"name": "K", "constraint": null}], "type": obj(vec![
+        member("key", false, refn("K")),
+        member("value", false, indexed(refn("Note"), refn("K"))),
+    ])});
+    let constrained = json!({"kind": "function", "typeParams": [{"name": "K", "constraint": refn("Keys")}], "params": [obj(vec![member("key", false, refn("K"))])]});
+    let tree = streaming_tree(
+        json!({
+            "g": channel(kw("null"), vec![
+                member("settings", false, func(Some(json!({"kind": "ref", "name": "Generic", "args": [refn("Keys")]})))),
+                member("update", false, constrained),
+            ], kw("null")),
+        }),
+        json!({}),
+        json!([generic]),
+    )
+    .unwrap();
+    let g = &tree.streaming.channels[0];
+    let settings = find_struct(&g.items, "Generic");
+    assert_eq!(
+        field(settings, "key").base,
+        RustType::Streaming("Keys".into())
+    );
+    assert_eq!(field(settings, "value").base, RustType::Value);
+    assert_eq!(
+        field(find_struct(&g.items, "Update"), "key").base,
+        RustType::Streaming("Keys".into())
+    );
+    assert_eq!(
+        g.events.variants[0].payload,
+        Some(RustType::Local("Generic".into()))
+    );
+}
+
+#[test]
+fn streaming_definitions_are_validated() {
+    let cases: Vec<(Value, Value, Value, &str)> = vec![
+        (
+            json!({"c": channel(kw("null"), vec![member("e", false, func(Some(refn("Nope"))))], kw("null"))}),
+            json!({}),
+            json!([]),
+            "名前 `Nope` が無い",
+        ),
+        (
+            json!({"c": channel(kw("null"), vec![member("e", false, func(Some(json!({"kind": "unsupported", "syntax": "MappedType", "text": "{ [K in T]: 1 }"}))))], kw("null"))}),
+            json!({}),
+            json!([]),
+            "対応していない構文 MappedType",
+        ),
+        (
+            json!({"connect": channel(kw("null"), vec![], kw("null"))}),
+            json!({}),
+            json!([]),
+            "Stream のメソッドと衝突する",
+        ),
+        (
+            json!({"c": channel(kw("null"), vec![member("params", false, func(Some(obj(vec![]))))], kw("null"))}),
+            json!({}),
+            json!([]),
+            "固定のアイテムと衝突する",
+        ),
+        (
+            json!({"c": channel(kw("null"), vec![member("unrecognized", false, func(None))], kw("null"))}),
+            json!({}),
+            json!([]),
+            "受け皿の `Unrecognized` と衝突する",
+        ),
+        (
+            json!({"c": channel(kw("string"), vec![], kw("null"))}),
+            json!({}),
+            json!([]),
+            "params は null か object",
+        ),
+        (
+            json!({"c": channel(kw("null"), vec![member("e", false, func(Some(indexed(refn("Note"), lit("nope")))))], kw("null"))}),
+            json!({}),
+            json!([]),
+            "プロパティ `nope` が無い",
+        ),
+        (
+            json!({"c": channel(kw("null"), vec![member("e", false, func(Some(refn("PageEvent"))))], kw("null"))}),
+            json!({}),
+            json!([{"name": "PageEvent", "typeParams": [], "type": union(vec![obj(vec![member("a", false, kw("string"))]), kw("null")])}]),
+            "null を含む型を、同じ名前の構造体・enum にすることには対応していない",
+        ),
+        (
+            json!({"c": channel(kw("null"), vec![member("key", false, func(Some(refn("Keys")))), member("page", false, func(Some(refn("PageEvent"))))], kw("null"))}),
+            json!({}),
+            json!([
+                {"name": "Keys", "typeParams": [], "type": obj(vec![member("a", false, kw("string"))])},
+                {"name": "PageEvent", "typeParams": [], "type": obj(vec![member("key", false, refn("Keys"))])},
+            ]),
+            "型名 `Keys` が consts.ts と entities.ts の両方で宣言されている",
+        ),
+    ];
+    for (channels, broadcast, entities, expected) in cases {
+        let error = streaming_tree(channels, broadcast, entities).unwrap_err();
+        assert!(error.contains(expected), "{error}");
+    }
+}
+
+#[test]
+fn streaming_tokens_implement_channel_and_envelope_codecs() {
+    let tree = streaming_tree(
+        json!({
+            "tl": channel(
+                obj(vec![member("listId", false, kw("string"))]),
+                vec![member("note", false, func(Some(refn("Note")))), member("cleared", false, func(None))],
+                obj(vec![member("read", false, obj(vec![member("id", false, kw("string"))]))]),
+            ),
+        }),
+        json!({"updated": func(Some(union(vec![
+            obj(vec![member("type", false, lit("x")), member("id", false, kw("string"))]),
+            obj(vec![member("type", false, lit("y")), member("id", false, kw("string"))]),
+        ])))}),
+        json!([]),
+    )
+    .unwrap();
+    let module = source_of(&tree, "mod.rs");
+    assert!(
+        module.contains("#[cfg(feature=\"streaming\")]pubmodstreaming;"),
+        "{module}"
+    );
+    let streaming = source_of(&tree, "streaming/mod.rs");
+    assert!(
+        streaming.contains("pubtypeStream=crate::stream::Stream<super::Version>;"),
+        "{streaming}"
+    );
+    assert!(
+        streaming.contains("pubfntl(&self)->tl::Connect<'_>{tl::Connect::new(self)}"),
+        "{streaming}"
+    );
+    assert!(
+        streaming.contains("pubfnbroadcast(&self)->crate::stream::Receiver<BroadcastEvent>"),
+        "{streaming}"
+    );
+    assert!(
+        streaming.contains(
+            "object.insert(\"type\".to_owned(),::serde_json::Value::String(\"x\".to_owned()));"
+        ),
+        "{streaming}"
+    );
+    assert!(
+        streaming.contains("_=>Updated::Unrecognized(value),"),
+        "{streaming}"
+    );
+    let tl = source_of(&tree, "streaming/tl.rs");
+    assert!(tl.contains("implcrate::stream::ChannelforParams{constNAME:&'staticstr=\"tl\";typeEvent=Event;typeMessage=Message;}"), "{tl}");
+    assert!(tl.contains("pubenumEvent{Note(crate::generated::v2024_10_1::types::Note),Cleared,#[doc=\"このバージョンのバインディングが知らないイベント。\"]Unrecognized{r#type:::std::string::String,body:::serde_json::Value},}"), "{tl}");
+    assert!(tl.contains("\"cleared\"=>Event::Cleared,"), "{tl}");
+    assert!(tl.contains("_=>Event::Unrecognized{r#type,body},"), "{tl}");
+    assert!(
+        tl.contains("Event::Cleared=>(\"cleared\",::serde_json::Value::Null),"),
+        "{tl}"
+    );
+    assert!(
+        tl.contains("::serde::de::Error::unknown_variant(&r#type,&[\"read\"])"),
+        "{tl}"
+    );
+    assert!(
+        tl.contains("pubtypeConnection=crate::stream::Connection<Params>;"),
+        "{tl}"
+    );
+    assert!(tl.contains("pubstructConnect<'a,S=(crate::builder::Unset,)>{stream:&'acrate::generated::v2024_10_1::streaming::Stream,"), "{tl}");
+    assert!(tl.contains("letrequest=Params{list_id:self.list_id.expect(\"requiredparameterissetbythetypestate\"),};letstream=self.stream;::std::boxed::Box::pin(asyncmove{stream.connect(request).await})"), "{tl}");
+    let no_message = streaming_tree(
+        json!({"m": channel(kw("null"), vec![], kw("null"))}),
+        json!({}),
+        json!([]),
+    )
+    .unwrap();
+    assert!(
+        source_of(&no_message, "streaming/m.rs").contains("typeMessage=crate::stream::NoMessage;")
+    );
+}
+
+/// `NoteUpdatedEvent` の reacted の `emoji` と、`main` の `urlUploadFinished` の `marker` を、与えた型にした型定義。
+fn reaction_and_upload_ts(emoji: Value, marker: Value) -> ts::Files {
+    let reacted = obj(vec![
+        member("type", false, lit("reacted")),
+        member(
+            "body",
+            false,
+            obj(vec![
+                member("reaction", false, kw("string")),
+                member("emoji", false, emoji),
+            ]),
+        ),
+    ]);
+    let unreacted = obj(vec![
+        member("type", false, lit("unreacted")),
+        member(
+            "body",
+            false,
+            obj(vec![member("reaction", false, kw("string"))]),
+        ),
+    ]);
+    let note_updated = json!({"kind": "intersection", "types": [obj(vec![member("id", false, kw("string"))]), union(vec![reacted, unreacted])]});
+    let upload = func(Some(obj(vec![
+        member("marker", false, marker),
+        member("file", false, refn("Note")),
+    ])));
+    streaming_ts(
+        json!({"main": channel(kw("null"), vec![member("urlUploadFinished", false, upload)], kw("null"))}),
+        json!({}),
+        json!([{"name": "NoteUpdatedEvent", "typeParams": [], "type": note_updated}]),
+    )
+}
+
+fn declared_type<'a>(files: &'a ts::Files, file: &str, name: &str) -> &'a ts::TypeNode {
+    &files[file]
+        .types
+        .iter()
+        .find(|decl| decl.name == name)
+        .unwrap()
+        .ty
+}
+
+#[test]
+fn streaming_corrections_match_what_servers_send() {
+    let string_or_null = || union(vec![kw("string"), kw("null")]);
+    // 2025.10.0 までの misskey-js の形。
+    let mut files = reaction_and_upload_ts(string_or_null(), kw("string"));
+    corrections::apply_streaming(&mut files);
+    let emoji = union(vec![
+        obj(vec![
+            member("name", false, kw("string")),
+            member("url", false, kw("string")),
+        ]),
+        kw("null"),
+    ]);
+    let expected = reaction_and_upload_ts(emoji, string_or_null());
+    for (file, name) in [
+        ("entities.ts", "NoteUpdatedEvent"),
+        ("streaming.types.ts", "Channels"),
+    ] {
+        assert_eq!(
+            declared_type(&files, file, name),
+            declared_type(&expected, file, name)
+        );
+    }
 }

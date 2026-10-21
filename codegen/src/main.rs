@@ -1,8 +1,10 @@
 //! `cargo codegen` で実行する生成器。
 //!
-//! `specs/<name>/api.json` ごとに、ソースのツリーを 1 つ `src/generated/<name>/` に生成する。
+//! `specs/<name>/`（`api.json` と、misskey-js のストリーミングの型定義を置く `misskey-js/`）ごとに、
+//! ソースのツリーを 1 つ `src/generated/<name>/` に生成する。
 //! あわせて、同じ名前の cargo feature でツリーを有効にする `src/generated/mod.rs` も生成する。
 //! `specs/`・`src/generated/`・`Cargo.toml` は、このクレートの親であるワークスペースのルートから探す。
+//! TypeScript の型定義は `ts-types.ts` を Node で実行して読む。
 
 mod corrections;
 mod emit;
@@ -10,8 +12,10 @@ mod model;
 mod naming;
 mod resolve;
 mod spec;
+mod streaming;
 #[cfg(test)]
 mod tests;
+mod ts;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -49,6 +53,7 @@ fn run() -> Result<(), String> {
     let names: Vec<String> = specs.iter().map(|(name, _)| name.clone()).collect();
     check_features(&root.join("Cargo.toml"), &names)?;
 
+    let script = Path::new(env!("CARGO_MANIFEST_DIR")).join("ts-types.ts");
     let mut files: Vec<(PathBuf, String)> = Vec::new();
     for (name, dir) in &specs {
         let path = dir.join("api.json");
@@ -56,14 +61,29 @@ fn run() -> Result<(), String> {
         let mut spec: spec::Spec =
             serde_json::from_str(&text).map_err(|e| format!("{}: {e}", path.display()))?;
         corrections::apply(&mut spec);
-        let tree = resolve::build_tree(&spec).map_err(|e| format!("{name}: {e}"))?;
+        // どのファイルを置くかは scripts/update-spec.sh が決める。
+        let ts_dir = dir.join("misskey-js");
+        let ts_paths: Vec<PathBuf> = fs::read_dir(&ts_dir)
+            .map_err(|e| {
+                format!(
+                    "{}: {e}。scripts/update-spec.sh で取ること",
+                    ts_dir.display()
+                )
+            })?
+            .filter_map(|entry| entry.ok().map(|e| e.path()))
+            .filter(|path| path.extension().is_some_and(|ext| ext == "ts"))
+            .collect();
+        let mut ts = ts::parse(&script, &ts_paths).map_err(|e| format!("{name}: {e}"))?;
+        corrections::apply_streaming(&mut ts);
+        let tree = resolve::build_tree(&spec, &ts).map_err(|e| format!("{name}: {e}"))?;
         for (relative, tokens) in emit::tree_files(&tree, name) {
             files.push((out.join(name).join(relative), tokens.to_string()));
         }
         println!(
-            "{name}: Misskey {}（エンドポイント {} 個）",
+            "{name}: Misskey {}（エンドポイント {} 個、チャンネル {} 個）",
             tree.version,
-            spec.paths.len()
+            spec.paths.len(),
+            tree.streaming.channels.len()
         );
     }
     let selector = out.join("mod.rs");

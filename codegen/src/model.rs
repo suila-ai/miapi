@@ -19,6 +19,8 @@ pub enum RustType {
     Boxed(Box<RustType>),
     /// `crate::types` にあるアイテム。
     Component(String),
+    /// `crate::streaming::types` にあるアイテム（misskey-js の型定義から生成したもの）。
+    Streaming(String),
     /// 生成中のエンドポイントのモジュールにあるアイテム。
     Local(String),
     /// multipart のファイルのパート。この型のフィールドは serde の対象から外し、別に送る。
@@ -40,6 +42,8 @@ pub enum Item {
     StrEnum(StrEnumDef),
     Union(UnionDef),
     Alias(AliasDef),
+    Tagged(TaggedUnionDef),
+    Envelope(EnvelopeDef),
 }
 
 impl Item {
@@ -49,6 +53,8 @@ impl Item {
             Item::StrEnum(def) => &def.name,
             Item::Union(def) => &def.name,
             Item::Alias(def) => &def.name,
+            Item::Tagged(def) => &def.name,
+            Item::Envelope(def) => &def.name,
         }
     }
 
@@ -58,6 +64,8 @@ impl Item {
             Item::StrEnum(def) => def.name = name.to_owned(),
             Item::Union(def) => def.name = name.to_owned(),
             Item::Alias(def) => def.name = name.to_owned(),
+            Item::Tagged(def) => def.name = name.to_owned(),
+            Item::Envelope(def) => def.name = name.to_owned(),
         }
     }
 }
@@ -147,11 +155,72 @@ pub struct AliasDef {
     pub ty: RustType,
 }
 
+/// `type` の文字列リテラルで変種を選ぶ object の union（misskey-js の `NoteUpdatedEvent`）。
+/// 変種ごとに、`type` を除いた残りのフィールドの構造体を持つ。
+/// 受け皿の `Unrecognized(serde_json::Value)` は常に末尾に足す。
+#[derive(Debug, Clone)]
+pub struct TaggedUnionDef {
+    pub name: String,
+    pub docs: Vec<String>,
+    pub variants: Vec<TaggedVariant>,
+}
+
+#[derive(Debug, Clone)]
+pub struct TaggedVariant {
+    pub ident: String,
+    /// `type` の値。
+    pub value: String,
+    pub ty: RustType,
+}
+
+/// `{type, body}` の形のイベントかメッセージ。`type` ごとに本文の型が決まる。
+#[derive(Debug, Clone)]
+pub struct EnvelopeDef {
+    pub name: String,
+    pub docs: Vec<String>,
+    pub variants: Vec<EnvelopeVariant>,
+    /// 受け皿の `Unrecognized { type, body }` を末尾に足すかどうか。受け取る側だけ足す。
+    pub catch_all: bool,
+}
+
+#[derive(Debug, Clone)]
+pub struct EnvelopeVariant {
+    pub ident: String,
+    pub json_name: String,
+    pub docs: Vec<String>,
+    /// `body` の型。`None` なら本文が無く、`body` は null になる。
+    pub payload: Option<RustType>,
+}
+
 #[derive(Debug)]
 pub struct Tree {
     pub version: String,
     pub types: Vec<Item>,
     pub api: Vec<ApiNode>,
+    pub streaming: StreamingDef,
+}
+
+#[derive(Debug)]
+pub struct StreamingDef {
+    pub channels: Vec<ChannelDef>,
+    /// `streaming/types.rs` のアイテム。misskey-js の名前付きの型のうち、到達したもの。
+    pub types: Vec<Item>,
+    /// `streaming/mod.rs` のアイテム。`BroadcastEvent` と、そこから作った無名の型。
+    pub items: Vec<Item>,
+}
+
+#[derive(Debug)]
+pub struct ChannelDef {
+    /// `connect` で送るチャンネル名。
+    pub name: String,
+    /// モジュール名とアクセサ名。
+    pub ident: String,
+    /// `pub struct Params` の定義。params の無いチャンネルでは、フィールドが無い。
+    pub params: StructDef,
+    pub events: EnvelopeDef,
+    /// `receives` が null のチャンネルでは `None`。
+    pub messages: Option<EnvelopeDef>,
+    pub items: Vec<Item>,
 }
 
 #[derive(Debug)]

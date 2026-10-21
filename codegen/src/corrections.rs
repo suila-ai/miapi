@@ -1,10 +1,11 @@
-//! Misskey の `api.json` が、サーバが実際に返す内容と食い違う箇所。
-//! 補正は、該当するスキーマを持つすべての spec に、型を解決する前に適用する。
-//! こうすることで、`specs/` のファイルを上流が生成したままに保つ。
+//! Misskey の `api.json` と misskey-js の型定義が、サーバが実際に返す内容と食い違う箇所。
+//! 補正は該当するスキーマや型を持つすべてのバージョンセットに、型を解決する前に適用する。
+//! こうすることで、`specs/` のファイルを上流のまま保つ。
 
 use indexmap::IndexMap;
 
 use crate::spec::{AdditionalProperties, MediaType, Response, Schema, SchemaType, Spec};
+use crate::ts::{self, Member, TypeNode};
 
 pub fn apply(spec: &mut Spec) {
     let schemas = &mut spec.components.schemas;
@@ -77,6 +78,35 @@ pub fn apply(spec: &mut Spec) {
     }
 }
 
+/// misskey-js の型定義の補正。型が下の誤った形のときだけ直すので、上流が直した版では何もしない。
+pub fn apply_streaming(files: &mut ts::Files) {
+    // カスタム絵文字のリアクションには、絵文字の名前と URL が付く（`ReactionService`）。
+    // misskey-js の型は 2025.10.0 まで、これを文字列にしていた。
+    if let Some(emoji) = ts_property(files, "NoteUpdatedEvent", &["body", "emoji"])
+        && *emoji == nullable(keyword("string"))
+    {
+        let members = ["name", "url"].map(|name| Member {
+            name: name.to_owned(),
+            optional: false,
+            ty: keyword("string"),
+            doc: None,
+        });
+        *emoji = nullable(TypeNode::Object {
+            members: members.into(),
+        });
+    }
+
+    // `drive/files/upload-from-url` の `marker` は省略でき、省略すると既定値の null のまま送る。
+    if let Some(marker) = ts_property(
+        files,
+        "Channels",
+        &["main", "events", "urlUploadFinished", "marker"],
+    ) && *marker == keyword("string")
+    {
+        *marker = nullable(keyword("string"));
+    }
+}
+
 /// `path` のエンドポイントの応答の一覧。キーはステータスコード。
 fn responses<'a>(spec: &'a mut Spec, path: &str) -> Option<&'a mut IndexMap<String, Response>> {
     Some(&mut spec.paths.get_mut(path)?.post.as_mut()?.responses)
@@ -136,5 +166,50 @@ fn role_policy_value(schemas: &mut IndexMap<String, Schema>) -> Option<&mut Sche
 fn optional(schema: Option<&mut Schema>, names: &[&str]) {
     if let Some(required) = schema.and_then(|schema| schema.required.as_mut()) {
         required.retain(|name| !names.contains(&name.as_str()));
+    }
+}
+
+/// misskey-js の型定義で `name` と宣言された型から、`path` のメンバーをたどった先の型。
+fn ts_property<'a>(
+    files: &'a mut ts::Files,
+    name: &str,
+    path: &[&str],
+) -> Option<&'a mut TypeNode> {
+    let decl = files
+        .values_mut()
+        .flat_map(|file| &mut file.types)
+        .find(|decl| decl.name == name)?;
+    member_type(&mut decl.ty, path)
+}
+
+/// object literal のメンバーを名前でたどる。関数型は第 1 引数（本文）へ、union と intersection は、
+/// 残りの `path` をたどれる最初のメンバーへ進む。
+fn member_type<'a>(node: &'a mut TypeNode, path: &[&str]) -> Option<&'a mut TypeNode> {
+    let Some((name, rest)) = path.split_first() else {
+        return Some(node);
+    };
+    match node {
+        TypeNode::Object { members } => {
+            let member = members.iter_mut().find(|member| member.name == *name)?;
+            member_type(&mut member.ty, rest)
+        }
+        TypeNode::Function { params, .. } => member_type(params.first_mut()?, path),
+        TypeNode::Union { types } | TypeNode::Intersection { types } => {
+            types.iter_mut().find_map(|ty| member_type(ty, path))
+        }
+        _ => None,
+    }
+}
+
+fn keyword(name: &str) -> TypeNode {
+    TypeNode::Keyword {
+        name: name.to_owned(),
+    }
+}
+
+/// `ty | null`。
+fn nullable(ty: TypeNode) -> TypeNode {
+    TypeNode::Union {
+        types: vec![ty, keyword("null")],
     }
 }
