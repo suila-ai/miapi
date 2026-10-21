@@ -153,10 +153,7 @@ fn endpoint_tokens(endpoint: &EndpointDef, module: &Ident) -> TokenStream {
             let json_name = &file.json_name;
             let name = ident(&file.ident);
             quote! {
-                let fields = match ::serde_json::to_value(&self).map_err(crate::Error::Serialize)? {
-                    ::serde_json::Value::Object(fields) => fields,
-                    _ => ::serde_json::Map::new(),
-                };
+                let fields = crate::endpoint::multipart_fields(&self)?;
                 ::std::result::Result::Ok(crate::Body::Multipart {
                     fields,
                     file: (#json_name, self.#name),

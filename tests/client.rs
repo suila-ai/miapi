@@ -1,4 +1,4 @@
-use miapi::endpoint::{Body, json_body};
+use miapi::endpoint::{Body, json_body, multipart_fields};
 use miapi::{Endpoint, Error, FilePart};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
@@ -84,8 +84,18 @@ impl Endpoint for Upload {
 
 async fn server_and_client(token: Option<&str>) -> (MockServer, Client) {
     let server = MockServer::start().await;
-    let client = Client::new(&format!("{}/", server.uri()), token);
+    let client = Client::new(&format!("{}/", server.uri()), token).unwrap();
     (server, client)
+}
+
+/// `error` が `Error::InvalidRequest` で、原因の文言に `expected` を含むことを確かめる。
+fn assert_invalid_request(error: Error, expected: &str) {
+    match error {
+        Error::InvalidRequest(source) => {
+            assert!(source.to_string().contains(expected), "{source}");
+        }
+        other => panic!("想定外のエラー: {other:?}"),
+    }
 }
 
 #[tokio::test]
@@ -145,7 +155,7 @@ async fn with_http_client_uses_the_given_client() {
         .user_agent("miapi-test/1")
         .build()
         .unwrap();
-    let client = Client::with_http_client(http, &server.uri(), None);
+    let client = Client::with_http_client(http, &server.uri(), None).unwrap();
     Mock::given(path("/api/i"))
         .and(header("user-agent", "miapi-test/1"))
         .respond_with(ResponseTemplate::new(200).set_body_json(json!({})))
@@ -285,6 +295,74 @@ async fn multipart_sends_token_fields_and_file() {
 }
 
 #[tokio::test]
+async fn invalid_content_type_fails_before_sending() {
+    let (server, client) = server_and_client(Some("tok")).await;
+    let file = FilePart {
+        file_name: "photo.png".into(),
+        content_type: Some("image png".into()),
+        data: b"PNGDATA".to_vec(),
+    };
+    assert_invalid_request(client.call(Upload { file }).await.unwrap_err(), "image png");
+    assert!(server.received_requests().await.unwrap().is_empty());
+}
+
+#[tokio::test]
+async fn non_object_json_body_fails_before_sending() {
+    let (server, client) = server_and_client(Some("tok")).await;
+    assert_invalid_request(
+        client.call_raw("ping", json!([1])).await.unwrap_err(),
+        "JSON object",
+    );
+    assert!(server.received_requests().await.unwrap().is_empty());
+}
+
+#[test]
+fn non_object_multipart_fields_are_rejected() {
+    assert_invalid_request(multipart_fields(&[1]).unwrap_err(), "JSON object");
+}
+
+#[test]
+fn invalid_origin_fails_to_create_client() {
+    // スキームが無いと URL として読めず、host:port だけだと host がスキームとして読まれる。
+    // wss:// は URL として読めるが、http でも https でもない。https:// は host が無いので読めない。
+    // クエリやフラグメントの付いた URL は、ベース URL にならない。
+    for origin in [
+        "misskey.example.com",
+        "localhost:3000",
+        "wss://misskey.example.com",
+        "https://",
+        "https://misskey.example.com/?lang=ja",
+        "https://misskey.example.com/#top",
+    ] {
+        match Client::new(origin, None) {
+            Err(Error::InvalidOrigin { origin: given, .. }) => assert_eq!(given, origin),
+            other => panic!("想定外の結果: {other:?}"),
+        }
+    }
+}
+
+#[tokio::test]
+async fn sub_path_in_origin_is_kept() {
+    let server = MockServer::start().await;
+    Mock::given(path("/misskey/api/ping"))
+        .respond_with(ResponseTemplate::new(200).set_body_json(json!({"pong": 0})))
+        .expect(3)
+        .mount(&server)
+        .await;
+    // 末尾の改行は、ファイルから読んだ origin に残りやすい。
+    // 途中の改行やタブは URL として読むときに消えるので、その前後の / も末尾の / として除く。
+    for origin in [
+        format!("{}/misskey/", server.uri()),
+        format!("{}/misskey//\n", server.uri()),
+        format!("{}/misskey/\t/", server.uri()),
+    ] {
+        let client = Client::new(&origin, None).unwrap();
+        assert_eq!(client.origin(), format!("{}/misskey", server.uri()));
+        client.call_raw("ping", json!({})).await.unwrap();
+    }
+}
+
+#[tokio::test]
 async fn call_raw_returns_json_value() {
     let (server, client) = server_and_client(Some("tok")).await;
     Mock::given(path("/api/meta"))
@@ -302,6 +380,6 @@ async fn call_raw_returns_json_value() {
 #[test]
 fn call_future_is_send() {
     fn assert_send<T: Send>(_: T) {}
-    let client = Client::new("https://example.com", None);
+    let client = Client::new("https://example.com", None).unwrap();
     assert_send(client.call(Me));
 }

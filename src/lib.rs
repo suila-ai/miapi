@@ -7,7 +7,7 @@
 //! ```no_run
 //! # #[cfg(feature = "latest")]
 //! # async fn run() -> Result<(), miapi::Error> {
-//! let client = miapi::Client::new("https://misskey.example.com", Some("token"));
+//! let client = miapi::Client::new("https://misskey.example.com", Some("token"))?;
 //! let note = client.notes().show().note_id("xxxxxxxxxx").await?;
 //! println!("{}", note.text.unwrap_or_default());
 //! let created = client.notes().create().text("hello").await?;

@@ -674,6 +674,8 @@ pub mod _2fa {
     }
     #[doc = "`i/2fa/remove-key`"]
     pub mod remove_key {
+        #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
+        pub struct Response {}
         #[doc = "`i/2fa/remove-key`"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
@@ -695,7 +697,6 @@ pub mod _2fa {
                 crate::endpoint::json_body(&self)
             }
         }
-        pub type Response = ();
         #[doc = "`i/2fa/remove-key` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `password`、`credential_id`。すべて設定すると、呼び出しを await できる。"]
@@ -864,6 +865,8 @@ pub mod _2fa {
     }
     #[doc = "`i/2fa/update-key`"]
     pub mod update_key {
+        #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
+        pub struct Response {}
         #[doc = "`i/2fa/update-key`"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
         #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
@@ -880,7 +883,6 @@ pub mod _2fa {
                 crate::endpoint::json_body(&self)
             }
         }
-        pub type Response = ();
         #[doc = "`i/2fa/update-key` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `name`、`credential_id`。すべて設定すると、呼び出しを await できる。"]

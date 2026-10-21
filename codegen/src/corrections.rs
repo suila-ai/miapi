@@ -1,10 +1,10 @@
-//! Misskey の `api.json` が、サーバが実際に返す内容より多くを保証している箇所。
+//! Misskey の `api.json` が、サーバが実際に返す内容と食い違う箇所。
 //! 補正は、該当するスキーマを持つすべての spec に、型を解決する前に適用する。
 //! こうすることで、`specs/` のファイルを上流が生成したままに保つ。
 
 use indexmap::IndexMap;
 
-use crate::spec::{AdditionalProperties, Schema, SchemaType, Spec};
+use crate::spec::{AdditionalProperties, MediaType, Response, Schema, SchemaType, Spec};
 
 pub fn apply(spec: &mut Spec) {
     let schemas = &mut spec.components.schemas;
@@ -60,13 +60,47 @@ pub fn apply(spec: &mut Spec) {
     if let Some(value) = response(spec, "/i/registry/get") {
         value.schema_type = None;
     }
+
+    // `i/2fa/remove-key` と `i/2fa/update-key` は、処理の最後に `{}` を返す。
+    // spec には 204 しか書かれていないが、204 になるのは処理が null を返したときだけなので（`ApiCallService`）、
+    // 実際の応答は 200 と `{}` になる。
+    // 204 は残さない。残すと `Response` が `Option` になり、返ることの無い `None` の分岐を、
+    // 使う側が書くことになる。
+    // 上流が `res` を足して 200 が載ったら補正しない。上書きすると、そのスキーマが消える。
+    for path in ["/i/2fa/remove-key", "/i/2fa/update-key"] {
+        if let Some(responses) = responses(spec, path)
+            && !responses.contains_key("200")
+        {
+            responses.shift_remove("204");
+            responses.insert("200".to_owned(), empty_object());
+        }
+    }
+}
+
+/// `path` のエンドポイントの応答の一覧。キーはステータスコード。
+fn responses<'a>(spec: &'a mut Spec, path: &str) -> Option<&'a mut IndexMap<String, Response>> {
+    Some(&mut spec.paths.get_mut(path)?.post.as_mut()?.responses)
 }
 
 /// `path` のエンドポイントが 200 で返す JSON のスキーマ。
 fn response<'a>(spec: &'a mut Spec, path: &str) -> Option<&'a mut Schema> {
-    let responses = &mut spec.paths.get_mut(path)?.post.as_mut()?.responses;
-    let content = responses.get_mut("200")?.content.as_mut()?;
+    let content = responses(spec, path)?.get_mut("200")?.content.as_mut()?;
     Some(&mut content.get_mut("application/json")?.schema)
+}
+
+/// プロパティの無い object を返す、200 の応答。
+fn empty_object() -> Response {
+    let schema = Schema {
+        schema_type: Some(SchemaType::One("object".to_owned())),
+        properties: Some(IndexMap::new()),
+        ..Schema::default()
+    };
+    Response {
+        content: Some(IndexMap::from([(
+            "application/json".to_owned(),
+            MediaType { schema },
+        )])),
+    }
 }
 
 fn property<'a>(

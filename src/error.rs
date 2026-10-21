@@ -42,6 +42,16 @@ pub enum Error {
         status: u16,
         body: String,
     },
-    #[error("failed to serialize request")]
-    Serialize(#[source] serde_json::Error),
+    /// 送る前に分かったリクエストの誤り。サーバには送っていない。
+    #[error("invalid request")]
+    InvalidRequest(#[source] Box<dyn std::error::Error + Send + Sync>),
+    /// [`Client`](crate::client::Client) を作るときに渡した origin が、http か https の URL として読めないか、
+    /// クエリかフラグメントが付いている。
+    #[error("invalid origin {origin:?}")]
+    InvalidOrigin {
+        /// 渡したままの origin。
+        origin: String,
+        #[source]
+        source: Box<dyn std::error::Error + Send + Sync>,
+    },
 }
