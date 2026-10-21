@@ -122,3 +122,142 @@ async fn error_fixture_maps_to_api_error() {
         other => panic!("想定外の結果: {other:?}"),
     }
 }
+
+/// ストリーミングのイベントの fixture（`stream-*.json`。チャンネルごとに、`{type, body}` を type ごと（noteUpdated は本文の type ごと）に 1 件ずつ並べた配列）が、
+/// 選んだバージョンの生成済みの `Event` / `BroadcastEvent` にデシリアライズできることを確かめる。
+/// serverStats と queueStats は、fixture 用のサーバ（NODE_ENV=test）が統計を取らないので fixture が無い。
+#[cfg(feature = "streaming")]
+mod streaming {
+    use std::fmt::Debug;
+
+    use super::{fixture, parse};
+    use crate::common::version::streaming::{self, BroadcastEvent, types};
+
+    /// fixture の全イベントが読めることを確かめて返す。選んだバージョンの fixture なら、`Unrecognized` に
+    /// 落ちたものが無いことも確かめる。別のバージョンの応答（`MIAPI_FIXTURES`）では、知らない値が
+    /// `Unrecognized` に入るのが正しい動作なので、確かめない。
+    fn events<T: serde::de::DeserializeOwned + Debug>(name: &str) -> Vec<T> {
+        let events: Vec<T> = parse(&fixture(name));
+        assert!(!events.is_empty(), "{name} が空");
+        if std::env::var_os("MIAPI_FIXTURES").is_none() {
+            for event in &events {
+                let debug = format!("{event:?}");
+                assert!(
+                    !debug.contains("Unrecognized"),
+                    "{name}: バインディングが知らないイベント: {debug}"
+                );
+            }
+        }
+        events
+    }
+
+    /// fixture に、`pick` に当たるイベントがあることを確かめる。ほかのイベントが並んでいてもよい
+    /// （別のバージョンの応答では `Unrecognized` も）。
+    fn assert_has<T: serde::de::DeserializeOwned + Debug>(name: &str, pick: fn(&T) -> bool) {
+        let events = events::<T>(name);
+        assert!(events.iter().any(pick), "{name}: {events:?}");
+    }
+
+    #[test]
+    fn timelines_deliver_notes() {
+        use streaming::{
+            antenna, channel, global_timeline, hashtag, home_timeline, hybrid_timeline,
+            local_timeline, user_list,
+        };
+        assert_has("stream-local-timeline", |e: &local_timeline::Event| {
+            matches!(e, local_timeline::Event::Note(_))
+        });
+        assert_has("stream-global-timeline", |e: &global_timeline::Event| {
+            matches!(e, global_timeline::Event::Note(_))
+        });
+        assert_has("stream-home-timeline", |e: &home_timeline::Event| {
+            matches!(e, home_timeline::Event::Note(_))
+        });
+        assert_has("stream-hybrid-timeline", |e: &hybrid_timeline::Event| {
+            matches!(e, hybrid_timeline::Event::Note(_))
+        });
+        assert_has("stream-hashtag", |e: &hashtag::Event| {
+            matches!(e, hashtag::Event::Note(_))
+        });
+        assert_has("stream-antenna", |e: &antenna::Event| {
+            matches!(e, antenna::Event::Note(_))
+        });
+        assert_has("stream-user-list", |e: &user_list::Event| {
+            matches!(e, user_list::Event::Note(_))
+        });
+        assert_has("stream-channel", |e: &channel::Event| {
+            matches!(e, channel::Event::Note(_))
+        });
+    }
+
+    #[test]
+    fn main_events() {
+        use streaming::main::Event;
+        let events = events::<Event>("stream-main");
+        let has = |pick: fn(&Event) -> bool| events.iter().any(pick);
+        assert!(has(|e| matches!(e, Event::Notification(_))));
+        assert!(has(|e| matches!(e, Event::UnreadNotification(_))));
+        assert!(has(|e| matches!(e, Event::Mention(_))));
+        assert!(has(|e| matches!(e, Event::Reply(_))));
+        assert!(has(|e| matches!(e, Event::Renote(_))));
+        assert!(has(|e| matches!(e, Event::Follow(_))));
+        assert!(has(|e| matches!(e, Event::Followed(_))));
+        assert!(has(|e| matches!(e, Event::Unfollow(_))));
+        assert!(has(|e| matches!(e, Event::MeUpdated(_))));
+        assert!(has(|e| matches!(e, Event::DriveFileCreated(_))));
+        assert!(has(|e| matches!(e, Event::ReadAllNotifications)));
+        assert!(has(|e| matches!(e, Event::RegistryUpdated(_))));
+        // URL からのアップロードで marker を省くと、marker は null で届く。
+        assert!(has(
+            |e| matches!(e, Event::UrlUploadFinished(finished) if finished.marker.is_none())
+        ));
+    }
+
+    #[test]
+    fn drive_and_admin_events() {
+        use streaming::drive::Event;
+        let drive = events::<Event>("stream-drive");
+        let has = |pick: fn(&Event) -> bool| drive.iter().any(pick);
+        assert!(has(|e| matches!(e, Event::FileCreated(_))));
+        assert!(has(
+            |e| matches!(e, Event::FileDeleted(id) if !id.is_empty())
+        ));
+        assert!(has(|e| matches!(e, Event::FolderUpdated(_))));
+        assert_has("stream-admin", |e: &streaming::admin::Event| match e {
+            streaming::admin::Event::NewAbuseUserReport(report) => report.comment == "dummy report",
+            _ => false,
+        });
+    }
+
+    #[test]
+    fn broadcast_events() {
+        use types::NoteUpdatedEvent;
+        let events = events::<BroadcastEvent>("stream-broadcast");
+        let has = |pick: fn(&BroadcastEvent) -> bool| events.iter().any(pick);
+        // カスタム絵文字のリアクションには、絵文字の名前と URL が付く。
+        assert!(
+            has(|e| matches!(
+                e,
+                BroadcastEvent::NoteUpdated(NoteUpdatedEvent::Reacted(reacted))
+                    if reacted.body.emoji.as_ref().is_some_and(|emoji| emoji.name == "emoji1@.")
+            )),
+            "{events:?}"
+        );
+        assert!(has(|e| matches!(
+            e,
+            BroadcastEvent::NoteUpdated(NoteUpdatedEvent::Unreacted(_))
+        )));
+        assert!(has(|e| matches!(
+            e,
+            BroadcastEvent::NoteUpdated(NoteUpdatedEvent::PollVoted(_))
+        )));
+        assert!(has(|e| matches!(
+            e,
+            BroadcastEvent::NoteUpdated(NoteUpdatedEvent::Deleted(_))
+        )));
+        assert!(has(|e| matches!(e, BroadcastEvent::EmojiAdded(_))));
+        assert!(has(|e| matches!(e, BroadcastEvent::EmojiUpdated(_))));
+        assert!(has(|e| matches!(e, BroadcastEvent::EmojiDeleted(_))));
+        assert!(has(|e| matches!(e, BroadcastEvent::AnnouncementCreated(_))));
+    }
+}

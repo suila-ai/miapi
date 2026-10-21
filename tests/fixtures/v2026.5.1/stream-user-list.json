@@ -1,0 +1,92 @@
+[
+  {
+    "type": "note",
+    "body": {
+      "id": "aslld2uz5h1w001u",
+      "createdAt": "2026-10-21T11:26:58.235Z",
+      "userId": "aslld0qa5h1w0005",
+      "user": {
+        "id": "aslld0qa5h1w0005",
+        "name": null,
+        "username": "bob",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+        "avatarBlurhash": null,
+        "avatarDecorations": [],
+        "isBot": false,
+        "isCat": false,
+        "emojis": {},
+        "onlineStatus": "unknown",
+        "badgeRoles": []
+      },
+      "text": "dummy reply 2",
+      "cw": null,
+      "visibility": "public",
+      "localOnly": false,
+      "reactionAcceptance": null,
+      "renoteCount": 0,
+      "repliesCount": 0,
+      "reactionCount": 0,
+      "reactions": {},
+      "reactionEmojis": {},
+      "reactionAndUserPairCache": [],
+      "fileIds": [],
+      "files": [],
+      "replyId": "aslld2g75h1w001t",
+      "renoteId": null,
+      "mentions": [
+        "aslld0o95h1w0004"
+      ],
+      "clippedCount": 0,
+      "reply": {
+        "id": "aslld2g75h1w001t",
+        "createdAt": "2026-10-21T11:26:57.703Z",
+        "userId": "aslld0o95h1w0004",
+        "user": {
+          "id": "aslld0o95h1w0004",
+          "name": "Alice",
+          "username": "alice",
+          "host": null,
+          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fd57b40aa-5b34-4d5f-9de7-b2e183f87227&avatar=1",
+          "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+          "avatarDecorations": [
+            {
+              "id": "aslld13z5h1w000w",
+              "offsetX": 0.1,
+              "url": "https://misskey.example.com/files/b3bfe6b1-1bc1-4f0d-9cd7-9ae669138706"
+            }
+          ],
+          "isBot": false,
+          "isCat": true,
+          "emojis": {},
+          "onlineStatus": "online",
+          "badgeRoles": [
+            {
+              "name": "role1",
+              "iconUrl": "https://misskey.example.com/files/b3bfe6b1-1bc1-4f0d-9cd7-9ae669138706",
+              "displayOrder": 0
+            }
+          ]
+        },
+        "text": "dummy note 6 #tag1",
+        "cw": null,
+        "visibility": "public",
+        "localOnly": false,
+        "reactionAcceptance": null,
+        "renoteCount": 0,
+        "repliesCount": 0,
+        "reactionCount": 0,
+        "reactions": {},
+        "reactionEmojis": {},
+        "reactionAndUserPairCache": [],
+        "tags": [
+          "tag1"
+        ],
+        "fileIds": [],
+        "files": [],
+        "replyId": null,
+        "renoteId": null
+      }
+    }
+  }
+]

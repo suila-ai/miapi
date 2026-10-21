@@ -1,0 +1,952 @@
+[
+  {
+    "type": "driveFileCreated",
+    "body": {
+      "id": "aslv3perx1r6002l",
+      "createdAt": "2026-10-21T15:59:37.059Z",
+      "name": "second.png",
+      "type": "image/png",
+      "md5": "44a1e6505a9d0b70bd07d4a0fb298cb5",
+      "size": 26568,
+      "isSensitive": false,
+      "blurhash": "eRFRpZt65NX4Rj}-j[axj?ju53WB=~s;s;s*a{ofj[ay=~ofImR%ay",
+      "properties": {
+        "width": 192,
+        "height": 192
+      },
+      "url": "https://misskey.example.com/files/25d63967-108f-461c-842e-ae1dcddf2543",
+      "thumbnailUrl": "https://misskey.example.com/files/thumbnail-d2978594-2469-495e-93f0-08d1a9750fd3",
+      "comment": null,
+      "folderId": null,
+      "folder": null,
+      "userId": null,
+      "user": null
+    }
+  },
+  {
+    "type": "follow",
+    "body": {
+      "id": "aslv3m5dx1r60005",
+      "name": null,
+      "username": "bob",
+      "host": null,
+      "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+      "avatarBlurhash": null,
+      "avatarDecorations": [],
+      "isBot": false,
+      "isCat": false,
+      "emojis": {},
+      "onlineStatus": "unknown",
+      "badgeRoles": [],
+      "url": null,
+      "uri": null,
+      "movedTo": null,
+      "alsoKnownAs": null,
+      "createdAt": "2026-10-21T15:59:32.833Z",
+      "updatedAt": "2026-10-21T15:59:35.616Z",
+      "lastFetchedAt": null,
+      "bannerUrl": null,
+      "bannerBlurhash": null,
+      "isLocked": false,
+      "isSilenced": false,
+      "isSuspended": false,
+      "description": null,
+      "location": null,
+      "birthday": null,
+      "lang": null,
+      "fields": [],
+      "verifiedLinks": [],
+      "followersCount": 0,
+      "followingCount": 0,
+      "notesCount": 4,
+      "pinnedNoteIds": [],
+      "pinnedNotes": [],
+      "pinnedPageId": null,
+      "pinnedPage": null,
+      "publicReactions": true,
+      "followersVisibility": "private",
+      "followingVisibility": "private",
+      "chatScope": "mutual",
+      "canChat": true,
+      "roles": [],
+      "memo": null,
+      "isFollowing": true,
+      "isFollowed": true,
+      "hasPendingFollowRequestFromYou": false,
+      "hasPendingFollowRequestToYou": false,
+      "isBlocking": false,
+      "isBlocked": false,
+      "isMuted": false,
+      "isRenoteMuted": false,
+      "notify": "none",
+      "withReplies": false,
+      "followedMessage": null
+    }
+  },
+  {
+    "type": "followed",
+    "body": {
+      "id": "aslv3lzqx1r60003",
+      "name": null,
+      "username": "admin",
+      "host": null,
+      "avatarUrl": "https://misskey.example.com/identicon/admin@misskey.example.com",
+      "avatarBlurhash": null,
+      "avatarDecorations": [],
+      "isBot": false,
+      "isCat": false,
+      "emojis": {},
+      "onlineStatus": "online",
+      "badgeRoles": []
+    }
+  },
+  {
+    "type": "meUpdated",
+    "body": {
+      "id": "aslv3m28x1r60004",
+      "name": "Alice",
+      "username": "alice",
+      "host": null,
+      "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+      "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+      "avatarDecorations": [
+        {
+          "id": "aslv3mi6x1r6000v",
+          "offsetX": 0.1,
+          "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+        }
+      ],
+      "isBot": false,
+      "isCat": true,
+      "emojis": {},
+      "onlineStatus": "online",
+      "badgeRoles": [
+        {
+          "name": "role1",
+          "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+          "displayOrder": 0
+        }
+      ],
+      "url": null,
+      "uri": null,
+      "movedTo": null,
+      "alsoKnownAs": null,
+      "createdAt": "2026-10-21T15:59:32.720Z",
+      "updatedAt": "2026-10-21T15:59:35.030Z",
+      "lastFetchedAt": null,
+      "bannerUrl": "https://misskey.example.com/files/930c772b-3c79-4e48-b629-e5dac63c00b0",
+      "bannerBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+      "isLocked": false,
+      "isSilenced": false,
+      "isSuspended": false,
+      "description": "dummy profile 2",
+      "location": null,
+      "birthday": "2000-01-01",
+      "lang": null,
+      "fields": [
+        {
+          "name": "field1",
+          "value": "value1"
+        }
+      ],
+      "verifiedLinks": [],
+      "followersCount": 2,
+      "followingCount": 0,
+      "notesCount": 3,
+      "pinnedNoteIds": [
+        "aslv3mlvx1r60010"
+      ],
+      "pinnedNotes": [
+        {
+          "id": "aslv3mlvx1r60010",
+          "createdAt": "2026-10-21T15:59:33.427Z",
+          "userId": "aslv3m28x1r60004",
+          "user": {
+            "id": "aslv3m28x1r60004",
+            "name": "Alice",
+            "username": "alice",
+            "host": null,
+            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+            "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+            "avatarDecorations": [
+              {
+                "id": "aslv3mi6x1r6000v",
+                "offsetX": 0.1,
+                "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+              }
+            ],
+            "isBot": false,
+            "isCat": true,
+            "emojis": {},
+            "onlineStatus": "online",
+            "badgeRoles": [
+              {
+                "name": "role1",
+                "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+                "displayOrder": 0
+              }
+            ]
+          },
+          "text": "dummy note 1 #tag1 #tag2",
+          "cw": null,
+          "visibility": "public",
+          "localOnly": false,
+          "reactionAcceptance": null,
+          "renoteCount": 1,
+          "repliesCount": 1,
+          "reactionCount": 2,
+          "reactions": {
+            "👍": 1,
+            ":emoji1@.:": 1
+          },
+          "reactionEmojis": {},
+          "tags": [
+            "tag1",
+            "tag2"
+          ],
+          "fileIds": [],
+          "files": [],
+          "replyId": null,
+          "renoteId": null,
+          "clippedCount": 0
+        }
+      ],
+      "pinnedPageId": null,
+      "pinnedPage": null,
+      "publicReactions": true,
+      "followersVisibility": "public",
+      "followingVisibility": "public",
+      "chatScope": "mutual",
+      "canChat": true,
+      "roles": [
+        {
+          "id": "aslv3mfzx1r6000l",
+          "name": "role1",
+          "color": "#ff0000",
+          "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+          "description": "dummy role",
+          "isModerator": false,
+          "isAdministrator": false,
+          "displayOrder": 0
+        },
+        {
+          "id": "aslv3mh3x1r6000q",
+          "name": "role2",
+          "color": null,
+          "iconUrl": null,
+          "description": "dummy role",
+          "isModerator": false,
+          "isAdministrator": false,
+          "displayOrder": 0
+        }
+      ],
+      "memo": null,
+      "twoFactorEnabled": false,
+      "usePasswordLessLogin": false,
+      "securityKeys": false,
+      "avatarId": "aslv3mcux1r6000f",
+      "bannerId": "aslv3mcux1r6000f",
+      "followedMessage": null,
+      "isModerator": false,
+      "isAdmin": false,
+      "injectFeaturedNote": true,
+      "receiveAnnouncementEmail": true,
+      "alwaysMarkNsfw": false,
+      "autoSensitive": false,
+      "carefulBot": false,
+      "autoAcceptFollowed": true,
+      "noCrawle": false,
+      "preventAiLearning": true,
+      "isExplorable": true,
+      "isDeleted": false,
+      "twoFactorBackupCodesStock": "none",
+      "hideOnlineStatus": false,
+      "hasUnreadSpecifiedNotes": false,
+      "hasUnreadMentions": false,
+      "hasUnreadChatMessages": false,
+      "hasUnreadAnnouncement": true,
+      "unreadAnnouncements": [
+        {
+          "createdAt": "2026-10-21T15:59:33.028Z",
+          "id": "aslv3masx1r6000b",
+          "updatedAt": null,
+          "text": "dummy text",
+          "title": "dummy announcement",
+          "imageUrl": null,
+          "icon": "info",
+          "display": "normal",
+          "needConfirmationToRead": false,
+          "isActive": true,
+          "forExistingUsers": false,
+          "silence": false,
+          "userId": null
+        },
+        {
+          "createdAt": "2026-10-21T15:59:35.007Z",
+          "id": "aslv3ntrx1r6001r",
+          "updatedAt": null,
+          "text": "dummy text",
+          "title": "dummy announcement 2",
+          "imageUrl": null,
+          "icon": "info",
+          "display": "normal",
+          "needConfirmationToRead": false,
+          "isActive": true,
+          "forExistingUsers": false,
+          "silence": false,
+          "userId": null
+        }
+      ],
+      "hasUnreadAntenna": false,
+      "hasUnreadChannel": false,
+      "hasUnreadNotification": true,
+      "hasPendingReceivedFollowRequest": false,
+      "unreadNotificationsCount": 5,
+      "mutedWords": [],
+      "hardMutedWords": [],
+      "mutedInstances": [],
+      "mutingNotificationTypes": [],
+      "notificationRecieveConfig": {},
+      "emailNotificationTypes": [
+        "follow",
+        "receiveFollowRequest"
+      ],
+      "achievements": [],
+      "loggedInDays": 1,
+      "policies": {
+        "gtlAvailable": true,
+        "ltlAvailable": true,
+        "canPublicNote": true,
+        "mentionLimit": 20,
+        "canInvite": false,
+        "inviteLimit": 0,
+        "inviteLimitCycle": 10080,
+        "inviteExpirationTime": 0,
+        "canManageCustomEmojis": false,
+        "canManageAvatarDecorations": false,
+        "canSearchNotes": false,
+        "canSearchUsers": true,
+        "canUseTranslator": true,
+        "canHideAds": false,
+        "canCreateChannel": true,
+        "driveCapacityMb": 8192,
+        "maxFileSizeMb": 30,
+        "alwaysMarkNsfw": false,
+        "canUpdateBioMedia": true,
+        "pinLimit": 5,
+        "antennaLimit": 100,
+        "wordMuteLimit": 200,
+        "webhookLimit": 100,
+        "clipLimit": 10,
+        "noteEachClipsLimit": 200,
+        "userListLimit": 100,
+        "userEachUserListsLimit": 50,
+        "rateLimitFactor": 0.3,
+        "avatarDecorationLimit": 1,
+        "canImportAntennas": true,
+        "canImportBlocking": true,
+        "canImportFollowing": true,
+        "canImportMuting": true,
+        "canImportUserLists": true,
+        "chatAvailability": "available",
+        "uploadableFileTypes": [
+          "text/*",
+          "application/json",
+          "image/*",
+          "video/*",
+          "audio/*"
+        ],
+        "noteDraftLimit": 10,
+        "scheduledNoteLimit": 1,
+        "watermarkAvailable": true
+      },
+      "email": null,
+      "emailVerified": false,
+      "securityKeysList": []
+    }
+  },
+  {
+    "type": "mention",
+    "body": {
+      "id": "aslv3o8zx1r6001v",
+      "createdAt": "2026-10-21T15:59:35.555Z",
+      "userId": "aslv3m5dx1r60005",
+      "user": {
+        "id": "aslv3m5dx1r60005",
+        "name": null,
+        "username": "bob",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+        "avatarBlurhash": null,
+        "avatarDecorations": [],
+        "isBot": false,
+        "isCat": false,
+        "emojis": {},
+        "onlineStatus": "unknown",
+        "badgeRoles": []
+      },
+      "text": "dummy reply 2",
+      "cw": null,
+      "visibility": "public",
+      "localOnly": false,
+      "reactionAcceptance": null,
+      "renoteCount": 0,
+      "repliesCount": 0,
+      "reactionCount": 0,
+      "reactions": {},
+      "reactionEmojis": {},
+      "fileIds": [],
+      "files": [],
+      "replyId": "aslv3nu9x1r6001t",
+      "renoteId": null,
+      "mentions": [
+        "aslv3m28x1r60004"
+      ],
+      "clippedCount": 0,
+      "reply": {
+        "id": "aslv3nu9x1r6001t",
+        "createdAt": "2026-10-21T15:59:35.025Z",
+        "userId": "aslv3m28x1r60004",
+        "user": {
+          "id": "aslv3m28x1r60004",
+          "name": "Alice",
+          "username": "alice",
+          "host": null,
+          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+          "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+          "avatarDecorations": [
+            {
+              "id": "aslv3mi6x1r6000v",
+              "offsetX": 0.1,
+              "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+            }
+          ],
+          "isBot": false,
+          "isCat": true,
+          "emojis": {},
+          "onlineStatus": "online",
+          "badgeRoles": [
+            {
+              "name": "role1",
+              "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+              "displayOrder": 0
+            }
+          ]
+        },
+        "text": "dummy note 6 #tag1",
+        "cw": null,
+        "visibility": "public",
+        "localOnly": false,
+        "reactionAcceptance": null,
+        "renoteCount": 0,
+        "repliesCount": 0,
+        "reactionCount": 0,
+        "reactions": {},
+        "reactionEmojis": {},
+        "tags": [
+          "tag1"
+        ],
+        "fileIds": [],
+        "files": [],
+        "replyId": null,
+        "renoteId": null
+      }
+    }
+  },
+  {
+    "type": "notification",
+    "body": {
+      "id": "aslv3o9ex1r6001w",
+      "createdAt": "2026-10-21T15:59:35.570Z",
+      "type": "reply",
+      "userId": "aslv3m5dx1r60005",
+      "user": {
+        "id": "aslv3m5dx1r60005",
+        "name": null,
+        "username": "bob",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+        "avatarBlurhash": null,
+        "avatarDecorations": [],
+        "isBot": false,
+        "isCat": false,
+        "emojis": {},
+        "onlineStatus": "unknown",
+        "badgeRoles": []
+      },
+      "note": {
+        "id": "aslv3o8zx1r6001v",
+        "createdAt": "2026-10-21T15:59:35.555Z",
+        "userId": "aslv3m5dx1r60005",
+        "user": {
+          "id": "aslv3m5dx1r60005",
+          "name": null,
+          "username": "bob",
+          "host": null,
+          "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+          "avatarBlurhash": null,
+          "avatarDecorations": [],
+          "isBot": false,
+          "isCat": false,
+          "emojis": {},
+          "onlineStatus": "unknown",
+          "badgeRoles": []
+        },
+        "text": "dummy reply 2",
+        "cw": null,
+        "visibility": "public",
+        "localOnly": false,
+        "reactionAcceptance": null,
+        "renoteCount": 0,
+        "repliesCount": 0,
+        "reactionCount": 0,
+        "reactions": {},
+        "reactionEmojis": {},
+        "fileIds": [],
+        "files": [],
+        "replyId": "aslv3nu9x1r6001t",
+        "renoteId": null,
+        "mentions": [
+          "aslv3m28x1r60004"
+        ],
+        "clippedCount": 0,
+        "reply": {
+          "id": "aslv3nu9x1r6001t",
+          "createdAt": "2026-10-21T15:59:35.025Z",
+          "userId": "aslv3m28x1r60004",
+          "user": {
+            "id": "aslv3m28x1r60004",
+            "name": "Alice",
+            "username": "alice",
+            "host": null,
+            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+            "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+            "avatarDecorations": [
+              {
+                "id": "aslv3mi6x1r6000v",
+                "offsetX": 0.1,
+                "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+              }
+            ],
+            "isBot": false,
+            "isCat": true,
+            "emojis": {},
+            "onlineStatus": "online",
+            "badgeRoles": [
+              {
+                "name": "role1",
+                "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+                "displayOrder": 0
+              }
+            ]
+          },
+          "text": "dummy note 6 #tag1",
+          "cw": null,
+          "visibility": "public",
+          "localOnly": false,
+          "reactionAcceptance": null,
+          "renoteCount": 0,
+          "repliesCount": 1,
+          "reactionCount": 0,
+          "reactions": {},
+          "reactionEmojis": {},
+          "tags": [
+            "tag1"
+          ],
+          "fileIds": [],
+          "files": [],
+          "replyId": null,
+          "renoteId": null
+        }
+      }
+    }
+  },
+  {
+    "type": "readAllNotifications",
+    "body": null
+  },
+  {
+    "type": "registryUpdated",
+    "body": {
+      "scope": [
+        "miapi"
+      ],
+      "key": "dummy",
+      "value": {
+        "k": 1
+      }
+    }
+  },
+  {
+    "type": "renote",
+    "body": {
+      "id": "aslv3o9rx1r6001x",
+      "createdAt": "2026-10-21T15:59:35.583Z",
+      "userId": "aslv3lzqx1r60003",
+      "user": {
+        "id": "aslv3lzqx1r60003",
+        "name": null,
+        "username": "admin",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/identicon/admin@misskey.example.com",
+        "avatarBlurhash": null,
+        "avatarDecorations": [],
+        "isBot": false,
+        "isCat": false,
+        "emojis": {},
+        "onlineStatus": "online",
+        "badgeRoles": []
+      },
+      "text": null,
+      "cw": null,
+      "visibility": "public",
+      "localOnly": false,
+      "reactionAcceptance": null,
+      "renoteCount": 0,
+      "repliesCount": 0,
+      "reactionCount": 0,
+      "reactions": {},
+      "reactionEmojis": {},
+      "reactionAndUserPairCache": [],
+      "fileIds": [],
+      "files": [],
+      "replyId": null,
+      "renoteId": "aslv3nu9x1r6001t",
+      "clippedCount": 0,
+      "renote": {
+        "id": "aslv3nu9x1r6001t",
+        "createdAt": "2026-10-21T15:59:35.025Z",
+        "userId": "aslv3m28x1r60004",
+        "user": {
+          "id": "aslv3m28x1r60004",
+          "name": "Alice",
+          "username": "alice",
+          "host": null,
+          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+          "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+          "avatarDecorations": [
+            {
+              "id": "aslv3mi6x1r6000v",
+              "offsetX": 0.1,
+              "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+            }
+          ],
+          "isBot": false,
+          "isCat": true,
+          "emojis": {},
+          "onlineStatus": "online",
+          "badgeRoles": [
+            {
+              "name": "role1",
+              "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+              "displayOrder": 0
+            }
+          ]
+        },
+        "text": "dummy note 6 #tag1",
+        "cw": null,
+        "visibility": "public",
+        "localOnly": false,
+        "reactionAcceptance": null,
+        "renoteCount": 0,
+        "repliesCount": 1,
+        "reactionCount": 0,
+        "reactions": {},
+        "reactionEmojis": {},
+        "reactionAndUserPairCache": [],
+        "tags": [
+          "tag1"
+        ],
+        "fileIds": [],
+        "files": [],
+        "replyId": null,
+        "renoteId": null,
+        "clippedCount": 0
+      }
+    }
+  },
+  {
+    "type": "reply",
+    "body": {
+      "id": "aslv3o8zx1r6001v",
+      "createdAt": "2026-10-21T15:59:35.555Z",
+      "userId": "aslv3m5dx1r60005",
+      "user": {
+        "id": "aslv3m5dx1r60005",
+        "name": null,
+        "username": "bob",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+        "avatarBlurhash": null,
+        "avatarDecorations": [],
+        "isBot": false,
+        "isCat": false,
+        "emojis": {},
+        "onlineStatus": "unknown",
+        "badgeRoles": []
+      },
+      "text": "dummy reply 2",
+      "cw": null,
+      "visibility": "public",
+      "localOnly": false,
+      "reactionAcceptance": null,
+      "renoteCount": 0,
+      "repliesCount": 0,
+      "reactionCount": 0,
+      "reactions": {},
+      "reactionEmojis": {},
+      "reactionAndUserPairCache": [],
+      "fileIds": [],
+      "files": [],
+      "replyId": "aslv3nu9x1r6001t",
+      "renoteId": null,
+      "mentions": [
+        "aslv3m28x1r60004"
+      ],
+      "clippedCount": 0,
+      "reply": {
+        "id": "aslv3nu9x1r6001t",
+        "createdAt": "2026-10-21T15:59:35.025Z",
+        "userId": "aslv3m28x1r60004",
+        "user": {
+          "id": "aslv3m28x1r60004",
+          "name": "Alice",
+          "username": "alice",
+          "host": null,
+          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+          "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+          "avatarDecorations": [
+            {
+              "id": "aslv3mi6x1r6000v",
+              "offsetX": 0.1,
+              "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+            }
+          ],
+          "isBot": false,
+          "isCat": true,
+          "emojis": {},
+          "onlineStatus": "online",
+          "badgeRoles": [
+            {
+              "name": "role1",
+              "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+              "displayOrder": 0
+            }
+          ]
+        },
+        "text": "dummy note 6 #tag1",
+        "cw": null,
+        "visibility": "public",
+        "localOnly": false,
+        "reactionAcceptance": null,
+        "renoteCount": 0,
+        "repliesCount": 0,
+        "reactionCount": 0,
+        "reactions": {},
+        "reactionEmojis": {},
+        "reactionAndUserPairCache": [],
+        "tags": [
+          "tag1"
+        ],
+        "fileIds": [],
+        "files": [],
+        "replyId": null,
+        "renoteId": null
+      }
+    }
+  },
+  {
+    "type": "unfollow",
+    "body": {
+      "id": "aslv3m5dx1r60005",
+      "name": null,
+      "username": "bob",
+      "host": null,
+      "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+      "avatarBlurhash": null,
+      "avatarDecorations": [],
+      "isBot": false,
+      "isCat": false,
+      "emojis": {},
+      "onlineStatus": "unknown",
+      "badgeRoles": [],
+      "url": null,
+      "uri": null,
+      "movedTo": null,
+      "alsoKnownAs": null,
+      "createdAt": "2026-10-21T15:59:32.833Z",
+      "updatedAt": "2026-10-21T15:59:35.616Z",
+      "lastFetchedAt": null,
+      "bannerUrl": null,
+      "bannerBlurhash": null,
+      "isLocked": false,
+      "isSilenced": false,
+      "isSuspended": false,
+      "description": null,
+      "location": null,
+      "birthday": null,
+      "lang": null,
+      "fields": [],
+      "verifiedLinks": [],
+      "followersCount": 0,
+      "followingCount": 0,
+      "notesCount": 4,
+      "pinnedNoteIds": [],
+      "pinnedNotes": [],
+      "pinnedPageId": null,
+      "pinnedPage": null,
+      "publicReactions": true,
+      "followersVisibility": "private",
+      "followingVisibility": "private",
+      "chatScope": "mutual",
+      "canChat": true,
+      "roles": [],
+      "memo": null,
+      "isFollowing": false,
+      "isFollowed": true,
+      "hasPendingFollowRequestFromYou": false,
+      "hasPendingFollowRequestToYou": false,
+      "isBlocking": false,
+      "isBlocked": false,
+      "isMuted": false,
+      "isRenoteMuted": false,
+      "notify": "none",
+      "withReplies": false
+    }
+  },
+  {
+    "type": "unreadNotification",
+    "body": {
+      "id": "aslv3o9ex1r6001w",
+      "createdAt": "2026-10-21T15:59:35.570Z",
+      "type": "reply",
+      "userId": "aslv3m5dx1r60005",
+      "user": {
+        "id": "aslv3m5dx1r60005",
+        "name": null,
+        "username": "bob",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+        "avatarBlurhash": null,
+        "avatarDecorations": [],
+        "isBot": false,
+        "isCat": false,
+        "emojis": {},
+        "onlineStatus": "unknown",
+        "badgeRoles": []
+      },
+      "note": {
+        "id": "aslv3o8zx1r6001v",
+        "createdAt": "2026-10-21T15:59:35.555Z",
+        "userId": "aslv3m5dx1r60005",
+        "user": {
+          "id": "aslv3m5dx1r60005",
+          "name": null,
+          "username": "bob",
+          "host": null,
+          "avatarUrl": "https://misskey.example.com/identicon/bob@misskey.example.com",
+          "avatarBlurhash": null,
+          "avatarDecorations": [],
+          "isBot": false,
+          "isCat": false,
+          "emojis": {},
+          "onlineStatus": "unknown",
+          "badgeRoles": []
+        },
+        "text": "dummy reply 2",
+        "cw": null,
+        "visibility": "public",
+        "localOnly": false,
+        "reactionAcceptance": null,
+        "renoteCount": 0,
+        "repliesCount": 0,
+        "reactionCount": 0,
+        "reactions": {},
+        "reactionEmojis": {},
+        "fileIds": [],
+        "files": [],
+        "replyId": "aslv3nu9x1r6001t",
+        "renoteId": null,
+        "mentions": [
+          "aslv3m28x1r60004"
+        ],
+        "clippedCount": 0,
+        "reply": {
+          "id": "aslv3nu9x1r6001t",
+          "createdAt": "2026-10-21T15:59:35.025Z",
+          "userId": "aslv3m28x1r60004",
+          "user": {
+            "id": "aslv3m28x1r60004",
+            "name": "Alice",
+            "username": "alice",
+            "host": null,
+            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+            "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+            "avatarDecorations": [
+              {
+                "id": "aslv3mi6x1r6000v",
+                "offsetX": 0.1,
+                "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+              }
+            ],
+            "isBot": false,
+            "isCat": true,
+            "emojis": {},
+            "onlineStatus": "online",
+            "badgeRoles": [
+              {
+                "name": "role1",
+                "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+                "displayOrder": 0
+              }
+            ]
+          },
+          "text": "dummy note 6 #tag1",
+          "cw": null,
+          "visibility": "public",
+          "localOnly": false,
+          "reactionAcceptance": null,
+          "renoteCount": 0,
+          "repliesCount": 1,
+          "reactionCount": 0,
+          "reactions": {},
+          "reactionEmojis": {},
+          "tags": [
+            "tag1"
+          ],
+          "fileIds": [],
+          "files": [],
+          "replyId": null,
+          "renoteId": null
+        }
+      }
+    }
+  },
+  {
+    "type": "urlUploadFinished",
+    "body": {
+      "marker": null,
+      "file": {
+        "id": "aslv3mcux1r6000f",
+        "createdAt": "2026-10-21T15:59:33.102Z",
+        "name": "photo.jpg",
+        "type": "image/jpeg",
+        "md5": "8c9ed0677dd2b8f9f7472c3af247e5e3",
+        "size": 5131,
+        "isSensitive": false,
+        "blurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+        "properties": {
+          "width": 192,
+          "height": 192
+        },
+        "url": "https://misskey.example.com/files/930c772b-3c79-4e48-b629-e5dac63c00b0",
+        "thumbnailUrl": "https://misskey.example.com/files/thumbnail-3cbdb46a-104e-43c0-9aec-aec48b7f3031",
+        "comment": null,
+        "folderId": null,
+        "folder": null,
+        "userId": null,
+        "user": null
+      }
+    }
+  }
+]

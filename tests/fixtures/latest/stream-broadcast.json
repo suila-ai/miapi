@@ -1,0 +1,124 @@
+[
+  {
+    "type": "announcementCreated",
+    "body": {
+      "announcement": {
+        "id": "aslv3ntrx1r6001r",
+        "createdAt": "2026-10-21T15:59:35.007Z",
+        "updatedAt": null,
+        "title": "dummy announcement 2",
+        "text": "dummy text",
+        "imageUrl": null,
+        "icon": "info",
+        "display": "normal",
+        "forYou": false,
+        "needConfirmationToRead": false,
+        "silence": false
+      }
+    }
+  },
+  {
+    "type": "emojiAdded",
+    "body": {
+      "emoji": {
+        "id": "aslv3pclx1r6002h",
+        "aliases": [],
+        "name": "emoji3",
+        "category": null,
+        "host": null,
+        "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+        "license": null,
+        "isSensitive": false,
+        "localOnly": false,
+        "roleIdsThatCanBeUsedThisEmojiAsReaction": []
+      }
+    }
+  },
+  {
+    "type": "emojiDeleted",
+    "body": {
+      "emojis": [
+        {
+          "id": "aslv3pclx1r6002h",
+          "aliases": [],
+          "name": "emoji3",
+          "category": null,
+          "host": null,
+          "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+          "license": null,
+          "isSensitive": false,
+          "localOnly": false,
+          "roleIdsThatCanBeUsedThisEmojiAsReaction": []
+        }
+      ]
+    }
+  },
+  {
+    "type": "emojiUpdated",
+    "body": {
+      "emojis": [
+        {
+          "id": "aslv3metx1r6000h",
+          "aliases": [
+            "alias1"
+          ],
+          "name": "emoji1",
+          "category": "category2",
+          "host": null,
+          "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+          "license": null,
+          "isSensitive": false,
+          "localOnly": false,
+          "roleIdsThatCanBeUsedThisEmojiAsReaction": []
+        }
+      ]
+    }
+  },
+  {
+    "type": "noteUpdated",
+    "body": {
+      "id": "aslv3ow4x1r6002e",
+      "type": "deleted",
+      "body": {
+        "deletedAt": "2026-10-21T15:59:36.917Z"
+      }
+    }
+  },
+  {
+    "type": "noteUpdated",
+    "body": {
+      "id": "aslv3ogqx1r6002c",
+      "type": "pollVoted",
+      "body": {
+        "choice": 0,
+        "userId": "aslv3m5dx1r60005"
+      }
+    }
+  },
+  {
+    "type": "noteUpdated",
+    "body": {
+      "id": "aslv3nu9x1r6001t",
+      "type": "reacted",
+      "body": {
+        "reaction": ":emoji1@.:",
+        "emoji": {
+          "name": "emoji1@.",
+          "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+        },
+        "userId": "aslv3lzqx1r60003"
+      }
+    }
+  },
+  {
+    "type": "noteUpdated",
+    "body": {
+      "id": "aslv3nu9x1r6001t",
+      "type": "unreacted",
+      "body": {
+        "reaction": ":emoji1@.:",
+        "userId": "aslv3lzqx1r60003"
+      }
+    }
+  }
+]

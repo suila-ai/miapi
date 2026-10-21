@@ -1,0 +1,76 @@
+[
+  {
+    "type": "fileCreated",
+    "body": {
+      "id": "asllexmqylb0002k",
+      "createdAt": "2026-10-21T11:28:24.770Z",
+      "name": "second.png",
+      "type": "image/png",
+      "md5": "44a1e6505a9d0b70bd07d4a0fb298cb5",
+      "size": 26568,
+      "isSensitive": false,
+      "blurhash": "eRFRpZt65NX4Rj}-j[axj?ju53WB=~s;s;s*a{ofj[ay=~ofImR%ay",
+      "properties": {
+        "width": 192,
+        "height": 192
+      },
+      "url": "https://misskey.example.com/files/f3029488-ff01-472b-aad2-59aadb6a5751",
+      "thumbnailUrl": "https://misskey.example.com/files/thumbnail-c84ed6ca-0423-4eba-9af3-85a3cb2dc845",
+      "comment": null,
+      "folderId": null,
+      "folder": null,
+      "userId": null,
+      "user": null
+    }
+  },
+  {
+    "type": "fileDeleted",
+    "body": "asllexmqylb0002k"
+  },
+  {
+    "type": "fileUpdated",
+    "body": {
+      "id": "asllexmqylb0002k",
+      "createdAt": "2026-10-21T11:28:24.770Z",
+      "name": "renamed.png",
+      "type": "image/png",
+      "md5": "44a1e6505a9d0b70bd07d4a0fb298cb5",
+      "size": 26568,
+      "isSensitive": false,
+      "blurhash": "eRFRpZt65NX4Rj}-j[axj?ju53WB=~s;s;s*a{ofj[ay=~ofImR%ay",
+      "properties": {
+        "width": 192,
+        "height": 192
+      },
+      "url": "https://misskey.example.com/files/f3029488-ff01-472b-aad2-59aadb6a5751",
+      "thumbnailUrl": "https://misskey.example.com/files/thumbnail-c84ed6ca-0423-4eba-9af3-85a3cb2dc845",
+      "comment": null,
+      "folderId": null,
+      "folder": null,
+      "userId": null,
+      "user": null
+    }
+  },
+  {
+    "type": "folderCreated",
+    "body": {
+      "id": "asllexlcylb0002j",
+      "createdAt": "2026-10-21T11:28:24.720Z",
+      "name": "folder1",
+      "parentId": null
+    }
+  },
+  {
+    "type": "folderDeleted",
+    "body": "asllexlcylb0002j"
+  },
+  {
+    "type": "folderUpdated",
+    "body": {
+      "id": "asllexlcylb0002j",
+      "createdAt": "2026-10-21T11:28:24.720Z",
+      "name": "folder2",
+      "parentId": null
+    }
+  }
+]

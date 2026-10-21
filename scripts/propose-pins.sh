@@ -20,12 +20,12 @@ git archive HEAD:tests/fixtures/latest | tar -x -C "$previous"
 # すべて通れば何も出力しない。
 unreadable() {
     local log
-    if log=$(MIAPI_FIXTURES=$2 cargo test --no-default-features --features "$1" --test deserialize 2>&1); then
+    if log=$(MIAPI_FIXTURES=$2 cargo test --no-default-features --features "$1,streaming" --test deserialize 2>&1); then
         return
     fi
     echo "$log" >&2
     # ビルドの失敗など、テストの失敗でないものは互換性の結果として扱わず、ここで止める。
-    grep -oE '^test [a-z0-9_]+ \.\.\. FAILED$' <<<"$log" | cut -d' ' -f2 | paste -sd' ' | grep .
+    grep -oE '^test [a-z0-9_:]+ \.\.\. FAILED$' <<<"$log" | cut -d' ' -f2 | paste -sd' ' | grep .
 }
 
 failed=$(unreadable latest "$previous")
