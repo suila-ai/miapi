@@ -53,7 +53,7 @@
 ### 生成物・spec・fixture
 
 - `src/generated/` は手で編集せず、`cargo codegen` で作り直す。CI が再生成して差分が無いことを検査する。
-- `specs/` は上流の出力のまま置く。spec と実際の応答の食い違いは `codegen/src/corrections.rs` に足して、生成前に補正する。
+- `specs/` は上流の出力のまま置く。misskey-js の `streaming.types.ts`・`entities.ts`・`consts.ts` と `LICENSE`（MIT）も、`specs/<name>/misskey-js/` に原文のまま置く。spec と実際の応答の食い違いは `codegen/src/corrections.rs` に足して、生成前に補正する。
 - コミットする spec は `scripts/update-spec.sh --tag` の結果にする。`--origin` で取るサーバの `/api.json` は、自己参照（`PageBlock.section.children` など）を素の object に潰し、古いリリースでは条件付きでしか返されない項目まで `required` に入れている。
 - latest の更新は、spec・生成物・fixture を 1 コミットにし、件名を `build(api): Misskey API を 2026.x.y に更新する` とする。
 - fixture に実在のサーバの応答は入れない。固定版の spec と fixture は、足した後は更新しない。
