@@ -6,8 +6,8 @@
 #
 # --origin は、動いているサーバから /api.json をダウンロードする。
 # --tag は、そのリリースの公式 Docker イメージの中で api.json を生成する（docker が要る）。
-# --pin が無ければ結果で specs/latest.json を置き換え、
-# --pin があれば specs/v<version>.json に書き出す。
+# --pin が無ければ結果で specs/latest/api.json を置き換え、
+# --pin があれば specs/v<version>/api.json に書き出す。
 set -euo pipefail
 
 usage() {
@@ -57,10 +57,11 @@ fi
 
 version=$(jq -r '.info.version' "$tmp/api.json")
 if [ "$pin" = 1 ]; then
-    out="$root/specs/v$version.json"
+    dir="$root/specs/v$version"
 else
-    out="$root/specs/latest.json"
+    dir="$root/specs/latest"
 fi
+mkdir -p "$dir"
 # spec を更新したときの差分が読みやすくなるよう、サーバの URL を消して整形する。
-jq 'del(.servers)' "$tmp/api.json" > "$out"
-echo "Misskey $version -> ${out#"$root"/}"
+jq 'del(.servers)' "$tmp/api.json" > "$dir/api.json"
+echo "Misskey $version -> ${dir#"$root"/}/api.json"

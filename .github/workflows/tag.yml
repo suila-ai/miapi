@@ -3,7 +3,7 @@ name: latest が上がる前のバージョンのタグを打つ
 on:
   push:
     branches: [main]
-    paths: [specs/latest.json]
+    paths: [specs/latest/api.json]
 
 permissions:
   contents: write

@@ -11,7 +11,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-version=$(jq -r .info.version specs/latest.json)
+version=$(jq -r .info.version specs/latest/api.json)
 previous=$(mktemp -d)
 trap 'rm -rf "$previous"' EXIT
 git archive HEAD:tests/fixtures/latest | tar -x -C "$previous"
@@ -31,7 +31,7 @@ unreadable() {
 failed=$(unreadable latest "$previous")
 if [ -z "$failed" ]; then
     echo "- 新しいバージョンセットは直前の latest の応答も読めるので、固定版は足していない"
-elif [ -e "specs/v$version.json" ]; then
+elif [ -e "specs/v$version" ]; then
     echo "- 新しいバージョンセットは直前の latest の応答を読めない（$failed）。v$version は既に固定版になっている"
 else
     scripts/pin-latest.sh >&2
@@ -39,8 +39,8 @@ else
 fi
 
 shopt -s nullglob
-for spec in specs/v*.json; do
-    name=$(basename "$spec" .json)
+for dir in specs/v*/; do
+    name=$(basename "$dir")
     if [ "$name" = "v$version" ]; then continue; fi
     failed=$(unreadable "$name" tests/fixtures/latest)
     if [ -n "$failed" ]; then

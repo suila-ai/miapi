@@ -1,6 +1,6 @@
 //! `cargo codegen` で実行する生成器。
 //!
-//! `specs/<name>.json` ごとに、ソースのツリーを 1 つ `src/generated/<name>/` に生成する。
+//! `specs/<name>/api.json` ごとに、ソースのツリーを 1 つ `src/generated/<name>/` に生成する。
 //! あわせて、同じ名前の cargo feature でツリーを有効にする `src/generated/mod.rs` も生成する。
 //! `specs/`・`src/generated/`・`Cargo.toml` は、このクレートの親であるワークスペースのルートから探す。
 
@@ -36,22 +36,23 @@ fn run() -> Result<(), String> {
     let mut specs: Vec<(String, PathBuf)> = fs::read_dir(&specs_dir)
         .map_err(|e| format!("{}: {e}", specs_dir.display()))?
         .filter_map(|entry| entry.ok().map(|e| e.path()))
-        .filter(|path| path.extension().is_some_and(|ext| ext == "json"))
-        .map(|path| {
-            let name = path.file_stem().unwrap().to_string_lossy().into_owned();
-            (name, path)
+        .filter(|dir| dir.join("api.json").is_file())
+        .map(|dir| {
+            let name = dir.file_name().unwrap().to_string_lossy().into_owned();
+            (name, dir)
         })
         .collect();
     specs.sort();
     if specs.is_empty() {
-        return Err(format!("{} に *.json が無い", specs_dir.display()));
+        return Err(format!("{} に */api.json が無い", specs_dir.display()));
     }
     let names: Vec<String> = specs.iter().map(|(name, _)| name.clone()).collect();
     check_features(&root.join("Cargo.toml"), &names)?;
 
     let mut files: Vec<(PathBuf, String)> = Vec::new();
-    for (name, path) in &specs {
-        let text = fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+    for (name, dir) in &specs {
+        let path = dir.join("api.json");
+        let text = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
         let mut spec: spec::Spec =
             serde_json::from_str(&text).map_err(|e| format!("{}: {e}", path.display()))?;
         corrections::apply(&mut spec);

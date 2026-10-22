@@ -28,7 +28,7 @@ jobs:
         id: changes
         env:
           TAG: ${{ steps.tag.outputs.tag }}
-        run: echo "changed=$([ "$TAG" = "$(jq -r .info.version specs/latest.json)" ] && echo false || echo true)" >> "$GITHUB_OUTPUT"
+        run: echo "changed=$([ "$TAG" = "$(jq -r .info.version specs/latest/api.json)" ] && echo false || echo true)" >> "$GITHUB_OUTPUT"
       - if: steps.changes.outputs.changed == 'true'
         env:
           TAG: ${{ steps.tag.outputs.tag }}
@@ -71,6 +71,6 @@ jobs:
 
             ## 変更点
 
-            - specs/latest.json、src/generated/latest/、tests/fixtures/latest/ を更新
+            - specs/latest/、src/generated/latest/、tests/fixtures/latest/ を更新
             ${{ steps.pins.outputs.report }}
             - リリース: https://github.com/misskey-dev/misskey/releases/tag/${{ steps.tag.outputs.tag }}

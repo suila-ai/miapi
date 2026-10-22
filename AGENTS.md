@@ -6,7 +6,7 @@
 
 | 目的 | コマンド |
 |---|---|
-| 生成物を作り直す | `cargo codegen`（`cargo run -p miapi-codegen` の別名。`specs/*.json` ごとに `src/generated/<name>/` を書き、rustfmt を当てる） |
+| 生成物を作り直す | `cargo codegen`（`cargo run -p miapi-codegen` の別名。`specs/<name>/api.json` ごとに `src/generated/<name>/` を書き、rustfmt を当てる） |
 | CI と同じ検査 | `.github/workflows/ci.yml` の `run:` を上から順に実行する |
 | バージョンセットを 1 つ選んで検査 | `cargo clippy -p miapi --all-targets --no-default-features --features v2024.10.1,streaming -- -D warnings`、`cargo test -p miapi --no-default-features --features v2024.10.1,streaming` |
 
@@ -37,7 +37,7 @@
 
 ### バージョンセット
 
-- 1 バージョンセットは `specs/<name>.json`、`src/generated/<name>/`、`tests/fixtures/<name>/`、`Cargo.toml` の feature `<name>`、`tests/common/mod.rs` の `version` の行、README の「対応バージョン」の表の行、の 6 か所で対になる。固定版を増やすときも消すときも、全部をそろえる（`scripts/pin-latest.sh` が latest を固定版として残す側の手順）。
+- 1 バージョンセットは `specs/<name>/`、`src/generated/<name>/`、`tests/fixtures/<name>/`、`Cargo.toml` の feature `<name>`、`tests/common/mod.rs` の `version` の行、README の「対応バージョン」の表の行、の 6 か所で対になる。固定版を増やすときも消すときも、全部をそろえる（`scripts/pin-latest.sh` が latest を固定版として残す側の手順）。
 
 ## 規約
 

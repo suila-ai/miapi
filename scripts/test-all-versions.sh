@@ -9,8 +9,8 @@ cd "$(dirname "$0")/.."
 # miapi のビルドにも入り、利用者が使うのとは違う構成をテストすることになる。
 cargo clippy -p miapi-codegen --all-targets -- -D warnings
 cargo test -p miapi-codegen
-for spec in specs/*.json; do
-    name=$(basename "$spec" .json)
+for dir in specs/*/; do
+    name=$(basename "$dir")
     echo "== $name"
     cargo clippy -p miapi --all-targets --no-default-features --features "$name,streaming" -- -D warnings
     cargo test -p miapi --no-default-features --features "$name,streaming"
