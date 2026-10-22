@@ -13,7 +13,7 @@ pub struct ApiError {
     /// `NO_SUCH_NOTE` のようなエラーコード。エンドポイントの中で一意である。
     pub code: String,
     pub message: String,
-    /// `"client"` か `"server"`。サーバが返した場合にだけ入る。
+    /// `"client"`・`"server"`・`"permission"` のどれか。サーバが返した場合にだけ入る。
     #[serde(default)]
     pub kind: Option<String>,
     /// 追加の詳細。たとえば `INVALID_PARAM` のときの検証の失敗内容。
