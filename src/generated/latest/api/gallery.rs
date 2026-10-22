@@ -1,6 +1,7 @@
 #![doc = "`gallery/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`gallery/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::latest::Client,
 }
@@ -45,6 +46,7 @@ pub mod featured {
     pub type Response = ::std::vec::Vec<crate::generated::latest::types::GalleryPost>;
     #[doc = "`gallery/featured` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
         limit: ::std::option::Option<i64>,
@@ -113,6 +115,7 @@ pub mod popular {
     pub type Response = ::std::vec::Vec<crate::generated::latest::types::GalleryPost>;
     #[doc = "`gallery/popular` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
     }
@@ -160,6 +163,7 @@ pub mod posts {
     pub type Response = ::std::vec::Vec<crate::generated::latest::types::GalleryPost>;
     #[doc = "`gallery/posts` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
         limit: ::std::option::Option<i64>,
@@ -313,6 +317,7 @@ pub mod posts {
         #[doc = "`gallery/posts/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:gallery*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `title`、`file_ids`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::latest::Client,
             title: ::std::option::Option<::std::string::String>,
@@ -433,6 +438,7 @@ pub mod posts {
         #[doc = "`gallery/posts/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:gallery*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `post_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::latest::Client,
             post_id: ::std::option::Option<::std::string::String>,
@@ -493,6 +499,7 @@ pub mod posts {
         #[doc = "`gallery/posts/like` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:gallery-likes*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `post_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::latest::Client,
             post_id: ::std::option::Option<::std::string::String>,
@@ -553,6 +560,7 @@ pub mod posts {
         #[doc = "`gallery/posts/show` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `post_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::latest::Client,
             post_id: ::std::option::Option<::std::string::String>,
@@ -613,6 +621,7 @@ pub mod posts {
         #[doc = "`gallery/posts/unlike` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:gallery-likes*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `post_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::latest::Client,
             post_id: ::std::option::Option<::std::string::String>,
@@ -692,6 +701,7 @@ pub mod posts {
         #[doc = "`gallery/posts/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:gallery*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `post_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::latest::Client,
             post_id: ::std::option::Option<::std::string::String>,

@@ -1,6 +1,7 @@
 #![doc = "`clips/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`clips/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }
@@ -77,6 +78,7 @@ pub mod add_note {
     #[doc = "`clips/add-note` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`、`note_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -156,6 +158,7 @@ pub mod remove_note {
     #[doc = "`clips/remove-note` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`、`note_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -243,6 +246,7 @@ pub mod create {
     #[doc = "`clips/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `name`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         name: ::std::option::Option<::std::string::String>,
@@ -341,6 +345,7 @@ pub mod delete {
     #[doc = "`clips/delete` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -397,6 +402,7 @@ pub mod list {
     pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::Clip>;
     #[doc = "`clips/list` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -443,6 +449,7 @@ pub mod notes {
     #[doc = "`clips/notes` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No* / **Permission**: *read:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -549,6 +556,7 @@ pub mod show {
     #[doc = "`clips/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No* / **Permission**: *read:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -621,6 +629,7 @@ pub mod update {
     #[doc = "`clips/update` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -733,6 +742,7 @@ pub mod favorite {
     #[doc = "`clips/favorite` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:clip-favorite*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -793,6 +803,7 @@ pub mod unfavorite {
     #[doc = "`clips/unfavorite` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:clip-favorite*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `clip_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         clip_id: ::std::option::Option<::std::string::String>,
@@ -849,6 +860,7 @@ pub mod my_favorites {
     pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::Clip>;
     #[doc = "`clips/my-favorites` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:clip-favorite*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }

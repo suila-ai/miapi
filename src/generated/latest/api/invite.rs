@@ -1,6 +1,7 @@
 #![doc = "`invite/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`invite/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::latest::Client,
 }
@@ -43,6 +44,7 @@ pub mod create {
     pub type Response = crate::generated::latest::types::InviteCode;
     #[doc = "`invite/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:invite-codes*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
     }
@@ -82,6 +84,7 @@ pub mod delete {
     #[doc = "`invite/delete` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:invite-codes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `invite_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         invite_id: ::std::option::Option<::std::string::String>,
@@ -141,6 +144,7 @@ pub mod limit {
     }
     #[doc = "`invite/limit` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:invite-codes*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
     }
@@ -188,6 +192,7 @@ pub mod list {
     pub type Response = ::std::vec::Vec<crate::generated::latest::types::InviteCode>;
     #[doc = "`invite/list` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:invite-codes*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
         limit: ::std::option::Option<i64>,

@@ -26,6 +26,7 @@ pub type Response = ::std::option::Option<ResponseBody>;
 #[doc = "`endpoint` のビルダー。"]
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `endpoint`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a, S = (crate::builder::Unset,)> {
     client: &'a crate::generated::latest::Client,
     endpoint: ::std::option::Option<::std::string::String>,

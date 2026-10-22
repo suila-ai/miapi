@@ -59,6 +59,7 @@ impl ::serde::Serialize for Event {
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`hashtag` チャンネルにつなぐビルダー。await でつなぐ。"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `q`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a, S = (crate::builder::Unset,)> {
     stream: &'a crate::generated::v2025_10_0::streaming::Stream,
     q: ::std::option::Option<::std::vec::Vec<::std::vec::Vec<::std::string::String>>>,

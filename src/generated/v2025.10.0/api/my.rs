@@ -1,6 +1,7 @@
 #![doc = "`my/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`my/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }
@@ -38,6 +39,7 @@ pub mod apps {
     pub type Response = ::std::vec::Vec<crate::generated::v2025_10_0::types::App>;
     #[doc = "`my/apps` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
         limit: ::std::option::Option<i64>,

@@ -17,6 +17,7 @@ pub type Response = crate::generated::latest::types::EmojiDetailed;
 #[doc = "`emoji` のビルダー。"]
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `name`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a, S = (crate::builder::Unset,)> {
     client: &'a crate::generated::latest::Client,
     name: ::std::option::Option<::std::string::String>,

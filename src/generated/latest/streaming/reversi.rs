@@ -72,6 +72,7 @@ impl ::serde::Serialize for Event {
 #[doc = "`reversi` への接続。"]
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`reversi` チャンネルにつなぐビルダー。await でつなぐ。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a> {
     stream: &'a crate::generated::latest::streaming::Stream,
 }

@@ -1,6 +1,7 @@
 #![doc = "`notifications/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`notifications/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2026_5_1::Client,
 }
@@ -58,6 +59,7 @@ pub mod create {
     #[doc = "`notifications/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:notifications*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `body`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         body: ::std::option::Option<::std::string::String>,
@@ -154,6 +156,7 @@ pub mod flush {
     pub type Response = ();
     #[doc = "`notifications/flush` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:notifications*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
     }
@@ -189,6 +192,7 @@ pub mod mark_all_as_read {
     pub type Response = ();
     #[doc = "`notifications/mark-all-as-read` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:notifications*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
     }
@@ -224,6 +228,7 @@ pub mod test_notification {
     pub type Response = ();
     #[doc = "`notifications/test-notification` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:notifications*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
     }

@@ -442,9 +442,15 @@ pub fn builder_tokens(spec: &BuilderSpec<'_>, module: &Ident) -> TokenStream {
             }
         }
     });
+    // 名前空間だけの Call は await できないので、エンドポイントのメソッドまでたどるよう案内する。
+    let must_use = match spec.terminal {
+        Some(_) => "builders do nothing unless you `.await` them",
+        None => "namespace builders do nothing; call an endpoint method and `.await` it",
+    };
 
     quote! {
         #docs
+        #[must_use = #must_use]
         pub struct #builder #generics {
             #owner_field: &'a #owner,
             #(#storage)*

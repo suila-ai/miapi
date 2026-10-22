@@ -1,6 +1,7 @@
 #![doc = "`flash/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`flash/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }
@@ -86,6 +87,7 @@ pub mod create {
     #[doc = "`flash/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:flash*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `title`、`summary`、`script`、`permissions`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<
         'a,
         S = (
@@ -240,6 +242,7 @@ pub mod delete {
     #[doc = "`flash/delete` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:flash*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `flash_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         flash_id: ::std::option::Option<::std::string::String>,
@@ -303,6 +306,7 @@ pub mod featured {
     pub type Response = ::std::vec::Vec<crate::generated::v2025_10_0::types::Flash>;
     #[doc = "`flash/featured` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
         offset: ::std::option::Option<i64>,
@@ -376,6 +380,7 @@ pub mod like {
     #[doc = "`flash/like` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:flash-likes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `flash_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         flash_id: ::std::option::Option<::std::string::String>,
@@ -444,6 +449,7 @@ pub mod my {
     pub type Response = ::std::vec::Vec<crate::generated::v2025_10_0::types::Flash>;
     #[doc = "`flash/my` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:flash*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
         limit: ::std::option::Option<i64>,
@@ -578,6 +584,7 @@ pub mod my_likes {
     pub type Response = ::std::vec::Vec<ResponseItem>;
     #[doc = "`flash/my-likes` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:flash-likes*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
         limit: ::std::option::Option<i64>,
@@ -723,6 +730,7 @@ pub mod search {
     #[doc = "`flash/search` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `query`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         query: ::std::option::Option<::std::string::String>,
@@ -860,6 +868,7 @@ pub mod show {
     #[doc = "`flash/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `flash_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         flash_id: ::std::option::Option<::std::string::String>,
@@ -920,6 +929,7 @@ pub mod unlike {
     #[doc = "`flash/unlike` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:flash-likes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `flash_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         flash_id: ::std::option::Option<::std::string::String>,
@@ -1000,6 +1010,7 @@ pub mod update {
     #[doc = "`flash/update` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:flash*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `flash_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         flash_id: ::std::option::Option<::std::string::String>,

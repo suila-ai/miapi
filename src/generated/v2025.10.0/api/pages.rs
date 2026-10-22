@@ -1,6 +1,7 @@
 #![doc = "`pages/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`pages/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }
@@ -105,6 +106,7 @@ pub mod create {
     #[doc = "`pages/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:pages*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `title`、`name`、`content`、`variables`、`script`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<
         'a,
         S = (
@@ -386,6 +388,7 @@ pub mod delete {
     #[doc = "`pages/delete` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:pages*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `page_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         page_id: ::std::option::Option<::std::string::String>,
@@ -442,6 +445,7 @@ pub mod featured {
     pub type Response = ::std::vec::Vec<crate::generated::v2025_10_0::types::Page>;
     #[doc = "`pages/featured` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
     }
@@ -481,6 +485,7 @@ pub mod like {
     #[doc = "`pages/like` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:page-likes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `page_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         page_id: ::std::option::Option<::std::string::String>,
@@ -545,6 +550,7 @@ pub mod show {
     pub type Response = crate::generated::v2025_10_0::types::Page;
     #[doc = "`pages/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
         page_id: ::std::option::Option<::std::string::String>,
@@ -630,6 +636,7 @@ pub mod unlike {
     #[doc = "`pages/unlike` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:page-likes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `page_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         page_id: ::std::option::Option<::std::string::String>,
@@ -743,6 +750,7 @@ pub mod update {
     #[doc = "`pages/update` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:pages*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `page_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         page_id: ::std::option::Option<::std::string::String>,

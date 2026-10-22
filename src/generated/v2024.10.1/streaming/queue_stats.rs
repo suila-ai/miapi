@@ -121,6 +121,7 @@ impl ::serde::Serialize for Message {
 #[doc = "`queueStats` への接続。"]
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`queueStats` チャンネルにつなぐビルダー。await でつなぐ。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a> {
     stream: &'a crate::generated::v2024_10_1::streaming::Stream,
 }

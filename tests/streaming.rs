@@ -101,7 +101,7 @@ async fn builder_sends_params_and_delivers_typed_events() {
         stream.user_list().list_id("l1").with_files(true),
         session.accept_connect("userList", json!({"listId": "l1", "withFiles": true})),
     );
-    list.unwrap();
+    let _ = list.unwrap();
 }
 
 #[tokio::test]

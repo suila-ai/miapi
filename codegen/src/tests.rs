@@ -469,6 +469,24 @@ fn builder_tokens_use_type_state_for_required_parameters() {
 }
 
 #[test]
+fn builders_are_must_use() {
+    let tree = build_tree(&spec(
+        json!({}),
+        json!({"/admin/x": post(None, json!({"204": {"description": "none"}}))}),
+    ))
+    .unwrap();
+    let admin = source_of(&tree, "api/admin.rs");
+    let (namespace, endpoint) = admin.split_once("pubmodx{").unwrap();
+    assert!(namespace.contains(
+        "#[must_use=\"namespacebuildersdonothing;callanendpointmethodand`.await`it\"]pubstructCall<'a>{"
+    ));
+    assert!(
+        endpoint
+            .contains("#[must_use=\"buildersdonothingunlessyou`.await`them\"]pubstructCall<'a>{")
+    );
+}
+
+#[test]
 fn request_alternatives_are_documented() {
     let tree = build_tree(&spec(
         json!({}),

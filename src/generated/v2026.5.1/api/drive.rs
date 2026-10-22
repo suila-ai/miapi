@@ -18,6 +18,7 @@ impl crate::Endpoint for Request {
 }
 #[doc = "`drive` のビルダー。"]
 #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2026_5_1::Client,
 }
@@ -115,6 +116,7 @@ pub mod files {
     pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::DriveFile>;
     #[doc = "`drive/files` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
         limit: ::std::option::Option<i64>,
@@ -341,6 +343,7 @@ pub mod files {
         #[doc = "`drive/files/attached-chat-messages` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `file_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             since_id: ::std::option::Option<::std::string::String>,
@@ -488,6 +491,7 @@ pub mod files {
         #[doc = "`drive/files/attached-notes` のビルダー。"]
         #[doc = "Find the notes to which the given file is attached.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `file_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             since_id: ::std::option::Option<::std::string::String>,
@@ -623,6 +627,7 @@ pub mod files {
         #[doc = "`drive/files/check-existence` のビルダー。"]
         #[doc = "Check if a given file exists.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `md5`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             md5: ::std::option::Option<::std::string::String>,
@@ -718,6 +723,7 @@ pub mod files {
         #[doc = "`drive/files/create` のビルダー。"]
         #[doc = "Upload a new drive file.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `file`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             folder_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
@@ -875,6 +881,7 @@ pub mod files {
         #[doc = "`drive/files/delete` のビルダー。"]
         #[doc = "Delete an existing drive file.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `file_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             file_id: ::std::option::Option<::std::string::String>,
@@ -941,6 +948,7 @@ pub mod files {
         #[doc = "`drive/files/find` のビルダー。"]
         #[doc = "Search for a drive file by the given parameters.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `name`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             name: ::std::option::Option<::std::string::String>,
@@ -1023,6 +1031,7 @@ pub mod files {
         #[doc = "`drive/files/find-by-hash` のビルダー。"]
         #[doc = "Search for a drive file by a hash of the contents.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `md5`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             md5: ::std::option::Option<::std::string::String>,
@@ -1091,6 +1100,7 @@ pub mod files {
         #[doc = "`drive/files/move-bulk` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `file_ids`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             file_ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -1177,6 +1187,7 @@ pub mod files {
         pub type Response = crate::generated::v2026_5_1::types::DriveFile;
         #[doc = "`drive/files/show` のビルダー。"]
         #[doc = "Show the properties of a drive file.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2026_5_1::Client,
             file_id: ::std::option::Option<::std::string::String>,
@@ -1270,6 +1281,7 @@ pub mod files {
         #[doc = "`drive/files/update` のビルダー。"]
         #[doc = "Update the properties of a drive file.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `file_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             file_id: ::std::option::Option<::std::string::String>,
@@ -1433,6 +1445,7 @@ pub mod files {
         #[doc = "`drive/files/upload-from-url` のビルダー。"]
         #[doc = "Request the server to download a new drive file from the specified URL.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `url`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             url: ::std::option::Option<::std::string::String>,
@@ -1605,6 +1618,7 @@ pub mod folders {
     pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::DriveFolder>;
     #[doc = "`drive/folders` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
         limit: ::std::option::Option<i64>,
@@ -1764,6 +1778,7 @@ pub mod folders {
         pub type Response = crate::generated::v2026_5_1::types::DriveFolder;
         #[doc = "`drive/folders/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2026_5_1::Client,
             name: ::std::option::Option<::std::string::String>,
@@ -1844,6 +1859,7 @@ pub mod folders {
         #[doc = "`drive/folders/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `folder_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             folder_id: ::std::option::Option<::std::string::String>,
@@ -1910,6 +1926,7 @@ pub mod folders {
         #[doc = "`drive/folders/find` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `name`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             name: ::std::option::Option<::std::string::String>,
@@ -1993,6 +2010,7 @@ pub mod folders {
         #[doc = "`drive/folders/show` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `folder_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             folder_id: ::std::option::Option<::std::string::String>,
@@ -2063,6 +2081,7 @@ pub mod folders {
         #[doc = "`drive/folders/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:drive*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `folder_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             folder_id: ::std::option::Option<::std::string::String>,
@@ -2174,6 +2193,7 @@ pub mod stream {
     pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::DriveFile>;
     #[doc = "`drive/stream` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:drive*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
         limit: ::std::option::Option<i64>,

@@ -1,6 +1,7 @@
 #![doc = "`app/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`app/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }
@@ -48,6 +49,7 @@ pub mod create {
     #[doc = "`app/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `name`、`description`、`permission`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<
         'a,
         S = (
@@ -183,6 +185,7 @@ pub mod show {
     #[doc = "`app/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `app_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         app_id: ::std::option::Option<::std::string::String>,

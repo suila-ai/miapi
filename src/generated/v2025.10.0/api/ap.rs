@@ -1,6 +1,7 @@
 #![doc = "`ap/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`ap/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }
@@ -38,6 +39,7 @@ pub mod get {
     #[doc = "`ap/get` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:federation*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `uri`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         uri: ::std::option::Option<::std::string::String>,
@@ -124,6 +126,7 @@ pub mod show {
     #[doc = "`ap/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `uri`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         uri: ::std::option::Option<::std::string::String>,

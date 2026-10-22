@@ -21,6 +21,7 @@ pub type Response = ();
 #[doc = "`page-push` のビルダー。"]
 #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `page_id`、`event`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
     client: &'a crate::generated::v2024_10_1::Client,
     page_id: ::std::option::Option<::std::string::String>,

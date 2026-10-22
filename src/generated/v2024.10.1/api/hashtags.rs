@@ -1,6 +1,7 @@
 #![doc = "`hashtags/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`hashtags/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }
@@ -104,6 +105,7 @@ pub mod list {
     #[doc = "`hashtags/list` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `sort`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         limit: ::std::option::Option<i64>,
@@ -233,6 +235,7 @@ pub mod search {
     #[doc = "`hashtags/search` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `query`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         limit: ::std::option::Option<i64>,
@@ -324,6 +327,7 @@ pub mod show {
     #[doc = "`hashtags/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `tag`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         tag: ::std::option::Option<::std::string::String>,
@@ -387,6 +391,7 @@ pub mod trend {
     pub type Response = ::std::vec::Vec<ResponseItem>;
     #[doc = "`hashtags/trend` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -475,6 +480,7 @@ pub mod users {
     #[doc = "`hashtags/users` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `tag`、`sort`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
         client: &'a crate::generated::v2024_10_1::Client,
         tag: ::std::option::Option<::std::string::String>,

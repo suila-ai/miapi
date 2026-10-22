@@ -1,6 +1,7 @@
 #![doc = "`sw/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`sw/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }
@@ -54,6 +55,7 @@ pub mod show_registration {
     #[doc = "`sw/show-registration` のビルダー。"]
     #[doc = "Check push notification registration exists.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `endpoint`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         endpoint: ::std::option::Option<::std::string::String>,
@@ -126,6 +128,7 @@ pub mod update_registration {
     #[doc = "`sw/update-registration` のビルダー。"]
     #[doc = "Update push notification registration.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `endpoint`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         endpoint: ::std::option::Option<::std::string::String>,
@@ -229,6 +232,7 @@ pub mod register {
     #[doc = "`sw/register` のビルダー。"]
     #[doc = "Register to receive push notifications.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `endpoint`、`auth`、`publickey`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<
         'a,
         S = (
@@ -358,6 +362,7 @@ pub mod unregister {
     #[doc = "`sw/unregister` のビルダー。"]
     #[doc = "Unregister from receiving push notifications.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `endpoint`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         endpoint: ::std::option::Option<::std::string::String>,

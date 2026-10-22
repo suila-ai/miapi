@@ -65,6 +65,7 @@ impl ::serde::Serialize for Event {
 #[doc = "`admin` への接続。"]
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`admin` チャンネルにつなぐビルダー。await でつなぐ。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a> {
     stream: &'a crate::generated::v2025_10_0::streaming::Stream,
 }

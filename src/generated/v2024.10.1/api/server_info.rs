@@ -34,6 +34,7 @@ impl crate::Endpoint for Request {
 }
 #[doc = "`server-info` のビルダー。"]
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }

@@ -1,6 +1,7 @@
 #![doc = "`federation/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`federation/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::latest::Client,
 }
@@ -69,6 +70,7 @@ pub mod followers {
     #[doc = "`federation/followers` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         host: ::std::option::Option<::std::string::String>,
@@ -215,6 +217,7 @@ pub mod following {
     #[doc = "`federation/following` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         host: ::std::option::Option<::std::string::String>,
@@ -444,6 +447,7 @@ pub mod instances {
     pub type Response = ::std::vec::Vec<crate::generated::latest::types::FederationInstance>;
     #[doc = "`federation/instances` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
         host: ::std::option::Option<::std::option::Option<::std::string::String>>,
@@ -688,6 +692,7 @@ pub mod show_instance {
     #[doc = "`federation/show-instance` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         host: ::std::option::Option<::std::string::String>,
@@ -758,6 +763,7 @@ pub mod stats {
     }
     #[doc = "`federation/stats` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
         limit: ::std::option::Option<i64>,
@@ -814,6 +820,7 @@ pub mod update_remote_user {
     #[doc = "`federation/update-remote-user` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -884,6 +891,7 @@ pub mod users {
     #[doc = "`federation/users` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         host: ::std::option::Option<::std::string::String>,

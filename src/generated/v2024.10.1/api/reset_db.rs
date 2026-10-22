@@ -14,6 +14,7 @@ impl crate::Endpoint for Request {
 pub type Response = ();
 #[doc = "`reset-db` のビルダー。"]
 #[doc = "Only available when running with <code>NODE_ENV=testing</code>. Reset the database and flush Redis.\n\n**Credential required**: *No*"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }

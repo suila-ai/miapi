@@ -1,6 +1,7 @@
 #![doc = "`v2/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`v2/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }
@@ -18,6 +19,7 @@ impl<'a> Call<'a> {
 #[doc = "`v2/admin/` 以下のエンドポイント"]
 pub mod admin {
     #[doc = "`v2/admin/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
     }
@@ -35,6 +37,7 @@ pub mod admin {
     #[doc = "`v2/admin/emoji/` 以下のエンドポイント"]
     pub mod emoji {
         #[doc = "`v2/admin/emoji/` 以下のエンドポイント"]
+        #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2025_10_0::Client,
         }
@@ -221,6 +224,7 @@ pub mod admin {
             }
             #[doc = "`v2/admin/emoji/list` のビルダー。"]
             #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:emoji*"]
+            #[must_use = "builders do nothing unless you `.await` them"]
             pub struct Call<'a> {
                 client: &'a crate::generated::v2025_10_0::Client,
                 query: ::std::option::Option<::std::option::Option<RequestQuery>>,

@@ -18,6 +18,7 @@ pub type Response = ();
 #[doc = "`reset-password` のビルダー。"]
 #[doc = "Complete the password reset that was previously requested.\n\n**Credential required**: *No*"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `token`、`password`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
     client: &'a crate::generated::v2025_10_0::Client,
     token: ::std::option::Option<::std::string::String>,
