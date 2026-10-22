@@ -1,6 +1,7 @@
 #![doc = "`bubble-game/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`bubble-game/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }
@@ -46,6 +47,7 @@ pub mod register {
     #[doc = "`bubble-game/register` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `score`、`seed`、`logs`、`game_mode`、`game_version`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<
         'a,
         S = (
@@ -215,6 +217,7 @@ pub mod ranking {
     #[doc = "`bubble-game/ranking` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `game_mode`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         game_mode: ::std::option::Option<::std::string::String>,

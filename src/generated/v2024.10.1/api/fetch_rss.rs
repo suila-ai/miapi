@@ -112,6 +112,7 @@ impl crate::Endpoint for Request {
 #[doc = "`fetch-rss` のビルダー。"]
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `url`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a, S = (crate::builder::Unset,)> {
     client: &'a crate::generated::v2024_10_1::Client,
     url: ::std::option::Option<::std::string::String>,

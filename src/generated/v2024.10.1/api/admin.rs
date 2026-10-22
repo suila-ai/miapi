@@ -1,6 +1,7 @@
 #![doc = "`admin/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`admin/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }
@@ -395,6 +396,7 @@ pub mod meta {
     }
     #[doc = "`admin/meta` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:meta*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -515,6 +517,7 @@ pub mod abuse_user_reports {
     pub type Response = ::std::vec::Vec<ResponseItem>;
     #[doc = "`admin/abuse-user-reports` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:abuse-user-reports*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
         limit: ::std::option::Option<i64>,
@@ -639,6 +642,7 @@ pub mod abuse_user_reports {
 #[doc = "`admin/abuse-report/` 以下のエンドポイント"]
 pub mod abuse_report {
     #[doc = "`admin/abuse-report/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -656,6 +660,7 @@ pub mod abuse_report {
     #[doc = "`admin/abuse-report/notification-recipient/` 以下のエンドポイント"]
     pub mod notification_recipient {
         #[doc = "`admin/abuse-report/notification-recipient/` 以下のエンドポイント"]
+        #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -719,6 +724,7 @@ pub mod abuse_report {
             >;
             #[doc = "`admin/abuse-report/notification-recipient/list` のビルダー。"]
             #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *read:admin:abuse-report:notification-recipient*"]
+            #[must_use = "builders do nothing unless you `.await` them"]
             pub struct Call<'a> {
                 client: &'a crate::generated::v2024_10_1::Client,
                 method: ::std::option::Option<::std::vec::Vec<RequestMethodItem>>,
@@ -783,6 +789,7 @@ pub mod abuse_report {
             #[doc = "`admin/abuse-report/notification-recipient/show` のビルダー。"]
             #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *read:admin:abuse-report:notification-recipient*"]
             #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+            #[must_use = "builders do nothing unless you `.await` them"]
             pub struct Call<'a, S = (crate::builder::Unset,)> {
                 client: &'a crate::generated::v2024_10_1::Client,
                 id: ::std::option::Option<::std::string::String>,
@@ -865,6 +872,7 @@ pub mod abuse_report {
             #[doc = "`admin/abuse-report/notification-recipient/create` のビルダー。"]
             #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:abuse-report:notification-recipient*"]
             #[doc = "必須パラメータ（型状態のスロットの順）: `is_active`、`name`、`method`。すべて設定すると、呼び出しを await できる。"]
+            #[must_use = "builders do nothing unless you `.await` them"]
             pub struct Call<
                 'a,
                 S = (
@@ -1041,6 +1049,7 @@ pub mod abuse_report {
             #[doc = "`admin/abuse-report/notification-recipient/update` のビルダー。"]
             #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:abuse-report:notification-recipient*"]
             #[doc = "必須パラメータ（型状態のスロットの順）: `id`、`is_active`、`name`、`method`。すべて設定すると、呼び出しを await できる。"]
+            #[must_use = "builders do nothing unless you `.await` them"]
             pub struct Call<
                 'a,
                 S = (
@@ -1220,6 +1229,7 @@ pub mod abuse_report {
             #[doc = "`admin/abuse-report/notification-recipient/delete` のビルダー。"]
             #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:abuse-report:notification-recipient*"]
             #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+            #[must_use = "builders do nothing unless you `.await` them"]
             pub struct Call<'a, S = (crate::builder::Unset,)> {
                 client: &'a crate::generated::v2024_10_1::Client,
                 id: ::std::option::Option<::std::string::String>,
@@ -1265,6 +1275,7 @@ pub mod abuse_report {
 #[doc = "`admin/accounts/` 以下のエンドポイント"]
 pub mod accounts {
     #[doc = "`admin/accounts/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -1511,6 +1522,7 @@ pub mod accounts {
         #[doc = "`admin/accounts/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `username`、`password`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             username: ::std::option::Option<::std::string::String>,
@@ -1614,6 +1626,7 @@ pub mod accounts {
         #[doc = "`admin/accounts/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:account*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             user_id: ::std::option::Option<::std::string::String>,
@@ -1673,6 +1686,7 @@ pub mod accounts {
         #[doc = "`admin/accounts/find-by-email` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:account*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `email`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             email: ::std::option::Option<::std::string::String>,
@@ -1717,6 +1731,7 @@ pub mod accounts {
 #[doc = "`admin/ad/` 以下のエンドポイント"]
 pub mod ad {
     #[doc = "`admin/ad/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -1776,6 +1791,7 @@ pub mod ad {
         #[doc = "`admin/ad/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:ad*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `url`、`memo`、`place`、`priority`、`ratio`、`expires_at`、`starts_at`、`image_url`、`day_of_week`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<
             'a,
             S = (
@@ -2057,6 +2073,7 @@ pub mod ad {
         #[doc = "`admin/ad/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:ad*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -2127,6 +2144,7 @@ pub mod ad {
         pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::Ad>;
         #[doc = "`admin/ad/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:ad*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             limit: ::std::option::Option<i64>,
@@ -2251,6 +2269,7 @@ pub mod ad {
         #[doc = "`admin/ad/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:ad*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -2435,6 +2454,7 @@ pub mod ad {
 #[doc = "`admin/announcements/` 以下のエンドポイント"]
 pub mod announcements {
     #[doc = "`admin/announcements/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -2553,6 +2573,7 @@ pub mod announcements {
         #[doc = "`admin/announcements/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:announcements*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `title`、`text`、`image_url`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<
             'a,
             S = (
@@ -2797,6 +2818,7 @@ pub mod announcements {
         #[doc = "`admin/announcements/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:announcements*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -2896,6 +2918,7 @@ pub mod announcements {
         pub type Response = ::std::vec::Vec<ResponseItem>;
         #[doc = "`admin/announcements/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:announcements*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             limit: ::std::option::Option<i64>,
@@ -3074,6 +3097,7 @@ pub mod announcements {
         #[doc = "`admin/announcements/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:announcements*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -3263,6 +3287,7 @@ pub mod announcements {
 #[doc = "`admin/avatar-decorations/` 以下のエンドポイント"]
 pub mod avatar_decorations {
     #[doc = "`admin/avatar-decorations/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -3319,6 +3344,7 @@ pub mod avatar_decorations {
         #[doc = "`admin/avatar-decorations/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:avatar-decorations*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `name`、`description`、`url`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<
             'a,
             S = (
@@ -3461,6 +3487,7 @@ pub mod avatar_decorations {
         #[doc = "`admin/avatar-decorations/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:avatar-decorations*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -3545,6 +3572,7 @@ pub mod avatar_decorations {
         pub type Response = ::std::vec::Vec<ResponseItem>;
         #[doc = "`admin/avatar-decorations/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:avatar-decorations*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             limit: ::std::option::Option<i64>,
@@ -3664,6 +3692,7 @@ pub mod avatar_decorations {
         #[doc = "`admin/avatar-decorations/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:avatar-decorations*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -3800,6 +3829,7 @@ pub mod delete_all_files_of_a_user {
     #[doc = "`admin/delete-all-files-of-a-user` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:delete-all-files-of-a-user*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -3860,6 +3890,7 @@ pub mod unset_user_avatar {
     #[doc = "`admin/unset-user-avatar` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:unset-user-avatar*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -3920,6 +3951,7 @@ pub mod unset_user_banner {
     #[doc = "`admin/unset-user-banner` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:unset-user-banner*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -3963,6 +3995,7 @@ pub mod unset_user_banner {
 #[doc = "`admin/drive/` 以下のエンドポイント"]
 pub mod drive {
     #[doc = "`admin/drive/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -4005,6 +4038,7 @@ pub mod drive {
         pub type Response = ();
         #[doc = "`admin/drive/clean-remote-files` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:drive*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -4040,6 +4074,7 @@ pub mod drive {
         pub type Response = ();
         #[doc = "`admin/drive/cleanup` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:drive*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -4119,6 +4154,7 @@ pub mod drive {
         pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::DriveFile>;
         #[doc = "`admin/drive/files` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:drive*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             limit: ::std::option::Option<i64>,
@@ -4330,6 +4366,7 @@ pub mod drive {
         }
         #[doc = "`admin/drive/show-file` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:drive*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             file_id: ::std::option::Option<::std::string::String>,
@@ -4385,6 +4422,7 @@ pub mod drive {
 #[doc = "`admin/emoji/` 以下のエンドポイント"]
 pub mod emoji {
     #[doc = "`admin/emoji/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -4467,6 +4505,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/add-aliases-bulk` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `ids`、`aliases`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -4576,6 +4615,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/add` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `name`、`file_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             name: ::std::option::Option<::std::string::String>,
@@ -4781,6 +4821,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/copy` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `emoji_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             emoji_id: ::std::option::Option<::std::string::String>,
@@ -4840,6 +4881,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/delete-bulk` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `ids`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -4899,6 +4941,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -4959,6 +5002,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/import-zip` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `file_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             file_id: ::std::option::Option<::std::string::String>,
@@ -5046,6 +5090,7 @@ pub mod emoji {
         pub type Response = ::std::vec::Vec<ResponseItem>;
         #[doc = "`admin/emoji/list-remote` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:emoji*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             query: ::std::option::Option<::std::option::Option<::std::string::String>>,
@@ -5191,6 +5236,7 @@ pub mod emoji {
         pub type Response = ::std::vec::Vec<ResponseItem>;
         #[doc = "`admin/emoji/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:emoji*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             query: ::std::option::Option<::std::option::Option<::std::string::String>>,
@@ -5296,6 +5342,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/remove-aliases-bulk` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `ids`、`aliases`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -5373,6 +5420,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/set-aliases-bulk` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `ids`、`aliases`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -5456,6 +5504,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/set-category-bulk` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `ids`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -5543,6 +5592,7 @@ pub mod emoji {
         #[doc = "`admin/emoji/set-license-bulk` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `ids`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             ids: ::std::option::Option<::std::vec::Vec<::std::string::String>>,
@@ -5659,6 +5709,7 @@ pub mod emoji {
         pub type Response = ();
         #[doc = "`admin/emoji/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:emoji*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -5839,6 +5890,7 @@ pub mod emoji {
 #[doc = "`admin/federation/` 以下のエンドポイント"]
 pub mod federation {
     #[doc = "`admin/federation/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -5886,6 +5938,7 @@ pub mod federation {
         #[doc = "`admin/federation/delete-all-files` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:federation*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             host: ::std::option::Option<::std::string::String>,
@@ -5945,6 +5998,7 @@ pub mod federation {
         #[doc = "`admin/federation/refresh-remote-instance-metadata` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:federation*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             host: ::std::option::Option<::std::string::String>,
@@ -6004,6 +6058,7 @@ pub mod federation {
         #[doc = "`admin/federation/remove-all-following` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:federation*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             host: ::std::option::Option<::std::string::String>,
@@ -6075,6 +6130,7 @@ pub mod federation {
         #[doc = "`admin/federation/update-instance` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:federation*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `host`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             host: ::std::option::Option<::std::string::String>,
@@ -6170,6 +6226,7 @@ pub mod get_index_stats {
     pub type Response = ::std::vec::Vec<ResponseItem>;
     #[doc = "`admin/get-index-stats` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:index-stats*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -6210,6 +6267,7 @@ pub mod get_table_stats {
     pub type Response = ::std::collections::HashMap<::std::string::String, ResponseValue>;
     #[doc = "`admin/get-table-stats` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:table-stats*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -6255,6 +6313,7 @@ pub mod get_user_ips {
     #[doc = "`admin/get-user-ips` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:user-ips*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -6298,6 +6357,7 @@ pub mod get_user_ips {
 #[doc = "`admin/invite/` 以下のエンドポイント"]
 pub mod invite {
     #[doc = "`admin/invite/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -6343,6 +6403,7 @@ pub mod invite {
         pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::InviteCode>;
         #[doc = "`admin/invite/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:invite-codes*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             count: ::std::option::Option<i64>,
@@ -6459,6 +6520,7 @@ pub mod invite {
         pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::InviteCode>;
         #[doc = "`admin/invite/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:invite-codes*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             limit: ::std::option::Option<i64>,
@@ -6545,6 +6607,7 @@ pub mod invite {
 #[doc = "`admin/promo/` 以下のエンドポイント"]
 pub mod promo {
     #[doc = "`admin/promo/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -6581,6 +6644,7 @@ pub mod promo {
         #[doc = "`admin/promo/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:promo*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `note_id`、`expires_at`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             note_id: ::std::option::Option<::std::string::String>,
@@ -6642,6 +6706,7 @@ pub mod promo {
 #[doc = "`admin/queue/` 以下のエンドポイント"]
 pub mod queue {
     #[doc = "`admin/queue/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -6688,6 +6753,7 @@ pub mod queue {
         pub type Response = ();
         #[doc = "`admin/queue/clear` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:queue*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -6723,6 +6789,7 @@ pub mod queue {
         pub type Response = ::std::vec::Vec<(::std::string::String, f64)>;
         #[doc = "`admin/queue/deliver-delayed` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:queue*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -6758,6 +6825,7 @@ pub mod queue {
         pub type Response = ::std::vec::Vec<(::std::string::String, f64)>;
         #[doc = "`admin/queue/inbox-delayed` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:queue*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -6806,6 +6874,7 @@ pub mod queue {
         #[doc = "`admin/queue/promote` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:queue*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `type`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             r#type: ::std::option::Option<RequestType>,
@@ -6869,6 +6938,7 @@ pub mod queue {
         }
         #[doc = "`admin/queue/stats` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:emoji*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -6892,6 +6962,7 @@ pub mod queue {
 #[doc = "`admin/relays/` 以下のエンドポイント"]
 pub mod relays {
     #[doc = "`admin/relays/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -6950,6 +7021,7 @@ pub mod relays {
         #[doc = "`admin/relays/add` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:relays*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `inbox`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             inbox: ::std::option::Option<::std::string::String>,
@@ -7024,6 +7096,7 @@ pub mod relays {
         pub type Response = ::std::vec::Vec<ResponseItem>;
         #[doc = "`admin/relays/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:relays*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -7062,6 +7135,7 @@ pub mod relays {
         #[doc = "`admin/relays/remove` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:relays*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `inbox`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             inbox: ::std::option::Option<::std::string::String>,
@@ -7126,6 +7200,7 @@ pub mod reset_password {
     #[doc = "`admin/reset-password` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:reset-password*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -7203,6 +7278,7 @@ pub mod resolve_abuse_user_report {
     #[doc = "`admin/resolve-abuse-user-report` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:resolve-abuse-user-report*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `report_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         report_id: ::std::option::Option<::std::string::String>,
@@ -7283,6 +7359,7 @@ pub mod forward_abuse_user_report {
     #[doc = "`admin/forward-abuse-user-report` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:resolve-abuse-user-report*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `report_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         report_id: ::std::option::Option<::std::string::String>,
@@ -7349,6 +7426,7 @@ pub mod update_abuse_user_report {
     #[doc = "`admin/update-abuse-user-report` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:resolve-abuse-user-report*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `report_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         report_id: ::std::option::Option<::std::string::String>,
@@ -7428,6 +7506,7 @@ pub mod send_email {
     #[doc = "`admin/send-email` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:send-email*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `to`、`subject`、`text`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<
         'a,
         S = (
@@ -7564,6 +7643,7 @@ pub mod server_info {
     }
     #[doc = "`admin/server-info` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:server-info*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -7631,6 +7711,7 @@ pub mod show_moderation_logs {
     pub type Response = ::std::vec::Vec<ResponseItem>;
     #[doc = "`admin/show-moderation-logs` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:show-moderation-log*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
         limit: ::std::option::Option<i64>,
@@ -8384,6 +8465,7 @@ pub mod show_user {
     #[doc = "`admin/show-user` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:show-user*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -8522,6 +8604,7 @@ pub mod show_users {
     pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::UserDetailed>;
     #[doc = "`admin/show-users` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:show-user*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
         limit: ::std::option::Option<i64>,
@@ -8678,6 +8761,7 @@ pub mod suspend_user {
     #[doc = "`admin/suspend-user` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:suspend-user*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -8738,6 +8822,7 @@ pub mod unsuspend_user {
     #[doc = "`admin/unsuspend-user` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:unsuspend-user*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -9605,6 +9690,7 @@ pub mod update_meta {
     pub type Response = ();
     #[doc = "`admin/update-meta` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:meta*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
         disable_registration: ::std::option::Option<::std::option::Option<bool>>,
@@ -11851,6 +11937,7 @@ pub mod delete_account {
     #[doc = "`admin/delete-account` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:delete-account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -11912,6 +11999,7 @@ pub mod update_user_note {
     #[doc = "`admin/update-user-note` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:user-note*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `user_id`、`text`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::string::String>,
@@ -11972,6 +12060,7 @@ pub mod update_user_note {
 #[doc = "`admin/roles/` 以下のエンドポイント"]
 pub mod roles {
     #[doc = "`admin/roles/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -12074,6 +12163,7 @@ pub mod roles {
         #[doc = "`admin/roles/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `name`、`description`、`color`、`icon_url`、`target`、`cond_formula`、`is_public`、`is_moderator`、`is_administrator`、`as_badge`、`can_edit_members_by_moderator`、`display_order`、`policies`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<
             'a,
             S = (
@@ -12847,6 +12937,7 @@ pub mod roles {
         #[doc = "`admin/roles/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `role_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             role_id: ::std::option::Option<::std::string::String>,
@@ -12903,6 +12994,7 @@ pub mod roles {
         pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::Role>;
         #[doc = "`admin/roles/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:roles*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
         }
@@ -12942,6 +13034,7 @@ pub mod roles {
         #[doc = "`admin/roles/show` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `role_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             role_id: ::std::option::Option<::std::string::String>,
@@ -13077,6 +13170,7 @@ pub mod roles {
         #[doc = "`admin/roles/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `role_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             role_id: ::std::option::Option<::std::string::String>,
@@ -13394,6 +13488,7 @@ pub mod roles {
         #[doc = "`admin/roles/assign` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `role_id`、`user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             role_id: ::std::option::Option<::std::string::String>,
@@ -13494,6 +13589,7 @@ pub mod roles {
         #[doc = "`admin/roles/unassign` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `role_id`、`user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             role_id: ::std::option::Option<::std::string::String>,
@@ -13570,6 +13666,7 @@ pub mod roles {
         #[doc = "`admin/roles/update-default-policies` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `policies`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             policies: ::std::option::Option<
@@ -13650,6 +13747,7 @@ pub mod roles {
         #[doc = "`admin/roles/users` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No* / **Permission**: *read:admin:roles*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `role_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             role_id: ::std::option::Option<::std::string::String>,
@@ -13740,6 +13838,7 @@ pub mod roles {
 #[doc = "`admin/system-webhook/` 以下のエンドポイント"]
 pub mod system_webhook {
     #[doc = "`admin/system-webhook/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -13817,6 +13916,7 @@ pub mod system_webhook {
         #[doc = "`admin/system-webhook/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:system-webhook*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `is_active`、`name`、`on`、`url`、`secret`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<
             'a,
             S = (
@@ -13979,6 +14079,7 @@ pub mod system_webhook {
         #[doc = "`admin/system-webhook/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:system-webhook*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -14056,6 +14157,7 @@ pub mod system_webhook {
         pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::SystemWebhook>;
         #[doc = "`admin/system-webhook/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:system-webhook*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2024_10_1::Client,
             is_active: ::std::option::Option<bool>,
@@ -14131,6 +14233,7 @@ pub mod system_webhook {
         #[doc = "`admin/system-webhook/show` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:system-webhook*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2024_10_1::Client,
             id: ::std::option::Option<::std::string::String>,
@@ -14215,6 +14318,7 @@ pub mod system_webhook {
         #[doc = "`admin/system-webhook/update` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *write:admin:system-webhook*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `id`、`is_active`、`name`、`on`、`url`、`secret`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<
             'a,
             S = (
@@ -14431,6 +14535,7 @@ pub mod system_webhook {
         #[doc = "`admin/system-webhook/test` のビルダー。"]
         #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes* / **Permission**: *read:admin:system-webhook*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `webhook_id`、`type`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2024_10_1::Client,
             webhook_id: ::std::option::Option<::std::string::String>,

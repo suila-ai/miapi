@@ -43,6 +43,7 @@ impl crate::Endpoint for Request {
 #[doc = "`test` のビルダー。"]
 #[doc = "Endpoint for testing input validation.\n\n**Credential required**: *No*"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `required`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a, S = (crate::builder::Unset,)> {
     client: &'a crate::generated::v2026_5_1::Client,
     required: ::std::option::Option<bool>,

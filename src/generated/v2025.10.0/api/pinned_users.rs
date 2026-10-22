@@ -14,6 +14,7 @@ impl crate::Endpoint for Request {
 pub type Response = ::std::vec::Vec<crate::generated::v2025_10_0::types::UserDetailed>;
 #[doc = "`pinned-users` のビルダー。"]
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }

@@ -1,6 +1,7 @@
 #![doc = "`charts/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`charts/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2025_10_0::Client,
 }
@@ -99,6 +100,7 @@ pub mod active_users {
     #[doc = "`charts/active-users` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `span`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         span: ::std::option::Option<RequestSpan>,
@@ -221,6 +223,7 @@ pub mod ap_request {
     #[doc = "`charts/ap-request` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `span`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         span: ::std::option::Option<RequestSpan>,
@@ -361,6 +364,7 @@ pub mod drive {
     #[doc = "`charts/drive` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `span`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         span: ::std::option::Option<RequestSpan>,
@@ -489,6 +493,7 @@ pub mod federation {
     #[doc = "`charts/federation` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `span`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         span: ::std::option::Option<RequestSpan>,
@@ -664,6 +669,7 @@ pub mod instance {
     #[doc = "`charts/instance` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `span`、`host`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
         client: &'a crate::generated::v2025_10_0::Client,
         span: ::std::option::Option<RequestSpan>,
@@ -831,6 +837,7 @@ pub mod notes {
     #[doc = "`charts/notes` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `span`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         span: ::std::option::Option<RequestSpan>,
@@ -910,6 +917,7 @@ pub mod notes {
 #[doc = "`charts/user/` 以下のエンドポイント"]
 pub mod user {
     #[doc = "`charts/user/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2025_10_0::Client,
     }
@@ -994,6 +1002,7 @@ pub mod user {
         #[doc = "`charts/user/drive` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `span`、`user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2025_10_0::Client,
             span: ::std::option::Option<RequestSpan>,
@@ -1167,6 +1176,7 @@ pub mod user {
         #[doc = "`charts/user/following` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `span`、`user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2025_10_0::Client,
             span: ::std::option::Option<RequestSpan>,
@@ -1316,6 +1326,7 @@ pub mod user {
         #[doc = "`charts/user/notes` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `span`、`user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2025_10_0::Client,
             span: ::std::option::Option<RequestSpan>,
@@ -1465,6 +1476,7 @@ pub mod user {
         #[doc = "`charts/user/pv` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `span`、`user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2025_10_0::Client,
             span: ::std::option::Option<RequestSpan>,
@@ -1612,6 +1624,7 @@ pub mod user {
         #[doc = "`charts/user/reactions` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `span`、`user_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::v2025_10_0::Client,
             span: ::std::option::Option<RequestSpan>,
@@ -1762,6 +1775,7 @@ pub mod users {
     #[doc = "`charts/users` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `span`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2025_10_0::Client,
         span: ::std::option::Option<RequestSpan>,

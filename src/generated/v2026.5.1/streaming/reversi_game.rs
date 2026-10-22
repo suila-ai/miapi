@@ -222,6 +222,7 @@ impl ::serde::Serialize for Message {
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`reversiGame` チャンネルにつなぐビルダー。await でつなぐ。"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `game_id`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a, S = (crate::builder::Unset,)> {
     stream: &'a crate::generated::v2026_5_1::streaming::Stream,
     game_id: ::std::option::Option<::std::string::String>,

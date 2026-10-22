@@ -1,6 +1,7 @@
 #![doc = "`channels/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`channels/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2026_5_1::Client,
 }
@@ -118,6 +119,7 @@ pub mod create {
     #[doc = "`channels/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `name`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         name: ::std::option::Option<::std::string::String>,
@@ -278,6 +280,7 @@ pub mod favorite {
     #[doc = "`channels/favorite` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         channel_id: ::std::option::Option<::std::string::String>,
@@ -334,6 +337,7 @@ pub mod featured {
     pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::Channel>;
     #[doc = "`channels/featured` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
     }
@@ -373,6 +377,7 @@ pub mod follow {
     #[doc = "`channels/follow` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         channel_id: ::std::option::Option<::std::string::String>,
@@ -441,6 +446,7 @@ pub mod followed {
     pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::Channel>;
     #[doc = "`channels/followed` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:channels*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
         since_id: ::std::option::Option<::std::string::String>,
@@ -538,6 +544,7 @@ pub mod followed {
 #[doc = "`channels/mute/` 以下のエンドポイント"]
 pub mod mute {
     #[doc = "`channels/mute/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
     }
@@ -588,6 +595,7 @@ pub mod mute {
         #[doc = "`channels/mute/create` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             channel_id: ::std::option::Option<::std::string::String>,
@@ -669,6 +677,7 @@ pub mod mute {
         #[doc = "`channels/mute/delete` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::v2026_5_1::Client,
             channel_id: ::std::option::Option<::std::string::String>,
@@ -725,6 +734,7 @@ pub mod mute {
         pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::Channel>;
         #[doc = "`channels/mute/list` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:channels*"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a> {
             client: &'a crate::generated::v2026_5_1::Client,
         }
@@ -761,6 +771,7 @@ pub mod my_favorites {
     pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::Channel>;
     #[doc = "`channels/my-favorites` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:channels*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
     }
@@ -808,6 +819,7 @@ pub mod owned {
     pub type Response = ::std::vec::Vec<crate::generated::v2026_5_1::types::Channel>;
     #[doc = "`channels/owned` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:channels*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2026_5_1::Client,
         since_id: ::std::option::Option<::std::string::String>,
@@ -945,6 +957,7 @@ pub mod search {
     #[doc = "`channels/search` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `query`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         query: ::std::option::Option<::std::string::String>,
@@ -1097,6 +1110,7 @@ pub mod show {
     #[doc = "`channels/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         channel_id: ::std::option::Option<::std::string::String>,
@@ -1175,6 +1189,7 @@ pub mod timeline {
     #[doc = "`channels/timeline` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         channel_id: ::std::option::Option<::std::string::String>,
@@ -1327,6 +1342,7 @@ pub mod unfavorite {
     #[doc = "`channels/unfavorite` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         channel_id: ::std::option::Option<::std::string::String>,
@@ -1387,6 +1403,7 @@ pub mod unfollow {
     #[doc = "`channels/unfollow` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         channel_id: ::std::option::Option<::std::string::String>,
@@ -1494,6 +1511,7 @@ pub mod update {
     #[doc = "`channels/update` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:channels*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `channel_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2026_5_1::Client,
         channel_id: ::std::option::Option<::std::string::String>,

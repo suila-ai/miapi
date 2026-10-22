@@ -14,6 +14,7 @@ impl crate::Endpoint for Request {
 pub type Response = ();
 #[doc = "`export-custom-emojis` のビルダー。"]
 #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }

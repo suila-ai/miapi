@@ -71,6 +71,7 @@ impl ::serde::Serialize for Event {
 #[doc = "`hybridTimeline` への接続。"]
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`hybridTimeline` チャンネルにつなぐビルダー。await でつなぐ。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a> {
     stream: &'a crate::generated::v2024_10_1::streaming::Stream,
     with_renotes: ::std::option::Option<bool>,

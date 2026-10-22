@@ -148,6 +148,7 @@ impl ::serde::Serialize for Message {
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`chatRoom` チャンネルにつなぐビルダー。await でつなぐ。"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `room_id`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a, S = (crate::builder::Unset,)> {
     stream: &'a crate::generated::v2026_5_1::streaming::Stream,
     room_id: ::std::option::Option<::std::string::String>,

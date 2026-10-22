@@ -65,6 +65,7 @@ impl ::serde::Serialize for Event {
 #[doc = "`homeTimeline` への接続。"]
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`homeTimeline` チャンネルにつなぐビルダー。await でつなぐ。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a> {
     stream: &'a crate::generated::v2026_5_1::streaming::Stream,
     with_renotes: ::std::option::Option<bool>,

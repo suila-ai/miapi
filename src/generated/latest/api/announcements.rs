@@ -29,6 +29,7 @@ impl crate::Endpoint for Request {
 pub type Response = ::std::vec::Vec<crate::generated::latest::types::Announcement>;
 #[doc = "`announcements` のビルダー。"]
 #[doc = "No description provided.\n\n**Credential required**: *No*"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Call<'a> {
     client: &'a crate::generated::latest::Client,
     limit: ::std::option::Option<i64>,
@@ -161,6 +162,7 @@ pub mod show {
     #[doc = "`announcements/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `announcement_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         announcement_id: ::std::option::Option<::std::string::String>,

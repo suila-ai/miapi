@@ -1,6 +1,7 @@
 #![doc = "`reversi/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`reversi/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::v2024_10_1::Client,
 }
@@ -63,6 +64,7 @@ pub mod cancel_match {
     pub type Response = ();
     #[doc = "`reversi/cancel-match` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
@@ -132,6 +134,7 @@ pub mod games {
     pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::ReversiGameLite>;
     #[doc = "`reversi/games` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
         limit: ::std::option::Option<i64>,
@@ -248,6 +251,7 @@ pub mod r#match {
         ::std::option::Option<crate::generated::v2024_10_1::types::ReversiGameDetailed>;
     #[doc = "`reversi/match` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
         user_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
@@ -336,6 +340,7 @@ pub mod invitations {
     pub type Response = ::std::vec::Vec<crate::generated::v2024_10_1::types::UserLite>;
     #[doc = "`reversi/invitations` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::v2024_10_1::Client,
     }
@@ -375,6 +380,7 @@ pub mod show_game {
     #[doc = "`reversi/show-game` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `game_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         game_id: ::std::option::Option<::std::string::String>,
@@ -435,6 +441,7 @@ pub mod surrender {
     #[doc = "`reversi/surrender` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `game_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::v2024_10_1::Client,
         game_id: ::std::option::Option<::std::string::String>,
@@ -501,6 +508,7 @@ pub mod verify {
     #[doc = "`reversi/verify` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `game_id`、`crc32`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
         client: &'a crate::generated::v2024_10_1::Client,
         game_id: ::std::option::Option<::std::string::String>,

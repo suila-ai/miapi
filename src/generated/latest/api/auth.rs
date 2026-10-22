@@ -1,6 +1,7 @@
 #![doc = "`auth/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`auth/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::latest::Client,
 }
@@ -38,6 +39,7 @@ pub mod accept {
     #[doc = "`auth/accept` のビルダー。"]
     #[doc = "No description provided.\n\n**Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.\n**Credential required**: *Yes*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `token`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         token: ::std::option::Option<::std::string::String>,
@@ -81,6 +83,7 @@ pub mod accept {
 #[doc = "`auth/session/` 以下のエンドポイント"]
 pub mod session {
     #[doc = "`auth/session/` 以下のエンドポイント"]
+    #[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
     }
@@ -127,6 +130,7 @@ pub mod session {
         #[doc = "`auth/session/generate` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `app_secret`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::latest::Client,
             app_secret: ::std::option::Option<::std::string::String>,
@@ -191,6 +195,7 @@ pub mod session {
         #[doc = "`auth/session/show` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `token`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset,)> {
             client: &'a crate::generated::latest::Client,
             token: ::std::option::Option<::std::string::String>,
@@ -257,6 +262,7 @@ pub mod session {
         #[doc = "`auth/session/userkey` のビルダー。"]
         #[doc = "No description provided.\n\n**Credential required**: *No*"]
         #[doc = "必須パラメータ（型状態のスロットの順）: `app_secret`、`token`。すべて設定すると、呼び出しを await できる。"]
+        #[must_use = "builders do nothing unless you `.await` them"]
         pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
             client: &'a crate::generated::latest::Client,
             app_secret: ::std::option::Option<::std::string::String>,

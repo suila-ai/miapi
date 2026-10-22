@@ -1,6 +1,7 @@
 #![doc = "`antennas/` 以下のエンドポイント"]
 #![allow(clippy::type_complexity, clippy::large_enum_variant)]
 #[doc = "`antennas/` 以下のエンドポイント"]
+#[must_use = "namespace builders do nothing; call an endpoint method and `.await` it"]
 pub struct Call<'a> {
     client: &'a crate::generated::latest::Client,
 }
@@ -107,6 +108,7 @@ pub mod create {
     #[doc = "`antennas/create` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `name`、`src`、`keywords`、`exclude_keywords`、`users`、`case_sensitive`、`with_replies`、`with_file`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<
         'a,
         S = (
@@ -452,6 +454,7 @@ pub mod delete {
     #[doc = "`antennas/delete` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `antenna_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         antenna_id: ::std::option::Option<::std::string::String>,
@@ -508,6 +511,7 @@ pub mod list {
     pub type Response = ::std::vec::Vec<crate::generated::latest::types::Antenna>;
     #[doc = "`antennas/list` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a> {
         client: &'a crate::generated::latest::Client,
     }
@@ -558,6 +562,7 @@ pub mod notes {
     #[doc = "`antennas/notes` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `antenna_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         antenna_id: ::std::option::Option<::std::string::String>,
@@ -696,6 +701,7 @@ pub mod remove_note {
     #[doc = "`antennas/remove-note` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `antenna_id`、`note_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset, crate::builder::Unset)> {
         client: &'a crate::generated::latest::Client,
         antenna_id: ::std::option::Option<::std::string::String>,
@@ -773,6 +779,7 @@ pub mod show {
     #[doc = "`antennas/show` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *read:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `antenna_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         antenna_id: ::std::option::Option<::std::string::String>,
@@ -901,6 +908,7 @@ pub mod update {
     #[doc = "`antennas/update` のビルダー。"]
     #[doc = "No description provided.\n\n**Credential required**: *Yes* / **Permission**: *write:account*"]
     #[doc = "必須パラメータ（型状態のスロットの順）: `antenna_id`。すべて設定すると、呼び出しを await できる。"]
+    #[must_use = "builders do nothing unless you `.await` them"]
     pub struct Call<'a, S = (crate::builder::Unset,)> {
         client: &'a crate::generated::latest::Client,
         antenna_id: ::std::option::Option<::std::string::String>,

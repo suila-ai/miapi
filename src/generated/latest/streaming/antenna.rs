@@ -60,6 +60,7 @@ impl ::serde::Serialize for Event {
 pub type Connection = crate::stream::Connection<Params>;
 #[doc = "`antenna` チャンネルにつなぐビルダー。await でつなぐ。"]
 #[doc = "必須パラメータ（型状態のスロットの順）: `antenna_id`。すべて設定すると、呼び出しを await できる。"]
+#[must_use = "builders do nothing unless you `.await` them"]
 pub struct Connect<'a, S = (crate::builder::Unset,)> {
     stream: &'a crate::generated::latest::streaming::Stream,
     antenna_id: ::std::option::Option<::std::string::String>,
