@@ -52,7 +52,7 @@ pub fn multipart_fields<T: Serialize>(request: &T) -> Result<Map<String, Value>,
     to_value(request).and_then(into_object)
 }
 
-fn to_value<T: Serialize>(request: &T) -> Result<Value, Error> {
+pub(crate) fn to_value<T: Serialize>(request: &T) -> Result<Value, Error> {
     serde_json::to_value(request).map_err(|error| Error::InvalidRequest(error.into()))
 }
 

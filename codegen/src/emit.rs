@@ -13,12 +13,35 @@ pub fn tree_files(tree: &Tree, name: &str) -> Vec<(String, TokenStream)> {
     let module = module_ident(name);
     let mut files = vec![
         ("mod.rs".to_owned(), tree_mod_file(&tree.version)),
-        ("types.rs".to_owned(), types_file(&tree.types, &module)),
+        (
+            "types.rs".to_owned(),
+            types_file(
+                "エンティティの型（`api.json` の `components.schemas`）。",
+                &tree.types,
+                &module,
+            ),
+        ),
         ("api/mod.rs".to_owned(), api_mod_file(&tree.api)),
     ];
     for node in &tree.api {
         let file = format!("api/{}.rs", node.ident);
         files.push((file, api_top_file(node, &module)));
+    }
+    files.push((
+        "streaming/mod.rs".to_owned(),
+        streaming_mod_file(&tree.streaming, &module),
+    ));
+    files.push((
+        "streaming/types.rs".to_owned(),
+        types_file(
+            "misskey-js の型定義（`entities.ts`・`consts.ts`・`streaming.types.ts`）にある、ストリーミングだけが使う型。",
+            &tree.streaming.types,
+            &module,
+        ),
+    ));
+    for channel in &tree.streaming.channels {
+        let file = format!("streaming/{}.rs", channel.ident);
+        files.push((file, channel_file(channel, &module)));
     }
     files
 }
@@ -31,8 +54,10 @@ fn module_ident(name: &str) -> Ident {
 
 fn tree_mod_file(version: &str) -> TokenStream {
     quote! {
-        #![doc = "`api.json` から生成したバインディング。手で編集せず、`cargo codegen` を実行すること。"]
+        #![doc = "`api.json` と misskey-js の型定義から生成したバインディング。手で編集せず、`cargo codegen` を実行すること。"]
         pub mod api;
+        #[cfg(feature = "streaming")]
+        pub mod streaming;
         pub mod types;
         #[doc = "このバインディングの生成元である `api.json` の `info.version`。"]
         pub const API_VERSION: &str = #version;
@@ -44,10 +69,10 @@ fn tree_mod_file(version: &str) -> TokenStream {
     }
 }
 
-fn types_file(items: &[Item], module: &Ident) -> TokenStream {
+fn types_file(doc: &str, items: &[Item], module: &Ident) -> TokenStream {
     let items = items.iter().map(|item| item_tokens(item, module));
     quote! {
-        #![doc = "エンティティの型（`api.json` の `components.schemas`）。"]
+        #![doc = #doc]
         #![allow(clippy::large_enum_variant)]
         #(#items)*
     }
@@ -183,9 +208,70 @@ fn endpoint_tokens(endpoint: &EndpointDef, module: &Ident) -> TokenStream {
     }
 }
 
+/// 型状態のビルダーの出力の指定。
+/// REST の `Call` とストリーミングの `Connect` が、所有者と終端の呼び出しを替えて使う。
+pub struct BuilderSpec<'a> {
+    /// ビルダーの型名。子のビルダーも同じ名前を持つ。
+    pub builder: Ident,
+    /// ビルダーが参照で持つ所有者の型と、そのフィールド名。
+    pub owner: TokenStream,
+    pub owner_field: Ident,
+    pub docs: Vec<String>,
+    /// setter で集めるパラメータ。
+    pub fields: &'a [Field],
+    /// 子のビルダーを作るアクセサ（メソッド名, doc）。
+    pub children: Vec<(Ident, String)>,
+    /// await したときの動作。無ければ、await できない名前空間だけのビルダーになる。
+    pub terminal: Option<Terminal>,
+}
+
+/// ビルダーを await したときに組み立てる構造体と、それを渡す所有者のメソッド。
+pub struct Terminal {
+    /// 組み立てる構造体の型。
+    pub request: Ident,
+    /// await の結果の型。
+    pub output: TokenStream,
+    /// 組み立てた構造体を受け取り、await すると `output` を返す、所有者のメソッド。
+    pub method: Ident,
+}
+
 fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
+    let docs = match &node.endpoint {
+        Some(endpoint) => {
+            let mut docs = vec![format!("`{}` のビルダー。", endpoint.path)];
+            docs.extend(endpoint.docs.iter().skip(1).cloned());
+            docs
+        }
+        None => vec![node_doc(node)],
+    };
+    let children = node
+        .children
+        .iter()
+        .map(|child| (ident(&child.ident), node_doc(child)))
+        .collect();
+    let terminal = node.endpoint.as_ref().map(|_| Terminal {
+        request: format_ident!("Request"),
+        output: quote! { Response },
+        method: format_ident!("call"),
+    });
+    let spec = BuilderSpec {
+        builder: format_ident!("Call"),
+        owner: quote! { crate::generated::#module::Client },
+        owner_field: format_ident!("client"),
+        docs,
+        fields: node.endpoint.as_ref().map_or(&[], |e| &e.request.fields),
+        children,
+        terminal,
+    };
+    builder_tokens(&spec, module)
+}
+
+pub fn builder_tokens(spec: &BuilderSpec<'_>, module: &Ident) -> TokenStream {
     let kind = StructKind::Request;
-    let fields: &[Field] = node.endpoint.as_ref().map_or(&[], |e| &e.request.fields);
+    let builder = &spec.builder;
+    let owner = &spec.owner;
+    let owner_field = &spec.owner_field;
+    let fields = spec.fields;
     let required: Vec<&Field> = fields.iter().filter(|f| f.required).collect();
     let optional: Vec<&Field> = fields.iter().filter(|f| !f.required).collect();
     let slots: Vec<Ident> = (0..required.len()).map(|i| format_ident!("S{i}")).collect();
@@ -193,22 +279,14 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
     let set = vec![quote! { crate::builder::Set }; required.len()];
     let typed = !required.is_empty();
 
-    let docs = match &node.endpoint {
-        Some(endpoint) => {
-            let mut docs = vec![format!("`{}` のビルダー。", endpoint.path)];
-            docs.extend(endpoint.docs.iter().skip(1).cloned());
-            if typed {
-                let names: Vec<String> =
-                    required.iter().map(|f| format!("`{}`", f.ident)).collect();
-                docs.push(format!(
-                    "必須パラメータ（型状態のスロットの順）: {}。すべて設定すると、呼び出しを await できる。",
-                    names.join("、")
-                ));
-            }
-            docs
-        }
-        None => vec![node_doc(node)],
-    };
+    let mut docs = spec.docs.clone();
+    if typed {
+        let names: Vec<String> = required.iter().map(|f| format!("`{}`", f.ident)).collect();
+        docs.push(format!(
+            "必須パラメータ（型状態のスロットの順）: {}。すべて設定すると、呼び出しを await できる。",
+            names.join("、")
+        ));
+    }
     let docs = doc_attrs(&docs);
 
     let storage = fields.iter().map(|f| {
@@ -236,18 +314,16 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
         (quote! { <'a> }, quote! {}, quote! {})
     };
     let setters_impl = if typed {
-        quote! { impl<'a, #(#slots),*> Call<'a, (#(#slots,)*)> }
+        quote! { impl<'a, #(#slots),*> #builder<'a, (#(#slots,)*)> }
     } else {
-        quote! { impl<'a> Call<'a> }
+        quote! { impl<'a> #builder<'a> }
     };
 
-    let children = node.children.iter().map(|child| {
-        let name = ident(&child.ident);
-        let doc = node_doc(child);
+    let children = spec.children.iter().map(|(name, doc)| {
         quote! {
             #[doc = #doc]
-            pub fn #name(&self) -> #name::Call<'a> {
-                #name::Call::new(self.client)
+            pub fn #name(&self) -> #name::#builder<'a> {
+                #name::#builder::new(self.#owner_field)
             }
         }
     });
@@ -317,8 +393,8 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
         let set_moves = moves(quote! { ::std::option::Option::Some(#stored) });
         let mut setters = vec![quote! {
             #doc
-            pub fn #name(self, value: impl ::std::convert::Into<#base>) -> Call<'a, (#(#output,)*)> {
-                Call { client: self.client, #(#set_moves)* _state: ::std::marker::PhantomData }
+            pub fn #name(self, value: impl ::std::convert::Into<#base>) -> #builder<'a, (#(#output,)*)> {
+                #builder { #owner_field: self.#owner_field, #(#set_moves)* _state: ::std::marker::PhantomData }
             }
         }];
         if f.nullable {
@@ -327,19 +403,19 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
             let null_moves = moves(quote! { ::std::option::Option::Some(::std::option::Option::None) });
             setters.push(quote! {
                 #[doc = #null_doc]
-                pub fn #null_name(self) -> Call<'a, (#(#output,)*)> {
-                    Call { client: self.client, #(#null_moves)* _state: ::std::marker::PhantomData }
+                pub fn #null_name(self) -> #builder<'a, (#(#output,)*)> {
+                    #builder { #owner_field: self.#owner_field, #(#null_moves)* _state: ::std::marker::PhantomData }
                 }
             });
         }
         setters
     });
 
-    let into_future = node.endpoint.is_some().then(|| {
+    let into_future = spec.terminal.as_ref().map(|terminal| {
         let state = if typed {
-            quote! { Call<'a, (#(#set,)*)> }
+            quote! { #builder<'a, (#(#set,)*)> }
         } else {
-            quote! { Call<'a> }
+            quote! { #builder<'a> }
         };
         let inits = fields.iter().map(|f| {
             let name = ident(&f.ident);
@@ -349,14 +425,19 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
                 quote! { #name: self.#name, }
             }
         });
+        let Terminal {
+            request,
+            output,
+            method,
+        } = terminal;
         quote! {
             impl<'a> ::std::future::IntoFuture for #state {
-                type Output = ::std::result::Result<Response, crate::Error>;
-                type IntoFuture = crate::builder::CallFuture<'a, Response>;
+                type Output = ::std::result::Result<#output, crate::Error>;
+                type IntoFuture = crate::builder::CallFuture<'a, #output>;
                 fn into_future(self) -> Self::IntoFuture {
-                    let request = Request { #(#inits)* };
-                    let client = self.client;
-                    ::std::boxed::Box::pin(async move { client.call(request).await })
+                    let request = #request { #(#inits)* };
+                    let #owner_field = self.#owner_field;
+                    ::std::boxed::Box::pin(async move { #owner_field.#method(request).await })
                 }
             }
         }
@@ -364,14 +445,14 @@ fn call_tokens(node: &ApiNode, module: &Ident) -> TokenStream {
 
     quote! {
         #docs
-        pub struct Call #generics {
-            client: &'a crate::generated::#module::Client,
+        pub struct #builder #generics {
+            #owner_field: &'a #owner,
             #(#storage)*
             #state_field
         }
-        impl<'a> Call<'a> {
-            pub(crate) fn new(client: &'a crate::generated::#module::Client) -> Self {
-                Call { client, #(#init)* #state_init }
+        impl<'a> #builder<'a> {
+            pub(crate) fn new(#owner_field: &'a #owner) -> Self {
+                #builder { #owner_field, #(#init)* #state_init }
             }
         }
         #setters_impl {
@@ -392,11 +473,101 @@ fn stored_value(field: &Field) -> TokenStream {
     }
 }
 
+fn streaming_mod_file(def: &StreamingDef, module: &Ident) -> TokenStream {
+    let modules = def.channels.iter().map(|channel| {
+        let name = ident(&channel.ident);
+        quote! {
+            pub mod #name;
+        }
+    });
+    let accessors = def.channels.iter().map(|channel| {
+        let name = ident(&channel.ident);
+        let doc = format!("`{}` チャンネルにつなぐビルダー。", channel.name);
+        quote! {
+            #[doc = #doc]
+            pub fn #name(&self) -> #name::Connect<'_> {
+                #name::Connect::new(self)
+            }
+        }
+    });
+    let items = def.items.iter().map(|item| item_tokens(item, module));
+    quote! {
+        #![doc = "ストリーミング API のチャンネル。misskey-js の `streaming.types.ts` から生成した。"]
+        #![allow(clippy::large_enum_variant)]
+        pub mod types;
+        #(#modules)*
+        #[doc = "このバージョンセットでストリーミング API を使うストリーム。チャンネルのビルダーは、ここからメソッドで作る。"]
+        pub type Stream = crate::stream::Stream<super::Version>;
+        impl Stream {
+            #(#accessors)*
+            #[doc = "ストリーム全体のイベント（`noteUpdated`・`emojiAdded` など）の受け口。"]
+            pub fn broadcast(&self) -> crate::stream::Receiver<BroadcastEvent> {
+                self.broadcast_receiver()
+            }
+        }
+        #(#items)*
+    }
+}
+
+fn channel_file(channel: &ChannelDef, module: &Ident) -> TokenStream {
+    let name = &channel.name;
+    let doc = format!("`{name}` チャンネル。");
+    let items = channel.items.iter().map(|item| item_tokens(item, module));
+    let params = struct_tokens(&channel.params, module);
+    let events = envelope_tokens(&channel.events, module);
+    let messages = channel
+        .messages
+        .as_ref()
+        .map(|messages| envelope_tokens(messages, module));
+    let message_ty = if channel.messages.is_some() {
+        quote! { Message }
+    } else {
+        quote! { crate::stream::NoMessage }
+    };
+    let connection_doc = format!("`{name}` への接続。");
+    let connect = builder_tokens(
+        &BuilderSpec {
+            builder: format_ident!("Connect"),
+            owner: quote! { crate::generated::#module::streaming::Stream },
+            owner_field: format_ident!("stream"),
+            docs: vec![format!(
+                "`{name}` チャンネルにつなぐビルダー。await でつなぐ。"
+            )],
+            fields: &channel.params.fields,
+            children: Vec::new(),
+            terminal: Some(Terminal {
+                request: format_ident!("Params"),
+                output: quote! { Connection },
+                method: format_ident!("connect"),
+            }),
+        },
+        module,
+    );
+    quote! {
+        #![doc = #doc]
+        #![allow(clippy::type_complexity, clippy::large_enum_variant)]
+        #(#items)*
+        #params
+        impl crate::stream::Channel for Params {
+            const NAME: &'static str = #name;
+            type Event = Event;
+            type Message = #message_ty;
+        }
+        #events
+        #messages
+        #[doc = #connection_doc]
+        pub type Connection = crate::stream::Connection<Params>;
+        #connect
+    }
+}
+
 pub fn item_tokens(item: &Item, module: &Ident) -> TokenStream {
     match item {
         Item::Struct(def) => struct_tokens(def, module),
         Item::StrEnum(def) => str_enum_tokens(def),
         Item::Union(def) => union_tokens(def, module),
+        Item::Tagged(def) => tagged_tokens(def, module),
+        Item::Envelope(def) => envelope_tokens(def, module),
         Item::Alias(def) => {
             let name = ident(&def.name);
             let docs = doc_attrs(&def.docs);
@@ -505,6 +676,157 @@ fn union_tokens(def: &UnionDef, module: &Ident) -> TokenStream {
     }
 }
 
+/// `{type, body}` の enum。serde の derive には受け皿のバリアントを足せないので、
+/// [`Envelope`](crate::stream::Envelope) を介して読み書きする impl を書き出す。
+fn envelope_tokens(def: &EnvelopeDef, module: &Ident) -> TokenStream {
+    let name = ident(&def.name);
+    let docs = doc_attrs(&def.docs);
+    let variants = def.variants.iter().map(|variant| {
+        let docs = doc_attrs(&variant.docs);
+        let ident = ident(&variant.ident);
+        match &variant.payload {
+            Some(ty) => {
+                let ty = type_tokens(ty, module);
+                quote! { #docs #ident(#ty), }
+            }
+            None => quote! { #docs #ident, },
+        }
+    });
+    let catch_all = ident(CATCH_ALL);
+    let catch_all_variant = def.catch_all.then(|| {
+        quote! {
+            #[doc = "このバージョンのバインディングが知らないイベント。"]
+            #catch_all { r#type: ::std::string::String, body: ::serde_json::Value },
+        }
+    });
+    let from_arms = def.variants.iter().map(|variant| {
+        let json_name = &variant.json_name;
+        let ident = ident(&variant.ident);
+        match &variant.payload {
+            Some(_) => quote! {
+                #json_name => #name::#ident(
+                    ::serde::Deserialize::deserialize(body).map_err(::serde::de::Error::custom)?,
+                ),
+            },
+            None => quote! { #json_name => #name::#ident, },
+        }
+    });
+    let from_fallback = if def.catch_all {
+        quote! { _ => #name::#catch_all { r#type, body }, }
+    } else {
+        let known = def.variants.iter().map(|variant| &variant.json_name);
+        quote! {
+            _ => return ::std::result::Result::Err(::serde::de::Error::unknown_variant(&r#type, &[#(#known),*])),
+        }
+    };
+    let body_binding = if def.catch_all || def.variants.iter().any(|v| v.payload.is_some()) {
+        quote! { body }
+    } else {
+        quote! { body: _ }
+    };
+    let into_arms = def.variants.iter().map(|variant| {
+        let json_name = &variant.json_name;
+        let ident = ident(&variant.ident);
+        match &variant.payload {
+            Some(_) => quote! {
+                #name::#ident(body) => (#json_name, ::serde_json::to_value(body).map_err(::serde::ser::Error::custom)?),
+            },
+            None => quote! { #name::#ident => (#json_name, ::serde_json::Value::Null), },
+        }
+    });
+    let into_catch_all = def.catch_all.then(|| {
+        quote! { #name::#catch_all { r#type, body } => (r#type.as_str(), body.clone()), }
+    });
+    quote! {
+        #docs
+        #[derive(Debug, Clone, PartialEq)]
+        pub enum #name {
+            #(#variants)*
+            #catch_all_variant
+        }
+        impl<'de> ::serde::Deserialize<'de> for #name {
+            fn deserialize<D: ::serde::Deserializer<'de>>(deserializer: D) -> ::std::result::Result<Self, D::Error> {
+                let crate::stream::Envelope { r#type, #body_binding } = ::serde::Deserialize::deserialize(deserializer)?;
+                ::std::result::Result::Ok(match r#type.as_str() {
+                    #(#from_arms)*
+                    #from_fallback
+                })
+            }
+        }
+        impl ::serde::Serialize for #name {
+            fn serialize<S: ::serde::Serializer>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error> {
+                let (r#type, body) = match self {
+                    #(#into_arms)*
+                    #into_catch_all
+                };
+                ::serde::Serialize::serialize(&crate::stream::Envelope { r#type: r#type.to_owned(), body }, serializer)
+            }
+        }
+    }
+}
+
+/// `type` の値で変種を選ぶ object の union。変種の構造体には `type` が無いので、読むときは残りを構造体に読み、
+/// 書くときは `type` を足す。
+fn tagged_tokens(def: &TaggedUnionDef, module: &Ident) -> TokenStream {
+    let name = ident(&def.name);
+    let docs = doc_attrs(&def.docs);
+    let variants = def.variants.iter().map(|variant| {
+        let ident = ident(&variant.ident);
+        let ty = type_tokens(&variant.ty, module);
+        quote! { #ident(#ty), }
+    });
+    let catch_all = ident(CATCH_ALL);
+    let from_arms = def.variants.iter().map(|variant| {
+        let ident = ident(&variant.ident);
+        let value = &variant.value;
+        quote! {
+            ::std::option::Option::Some(#value) => #name::#ident(
+                ::serde::Deserialize::deserialize(value).map_err(::serde::de::Error::custom)?,
+            ),
+        }
+    });
+    let into_arms = def.variants.iter().map(|variant| {
+        let ident = ident(&variant.ident);
+        let value = &variant.value;
+        quote! {
+            #name::#ident(inner) => {
+                let mut value = ::serde_json::to_value(inner).map_err(::serde::ser::Error::custom)?;
+                if let ::serde_json::Value::Object(object) = &mut value {
+                    object.insert("type".to_owned(), ::serde_json::Value::String(#value.to_owned()));
+                }
+                ::serde::Serialize::serialize(&value, serializer)
+            }
+        }
+    });
+    quote! {
+        #docs
+        #[derive(Debug, Clone, PartialEq)]
+        pub enum #name {
+            #(#variants)*
+            #[doc = "このバージョンのバインディングが知らない形。"]
+            #catch_all(::serde_json::Value),
+        }
+        impl<'de> ::serde::Deserialize<'de> for #name {
+            fn deserialize<D: ::serde::Deserializer<'de>>(deserializer: D) -> ::std::result::Result<Self, D::Error> {
+                let value = <::serde_json::Value as ::serde::Deserialize>::deserialize(deserializer)?;
+                let tag = value.get("type").and_then(::serde_json::Value::as_str).map(str::to_owned);
+                ::std::result::Result::Ok(match tag.as_deref() {
+                    #(#from_arms)*
+                    _ => #name::#catch_all(value),
+                })
+            }
+        }
+        impl ::serde::Serialize for #name {
+            fn serialize<S: ::serde::Serializer>(&self, serializer: S) -> ::std::result::Result<S::Ok, S::Error> {
+                match self {
+                    #(#into_arms)*
+                    #name::#catch_all(value) => ::serde::Serialize::serialize(value, serializer),
+                }
+            }
+        }
+    }
+}
+
 pub fn type_tokens(ty: &RustType, module: &Ident) -> TokenStream {
     match ty {
         RustType::String => quote! { ::std::string::String },
@@ -539,6 +861,10 @@ pub fn type_tokens(ty: &RustType, module: &Ident) -> TokenStream {
         RustType::Component(name) => {
             let name = ident(name);
             quote! { crate::generated::#module::types::#name }
+        }
+        RustType::Streaming(name) => {
+            let name = ident(name);
+            quote! { crate::generated::#module::streaming::types::#name }
         }
         RustType::Local(name) => {
             let name = ident(name);
@@ -587,6 +913,8 @@ pub fn selector_file(names: &[String]) -> TokenStream {
                 mod #module;
                 #[cfg(feature = #name)]
                 pub use #module::{API_VERSION, Client, api, types};
+                #[cfg(all(feature = #name, feature = "streaming"))]
+                pub use #module::streaming;
             }
         } else {
             quote! {

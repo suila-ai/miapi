@@ -19,22 +19,28 @@ name = "meta"
 required-features = ["latest"]
 
 [features]
-default = ["latest"]
+default = ["latest", "streaming"]
 latest = []
 "v2026.5.1" = []
 "v2025.10.0" = []
 "v2024.10.1" = []
+# ストリーミング API（WebSocket）。切ると REST だけになり、HTTP クライアントは HTTP/2 も使う。
+streaming = ["dep:reqwest-websocket", "dep:tokio", "dep:futures-util"]
 
 [dependencies]
 bytes = "1.12.1"
 chrono = { version = "0.4.45", default-features = false, features = ["serde", "std"] }
+futures-util = { version = "0.3.31", default-features = false, features = ["sink"], optional = true }
 reqwest = { version = "0.13.5", features = ["json", "multipart"] }
+reqwest-websocket = { version = "0.6.0", optional = true }
 serde = { version = "1.0.229", features = ["derive"] }
 serde_json = "1.0.151"
 thiserror = "2.0.21"
+tokio = { version = "1.53.2", features = ["rt", "sync", "time", "macros"], optional = true }
 
 [dev-dependencies]
-tokio = { version = "1.53.2", features = ["macros", "rt-multi-thread"] }
+async-tungstenite = { version = "0.32.0", features = ["tokio-runtime"] }
+tokio = { version = "1.53.2", features = ["macros", "rt-multi-thread", "net", "sync", "time"] }
 wiremock = "0.6.5"
 
 [workspace]

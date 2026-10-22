@@ -11,12 +11,30 @@ use serde_json::Value;
 use crate::model::*;
 use crate::naming::{ident, pascal, snake};
 use crate::spec::{AdditionalProperties, Operation, Schema, SchemaType, Spec};
+use crate::streaming;
+use crate::ts;
 
 pub type Error = String;
 type Result<T> = std::result::Result<T, Error>;
 
 /// 文字列 enum と union の末尾に足す、受け皿のバリアントの名前。
 pub const CATCH_ALL: &str = "Unrecognized";
+
+/// バリアント名を `used` に登録する。受け皿の名前（`catch_all` のとき）か、ident を通して既出の名前と重なれば、
+/// 衝突の理由を返す。
+pub(crate) fn claim_variant(
+    used: &mut HashSet<String>,
+    variant: &str,
+    catch_all: bool,
+) -> Result<()> {
+    if catch_all && variant == CATCH_ALL {
+        return Err(format!("受け皿の `{CATCH_ALL}` と衝突する"));
+    }
+    if !used.insert(ident(variant).to_string()) {
+        return Err("ほかのバリアントと衝突する".to_owned());
+    }
+    Ok(())
+}
 
 /// `Client` のメソッド名。derive している `Clone` の `clone` も含む。
 /// 生成するアクセサは、これらと同じ名前にできない。
@@ -27,25 +45,31 @@ const RESERVED_CLIENT_METHODS: &[&str] = &[
     "call",
     "call_raw",
     "send",
+    "streaming",
     "clone",
 ];
 /// 生成する `Call` ビルダー自身が使うフィールド名。
 const RESERVED_CALL_FIELDS: &[&str] = &["client", "_state"];
 
+/// 生成するアイテムを置く場所。[`Ctx::named`] が、その場所のアイテムを指す型を決める。
 #[derive(Clone, Copy, PartialEq)]
-enum Scope {
+pub(crate) enum Scope {
+    /// `types.rs`。
     Types,
+    /// エンドポイントかチャンネルのモジュール。
     Module,
+    /// `streaming/types.rs`。
+    Streaming,
 }
 
-struct Ctx {
-    scope: Scope,
-    kind: StructKind,
-    items: Vec<Item>,
+pub(crate) struct Ctx {
+    pub(crate) scope: Scope,
+    pub(crate) kind: StructKind,
+    pub(crate) items: Vec<Item>,
 }
 
 impl Ctx {
-    fn new(scope: Scope, kind: StructKind) -> Self {
+    pub(crate) fn new(scope: Scope, kind: StructKind) -> Self {
         Ctx {
             scope,
             kind,
@@ -53,14 +77,15 @@ impl Ctx {
         }
     }
 
-    fn named(&self, name: &str) -> RustType {
+    pub(crate) fn named(&self, name: &str) -> RustType {
         match self.scope {
             Scope::Types => RustType::Component(name.to_owned()),
             Scope::Module => RustType::Local(name.to_owned()),
+            Scope::Streaming => RustType::Streaming(name.to_owned()),
         }
     }
 
-    fn push(&mut self, item: Item) -> Result<()> {
+    pub(crate) fn push(&mut self, item: Item) -> Result<()> {
         self.ensure_unused(item.name())?;
         self.items.push(item);
         Ok(())
@@ -102,7 +127,7 @@ pub struct Resolver<'a> {
     strict_props: HashSet<(String, String)>,
 }
 
-pub fn build_tree(spec: &Spec) -> Result<Tree> {
+pub fn build_tree(spec: &Spec, ts: &ts::Files) -> Result<Tree> {
     let mut resolver = Resolver {
         spec,
         resolved: HashSet::new(),
@@ -125,20 +150,52 @@ pub fn build_tree(spec: &Spec) -> Result<Tree> {
         insert_endpoint(&mut api, path.trim_start_matches('/'), endpoint);
     }
     validate_api(&api, true)?;
+    let streaming = streaming::build(&mut resolver, ts)?;
     Ok(Tree {
         version: spec.info.version.clone(),
         types: types.items,
         api,
+        streaming,
     })
 }
 
 impl<'a> Resolver<'a> {
-    fn component(&self, name: &str) -> Result<&'a Schema> {
+    pub(crate) fn component(&self, name: &str) -> Result<&'a Schema> {
         self.spec
             .components
             .schemas
             .get(name)
             .ok_or_else(|| format!("不明なコンポーネント `{name}`"))
+    }
+
+    /// コンポーネントのプロパティの型と、null か欠けることがあるかどうか。REST で生成したそのフィールドの型を使う。
+    /// union のコンポーネントでは、展開した全メンバーで同じ型でなければエラーにする。
+    pub(crate) fn component_field(&self, component: &str, key: &str) -> Result<(RustType, bool)> {
+        let field_type = |name: &str| {
+            self.component_fields
+                .get(name)
+                .and_then(|fields| fields.iter().find(|f| f.json_name == key))
+                .map(|field| (field.base.clone(), field.nullable || !field.required))
+                .ok_or_else(|| format!("コンポーネント `{name}` にプロパティ `{key}` が無い"))
+        };
+        let Some(members) = union_members(self.component(component)?) else {
+            return field_type(component);
+        };
+        let mut types = Vec::new();
+        for member in self.flatten_union(&members, 0) {
+            let name = member.ref_name().ok_or_else(|| {
+                format!(
+                    "コンポーネント `{component}` の union に、コンポーネントでないメンバーがある"
+                )
+            })?;
+            types.push(field_type(name)?);
+        }
+        if types.windows(2).any(|pair| pair[0] != pair[1]) {
+            return Err(format!(
+                "コンポーネント `{component}` のプロパティ `{key}` の型が、union のメンバーの間で食い違っている"
+            ));
+        }
+        Ok(types.swap_remove(0))
     }
 
     fn resolve_component(&mut self, cx: &mut Ctx, name: &str) -> Result<()> {
@@ -175,7 +232,7 @@ impl<'a> Resolver<'a> {
     }
 
     /// スキーマを null 以外の型に解決し、`null` も許されるかどうかを併せて返す。
-    fn resolve_inner(
+    pub(crate) fn resolve_inner(
         &mut self,
         cx: &mut Ctx,
         schema: &Schema,
@@ -381,11 +438,7 @@ impl<'a> Resolver<'a> {
         }
         let fields: Vec<Field> = fields.into_values().collect();
         check_fields(name, &fields)?;
-        let derive_default = cx.kind == StructKind::Request
-            && fields
-                .iter()
-                .filter(|f| f.required)
-                .all(|f| defaultable(&f.base, &cx.items));
+        let derive_default = derives_default(cx.kind, &fields, &cx.items);
         cx.push(Item::Struct(StructDef {
             name: name.to_owned(),
             docs,
@@ -448,7 +501,7 @@ impl<'a> Resolver<'a> {
         Ok(cx.named(name))
     }
 
-    fn make_str_enum(
+    pub(crate) fn make_str_enum(
         &mut self,
         cx: &mut Ctx,
         name: &str,
@@ -460,16 +513,8 @@ impl<'a> Resolver<'a> {
         let mut seen = HashSet::new();
         for value in values {
             let ident = pascal(&value);
-            if ident == CATCH_ALL {
-                return Err(format!(
-                    "enum {name}: 値 `{value}` が受け皿の `{CATCH_ALL}` と衝突する"
-                ));
-            }
-            if !seen.insert(ident.clone()) {
-                return Err(format!(
-                    "enum {name}: 値 `{value}` がほかのバリアントと衝突する"
-                ));
-            }
+            claim_variant(&mut seen, &ident, true)
+                .map_err(|reason| format!("enum {name}: 値 `{value}` が{reason}"))?;
             variants.push((ident, value));
         }
         cx.push(Item::StrEnum(StrEnumDef {
@@ -481,7 +526,7 @@ impl<'a> Resolver<'a> {
         Ok(cx.named(name))
     }
 
-    fn variant_name(&self, member: &Schema) -> String {
+    pub(crate) fn variant_name(&self, member: &Schema) -> String {
         if let Some(target) = member.ref_name() {
             return target.to_owned();
         }
@@ -513,7 +558,7 @@ impl<'a> Resolver<'a> {
 
     /// 必須プロパティの数。
     /// `$ref` をたどり、`allOf` を併合し、`oneOf` / `anyOf` では最も少ない候補を採る。
-    fn required_count(&self, schema: &Schema, depth: usize) -> usize {
+    pub(crate) fn required_count(&self, schema: &Schema, depth: usize) -> usize {
         if depth > 16 {
             return 0;
         }
@@ -594,7 +639,7 @@ impl<'a> Resolver<'a> {
     /// union のメンバーのうち、union のコンポーネントを指すものを、そのコンポーネントのメンバーに置き換える。
     /// union は受け皿のバリアントを持ち、どんな値でも読める。
     /// バリアントの型にすると、それより後ろのバリアントに届かなくなる。
-    fn flatten_union<'s>(&self, members: &[&'s Schema], depth: usize) -> Vec<&'s Schema>
+    pub(crate) fn flatten_union<'s>(&self, members: &[&'s Schema], depth: usize) -> Vec<&'s Schema>
     where
         'a: 's,
     {
@@ -768,10 +813,7 @@ impl<'a> Resolver<'a> {
                 .collect();
             docs.push(format!("必須: {} のいずれか。", sets.join(" / ")));
         }
-        let derive_default = fields
-            .iter()
-            .filter(|f| f.required)
-            .all(|f| defaultable(&f.base, &cx.items));
+        let derive_default = derives_default(StructKind::Request, &fields, &cx.items);
         Ok(StructDef {
             name: "Request".to_owned(),
             docs,
@@ -872,7 +914,7 @@ fn validation_doc(schema: &Schema, of: &str) -> String {
 }
 
 /// スキーマが union になるときの、null 以外のメンバー。
-fn union_members(schema: &Schema) -> Option<Vec<&Schema>> {
+pub(crate) fn union_members(schema: &Schema) -> Option<Vec<&Schema>> {
     if schema.ref_name().is_some() || schema.all_of.is_some() {
         return None;
     }
@@ -926,7 +968,7 @@ fn collect_request_props(
     }
 }
 
-fn check_fields(owner: &str, fields: &[Field]) -> Result<()> {
+pub(crate) fn check_fields(owner: &str, fields: &[Field]) -> Result<()> {
     let mut seen = HashSet::new();
     for field in fields {
         if !seen.insert(&field.ident) {
@@ -937,6 +979,15 @@ fn check_fields(owner: &str, fields: &[Field]) -> Result<()> {
         }
     }
     Ok(())
+}
+
+/// 構造体に `Default` を derive できるか。Request で、必須のフィールドが全部既定値を持てるときに限る。
+pub(crate) fn derives_default(kind: StructKind, fields: &[Field], items: &[Item]) -> bool {
+    kind == StructKind::Request
+        && fields
+            .iter()
+            .filter(|f| f.required)
+            .all(|f| defaultable(&f.base, items))
 }
 
 fn defaultable(ty: &RustType, items: &[Item]) -> bool {
@@ -956,7 +1007,7 @@ fn defaultable(ty: &RustType, items: &[Item]) -> bool {
         RustType::Local(name) => items.iter().any(
             |item| matches!(item, Item::Struct(def) if &def.name == name && def.derive_default),
         ),
-        RustType::Component(_) | RustType::FilePart => false,
+        RustType::Component(_) | RustType::Streaming(_) | RustType::FilePart => false,
     }
 }
 

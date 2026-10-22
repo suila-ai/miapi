@@ -1,8 +1,10 @@
 //! `cargo codegen` で実行する生成器。
 //!
-//! `specs/<name>.json` ごとに、ソースのツリーを 1 つ `src/generated/<name>/` に生成する。
+//! `specs/<name>/`（`api.json` と、misskey-js のストリーミングの型定義を置く `misskey-js/`）ごとに、
+//! ソースのツリーを 1 つ `src/generated/<name>/` に生成する。
 //! あわせて、同じ名前の cargo feature でツリーを有効にする `src/generated/mod.rs` も生成する。
 //! `specs/`・`src/generated/`・`Cargo.toml` は、このクレートの親であるワークスペースのルートから探す。
+//! TypeScript の型定義は `ts-types.ts` を Node で実行して読む。
 
 mod corrections;
 mod emit;
@@ -10,8 +12,10 @@ mod model;
 mod naming;
 mod resolve;
 mod spec;
+mod streaming;
 #[cfg(test)]
 mod tests;
+mod ts;
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -36,33 +40,50 @@ fn run() -> Result<(), String> {
     let mut specs: Vec<(String, PathBuf)> = fs::read_dir(&specs_dir)
         .map_err(|e| format!("{}: {e}", specs_dir.display()))?
         .filter_map(|entry| entry.ok().map(|e| e.path()))
-        .filter(|path| path.extension().is_some_and(|ext| ext == "json"))
-        .map(|path| {
-            let name = path.file_stem().unwrap().to_string_lossy().into_owned();
-            (name, path)
+        .filter(|dir| dir.join("api.json").is_file())
+        .map(|dir| {
+            let name = dir.file_name().unwrap().to_string_lossy().into_owned();
+            (name, dir)
         })
         .collect();
     specs.sort();
     if specs.is_empty() {
-        return Err(format!("{} に *.json が無い", specs_dir.display()));
+        return Err(format!("{} に */api.json が無い", specs_dir.display()));
     }
     let names: Vec<String> = specs.iter().map(|(name, _)| name.clone()).collect();
     check_features(&root.join("Cargo.toml"), &names)?;
 
+    let script = Path::new(env!("CARGO_MANIFEST_DIR")).join("ts-types.ts");
     let mut files: Vec<(PathBuf, String)> = Vec::new();
-    for (name, path) in &specs {
-        let text = fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+    for (name, dir) in &specs {
+        let path = dir.join("api.json");
+        let text = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
         let mut spec: spec::Spec =
             serde_json::from_str(&text).map_err(|e| format!("{}: {e}", path.display()))?;
         corrections::apply(&mut spec);
-        let tree = resolve::build_tree(&spec).map_err(|e| format!("{name}: {e}"))?;
+        // どのファイルを置くかは scripts/update-spec.sh が決める。
+        let ts_dir = dir.join("misskey-js");
+        let ts_paths: Vec<PathBuf> = fs::read_dir(&ts_dir)
+            .map_err(|e| {
+                format!(
+                    "{}: {e}。scripts/update-spec.sh で取ること",
+                    ts_dir.display()
+                )
+            })?
+            .filter_map(|entry| entry.ok().map(|e| e.path()))
+            .filter(|path| path.extension().is_some_and(|ext| ext == "ts"))
+            .collect();
+        let mut ts = ts::parse(&script, &ts_paths).map_err(|e| format!("{name}: {e}"))?;
+        corrections::apply_streaming(&mut ts);
+        let tree = resolve::build_tree(&spec, &ts).map_err(|e| format!("{name}: {e}"))?;
         for (relative, tokens) in emit::tree_files(&tree, name) {
             files.push((out.join(name).join(relative), tokens.to_string()));
         }
         println!(
-            "{name}: Misskey {}（エンドポイント {} 個）",
+            "{name}: Misskey {}（エンドポイント {} 個、チャンネル {} 個）",
             tree.version,
-            spec.paths.len()
+            spec.paths.len(),
+            tree.streaming.channels.len()
         );
     }
     let selector = out.join("mod.rs");

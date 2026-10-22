@@ -2,7 +2,7 @@
 
 use std::path::PathBuf;
 
-// テストは、feature を 1 つだけ有効にして実行する。そのバージョンセットを `version` として使う。
+// テストは、バージョンセットの feature を 1 つだけ有効にして実行する。そのバージョンセットを `version` として使う。
 #[cfg(feature = "latest")]
 pub use miapi as version;
 #[cfg(feature = "v2024.10.1")]

@@ -1,0 +1,54 @@
+[
+  {
+    "type": "note",
+    "body": {
+      "id": "asllfpt813ii001n",
+      "createdAt": "2026-10-21T11:29:01.292Z",
+      "userId": "asllfnov13ii0002",
+      "user": {
+        "id": "asllfnov13ii0002",
+        "name": "Alice",
+        "username": "alice",
+        "host": null,
+        "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F9cf1f285-1395-4103-8fbc-8da075fb772f&avatar=1",
+        "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
+        "avatarDecorations": [
+          {
+            "id": "asllfodb13ii000p",
+            "offsetX": 0.1,
+            "url": "https://misskey.example.com/files/c807f273-e7fe-4136-92a6-9c6d01f3379e"
+          }
+        ],
+        "isBot": false,
+        "isCat": true,
+        "emojis": {},
+        "onlineStatus": "online",
+        "badgeRoles": [
+          {
+            "name": "role1",
+            "iconUrl": "https://misskey.example.com/files/c807f273-e7fe-4136-92a6-9c6d01f3379e",
+            "displayOrder": 0
+          }
+        ]
+      },
+      "text": "dummy note 6 #tag1",
+      "cw": null,
+      "visibility": "public",
+      "localOnly": false,
+      "reactionAcceptance": null,
+      "renoteCount": 0,
+      "repliesCount": 0,
+      "reactionCount": 0,
+      "reactions": {},
+      "reactionEmojis": {},
+      "tags": [
+        "tag1"
+      ],
+      "fileIds": [],
+      "files": [],
+      "replyId": null,
+      "renoteId": null,
+      "clippedCount": 0
+    }
+  }
+]

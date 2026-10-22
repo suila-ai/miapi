@@ -10,8 +10,8 @@ if [ $# -ne 1 ]; then
     exit 2
 fi
 cd "$(dirname "$0")/.."
-previous=$(git show "$1:specs/latest.json" | jq -r .info.version)
-current=$(jq -r .info.version specs/latest.json)
+previous=$(git show "$1:specs/latest/api.json" | jq -r .info.version)
+current=$(jq -r .info.version specs/latest/api.json)
 # バージョンが上がったときだけ打つ。更新を取り消す push（バージョンが下がる）では、取り消されるバージョンをタグに残さない。
 if [ "$(printf '%s\n' "$previous" "$current" | sort -V | head -n 1)" = "$current" ]; then
     echo "latest のバージョンは上がっていない（$previous → $current）"

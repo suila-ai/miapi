@@ -26,3 +26,12 @@ updates:
    groups:
      cargo:
        update-types: ["minor", "patch"]
+ - package-ecosystem: "npm"
+   directory: "/"
+   schedule:
+     interval: weekly
+   # typescript の major は手で上げる。7 へは compiler API の差し替え（codegen/ts-types.ts）が要るので、
+   # 7.1 の API が安定してから移す。
+   ignore:
+     - dependency-name: "typescript"
+       update-types: ["version-update:semver-major"]

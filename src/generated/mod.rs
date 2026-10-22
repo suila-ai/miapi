@@ -2,6 +2,8 @@
 #[cfg(feature = "latest")]
 #[path = "latest/mod.rs"]
 mod latest;
+#[cfg(all(feature = "latest", feature = "streaming"))]
+pub use latest::streaming;
 #[cfg(feature = "latest")]
 pub use latest::{API_VERSION, Client, api, types};
 #[cfg(feature = "v2024.10.1")]

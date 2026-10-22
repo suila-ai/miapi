@@ -1,0 +1,11 @@
+[
+  {
+    "type": "newAbuseUserReport",
+    "body": {
+      "id": "asllbqviivgr002r",
+      "targetUserId": "asllbng9ivgr0006",
+      "reporterId": "asllbne1ivgr0005",
+      "comment": "dummy report"
+    }
+  }
+]

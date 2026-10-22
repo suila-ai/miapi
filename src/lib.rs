@@ -27,6 +27,8 @@ mod error;
 mod generated;
 #[doc(hidden)]
 pub mod serde_helpers;
+#[cfg(feature = "streaming")]
+pub mod stream;
 
 pub use endpoint::{Body, Endpoint, FilePart};
 pub use error::{ApiError, Error};
