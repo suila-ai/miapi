@@ -88,6 +88,9 @@ pub enum State {
 ///
 /// 切れたらつなぎ直す。その間に取りこぼしたタイムラインなどは、[`state`](Self::state) が
 /// [`State::Connected`] に戻ったのを見て、REST で取り直す。
+// #[must_use] は付けない。接続そのものの型で、開いてすぐ捨てる `client.streaming().await?;` も、
+// トークンと upgrade が通るかを確かめる使い方になる。
+// 持っている間だけ意味がある Connection と Receiver には付ける。
 pub struct Stream<V> {
     shared: Arc<Shared>,
     _version: PhantomData<fn() -> V>,
@@ -96,6 +99,7 @@ pub struct Stream<V> {
 /// チャンネルへの 1 つの接続。[`Stream::connect`] で作る。
 ///
 /// Drop すると、サーバへ `disconnect` を送る。
+#[must_use = "dropping a Connection disconnects from the channel"]
 pub struct Connection<C: Channel> {
     id: String,
     shared: Arc<Shared>,
@@ -104,6 +108,7 @@ pub struct Connection<C: Channel> {
 }
 
 /// ストリーム全体のイベント（`noteUpdated` や `emojiAdded` など、チャンネルに属さないもの）の受け口。
+#[must_use = "broadcast events reach a Receiver only while it is kept"]
 pub struct Receiver<T> {
     /// 受け口が残っている間は WebSocket を保つために持つ。
     _shared: Arc<Shared>,
