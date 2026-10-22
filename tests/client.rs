@@ -383,3 +383,10 @@ fn call_future_is_send() {
     let client = Client::new("https://example.com", None).unwrap();
     assert_send(client.call(Me));
 }
+
+#[test]
+fn client_with_non_clone_marker_is_clone() {
+    fn assert_clone<T: Clone>(_: &T) {}
+    let client = Client::new("https://example.com", None).unwrap();
+    assert_clone(&client);
+}

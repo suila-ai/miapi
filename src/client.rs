@@ -17,7 +17,6 @@ use crate::error::{ApiError, Error};
 /// アクセストークンは、JSON ボディでは `i` フィールドとして、
 /// multipart ボディではテキストのパートとして送る。
 /// この方式は Misskey のどのバージョンでも受け付けられる。
-#[derive(Clone)]
 pub struct Client<V> {
     http: reqwest::Client,
     origin: reqwest::Url,
@@ -197,6 +196,17 @@ fn decode<T: DeserializeOwned>(endpoint: &str, status: u16, bytes: &[u8]) -> Res
         source,
         body: String::from_utf8_lossy(bytes).into_owned(),
     })
+}
+
+impl<V> Clone for Client<V> {
+    fn clone(&self) -> Self {
+        Client {
+            http: self.http.clone(),
+            origin: self.origin.clone(),
+            token: self.token.clone(),
+            _version: PhantomData,
+        }
+    }
 }
 
 impl<V> fmt::Debug for Client<V> {
