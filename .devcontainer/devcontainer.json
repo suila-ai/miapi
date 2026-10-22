@@ -7,7 +7,7 @@
 		"ghcr.io/devcontainers/features/docker-in-docker:4": { "moby": false },
 		"ghcr.io/devcontainers/features/github-cli:1": {},
 		// codegen と fixture の採取のスクリプト（TypeScript）を動かす
-		"ghcr.io/devcontainers/features/node:1": { "version": "26", "nodeGypDependencies": false }
+		"ghcr.io/devcontainers/features/node:2": { "version": "26", "nodeGypDependencies": false }
 	},
 	"mounts": [
 		"source=miapi_devcontainer_claude-code-config,target=/home/vscode/.claude,type=volume",
