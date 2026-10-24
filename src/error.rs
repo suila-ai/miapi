@@ -38,8 +38,11 @@ pub enum Error {
     #[error("unexpected HTTP status {status} from {endpoint}")]
     UnexpectedResponse {
         /// 呼んだエンドポイント名。`notes/show` のように、`/api/` に続く部分を指す。
+        /// ストリーミングのハンドシェイクでは `streaming` が入る。
         endpoint: String,
         status: u16,
+        /// 応答の本文。ストリーミングのハンドシェイクでは、サーバやプロキシが本文に URL を写すと
+        /// クエリのアクセストークンが入るので、読まずに空にする。
         body: String,
     },
     /// 送る前に分かったリクエストの誤り。サーバには送っていない。
@@ -56,7 +59,8 @@ pub enum Error {
     },
     // ストリーミングのバリアントは feature streaming を切っても残す。Error は #[non_exhaustive] でないので、feature で
     // 増減させると、別のクレートが streaming を有効にしたときに、網羅的な match がコンパイルできなくなる。
-    /// ストリーミング（WebSocket）の接続か送受信の失敗。
+    /// ストリーミング（WebSocket）の接続か送受信の失敗。ただし、サーバがハンドシェイクに 101 以外で応答したときは
+    /// [`Error::UnexpectedResponse`] になる。
     #[error("streaming transport error")]
     Streaming(#[source] Box<dyn std::error::Error + Send + Sync>),
     /// ストリーミングで受け取ったイベントを、そのイベントの型にデコードできなかった。

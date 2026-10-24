@@ -73,6 +73,9 @@ pub enum State {
     Connected,
     /// 切れた後、つなぎ直している。`attempts` は切れてから、つなぎ直しに失敗した回数（ハンドシェイクの失敗と、
     /// その後の connect などの送り直しの失敗を数える）、`last_error` は切れた理由か、最後の失敗のエラー。
+    /// サーバに拒まれても（認証に失敗した 401 など）試し続けるので、やめるときは `last_error` を見て
+    /// [`Stream::close`] で閉じる。[`Error::UnexpectedResponse`] にはプロキシが返す 502 のような
+    /// 一時的な失敗も入るので、拒まれたかどうかは `status` で見分ける。
     Reconnecting {
         attempts: u32,
         last_error: Arc<Error>,
@@ -417,17 +420,38 @@ impl Registry {
 
 async fn handshake(http: &reqwest::Client, url: reqwest::Url) -> Result<WebSocket, Error> {
     let upgrade = async {
-        let response = http.get(url).upgrade().send().await?;
-        response.into_websocket().await
+        let response = http
+            .get(url)
+            .upgrade()
+            .send()
+            .await
+            .map_err(streaming_error)?;
+        // 101 以外の応答（認証に失敗した 401 など）は、REST と同じ UnexpectedResponse にして、ステータスを読めるようにする。
+        // into_websocket はステータスより先に HTTP の版を比べ、HTTP/1.0 で返った 403 なども版の違いにするので、先にここで見る。
+        // HTTP/2 で返ったときは、HTTP/2 に上がったと案内する into_websocket のエラーのままにする。
+        if response.version() <= reqwest::Version::HTTP_11
+            && response.status() != reqwest::StatusCode::SWITCHING_PROTOCOLS
+        {
+            return Err(Error::UnexpectedResponse {
+                endpoint: "streaming".to_owned(),
+                status: response.status().as_u16(),
+                body: String::new(),
+            });
+        }
+        response.into_websocket().await.map_err(streaming_error)
     };
     match tokio::time::timeout(HANDSHAKE_TIMEOUT, upgrade).await {
-        Ok(Ok(ws)) => Ok(ws),
-        // reqwest のエラーは表示に URL を含む。クエリの `i` はアクセストークンなので、URL を外して包む。
-        Ok(Err(reqwest_websocket::Error::Reqwest(error))) => {
-            Err(Error::Streaming(error.without_url().into()))
-        }
-        Ok(Err(error)) => Err(Error::Streaming(error.into())),
+        Ok(result) => result,
         Err(_) => Err(Error::Streaming("handshake timed out".into())),
+    }
+}
+
+/// reqwest-websocket のエラーを [`Error::Streaming`] に包む。reqwest のエラーは表示に URL を含み、
+/// クエリの `i` はアクセストークンなので、URL を外す。
+fn streaming_error(error: reqwest_websocket::Error) -> Error {
+    match error {
+        reqwest_websocket::Error::Reqwest(error) => Error::Streaming(error.without_url().into()),
+        error => Error::Streaming(error.into()),
     }
 }
 
@@ -474,7 +498,7 @@ async fn session(
                         format!("connection closed by server: {code:?} {reason}").into(),
                     ));
                 }
-                Some(Err(error)) => return Err(Error::Streaming(error.into())),
+                Some(Err(error)) => return Err(streaming_error(error)),
                 None => return Err(Error::Streaming("connection closed".into())),
             },
             request = outgoing.recv() => match request {
@@ -613,9 +637,7 @@ async fn send_note(
 }
 
 async fn write(ws: &mut WebSocket, text: String) -> Result<(), Error> {
-    ws.send(Message::Text(text))
-        .await
-        .map_err(|error| Error::Streaming(error.into()))
+    ws.send(Message::Text(text)).await.map_err(streaming_error)
 }
 
 /// サーバから受け取った 1 つのメッセージを、チャンネルの受け口・`connected` の待ち・全体の受け口へ振り分ける。

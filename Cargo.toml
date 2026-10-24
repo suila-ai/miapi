@@ -40,7 +40,7 @@ tokio = { version = "1.53.2", features = ["rt", "sync", "time", "macros"], optio
 
 [dev-dependencies]
 async-tungstenite = { version = "0.35.0", features = ["tokio-runtime"] }
-tokio = { version = "1.53.2", features = ["macros", "rt-multi-thread", "net", "sync", "time"] }
+tokio = { version = "1.53.2", features = ["macros", "rt-multi-thread", "net", "sync", "time", "io-util"] }
 wiremock = "0.6.5"
 
 [workspace]

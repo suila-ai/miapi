@@ -18,6 +18,7 @@ use miapi::Error;
 use miapi::stream::{Channel, Connection, State, Stream};
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::mpsc;
 use tokio::time::timeout;
@@ -193,23 +194,40 @@ async fn handshake_uses_streaming_path_under_origin_and_token_query() {
 }
 
 #[tokio::test]
-async fn handshake_failure_is_streaming_error() {
-    let server = wiremock::MockServer::start().await;
-    wiremock::Mock::given(wiremock::matchers::path("/streaming"))
-        .respond_with(wiremock::ResponseTemplate::new(401))
-        .mount(&server)
-        .await;
-    let client = Client::new(&server.uri(), Some("bad")).unwrap();
-    match client.streaming().await {
-        Err(Error::Streaming(source)) => {
-            let chain =
-                std::iter::successors(Some(&*source as &dyn std::error::Error), |e| e.source())
-                    .map(ToString::to_string)
-                    .collect::<Vec<_>>()
-                    .join(": ");
-            assert!(chain.contains("401"), "{chain}");
+async fn handshake_rejection_is_unexpected_response_without_body() {
+    let mut server = MockServer::start().await;
+    server.stall.store(true, Ordering::SeqCst);
+    // Misskey と同じく、要求を読んでから、Content-Length の無い応答を書いて閉じる。
+    // HTTP/1.1 の要求に HTTP/1.0 で返すサーバ（HAProxy の errorfile の見本など）でも、ステータスを読める。
+    // 本文に URL を写すサーバでも、クエリのトークンをエラーに残さない。
+    for version in ["HTTP/1.1", "HTTP/1.0"] {
+        let client = Client::new(&server.origin, Some("secret-token")).unwrap();
+        let (result, ()) = tokio::join!(client.streaming(), async {
+            let mut tcp = timeout(Duration::from_secs(5), server.stalled.recv())
+                .await
+                .expect("5 秒以内に接続が来るはず")
+                .unwrap();
+            // hyper は要求を書き始める前に届いたバイトをエラーにするので、要求を読み終えてから応答を書く。
+            let mut request = Vec::new();
+            while !request.ends_with(b"\r\n\r\n") {
+                request.push(tcp.read_u8().await.unwrap());
+            }
+            let response =
+                format!("{version} 401 Unauthorized\r\n\r\nGET /streaming?i=secret-token");
+            tcp.write_all(response.as_bytes()).await.unwrap();
+        });
+        match result {
+            Err(Error::UnexpectedResponse {
+                endpoint,
+                status,
+                body,
+            }) => {
+                assert_eq!(endpoint, "streaming");
+                assert_eq!(status, 401);
+                assert_eq!(body, "");
+            }
+            other => panic!("{version} で想定外の結果: {other:?}"),
         }
-        other => panic!("想定外の結果: {other:?}"),
     }
 }
 
