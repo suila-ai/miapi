@@ -62,7 +62,7 @@ stream.subscribe_note("xxxxxxxxxx")?;                                     // 以
 - チャンネルは misskey-js の `streaming.types.ts` から生成してあり、`Stream` のメソッドになります（`localTimeline` は `stream.local_timeline()`）。params は setter で設定し、必須の params（`userList` の `list_id` など）を設定するまで `.await` できません。await すると `connect` を送り、サーバが受け付けた応答を 5 秒まで待ちます。来なければ `Error::ChannelUnavailable` です。サーバは受け付けない接続（権限の無いチャンネル、存在しないリストなど）に応答しません。どんな接続を受け付けないかは、`Error::ChannelUnavailable` の doc にあります。
 - 届くイベントは各チャンネルの `Event` で、知らない `type` は `Unrecognized` に入ります。`recv()` は、デコードできないイベントを `Err` で 1 件返して続きます。送るメッセージのあるチャンネル（`serverStats` の `requestLog`、`chatUser` の `read` など）には `Message` があり、`send()` で送ります。
 - `broadcast()` はストリーム全体のイベント（`noteUpdated`・`emojiAdded`・`announcementCreated` など）の受け口で、`subscribe_note()` したノートの `noteUpdated` もここに届きます。
-- 切れたらつなぎ直して、つないであったチャンネルと購読中のノートを登録し直します。切れていた間のイベントは届かないので、`stream.state()` が `Connected` に戻ったのを見て、REST で取り直してください。`stream.close()` で閉じます。
+- 切れたらつなぎ直して、つないであったチャンネルと購読中のノートを登録し直します。切れていた間のイベントは届かないので、つなぎ直した後に REST で取り直してください。つなぎ直したことを知る方法は、`Stream::state` の doc にあります。`stream.close()` で閉じます。
 - `with_http_client` に渡す `reqwest::Client` は `http1_only()` で作ってください。WebSocket の upgrade は HTTP/1.1 でしか成立しません。`Client::new` が作るクライアントも、feature `streaming` が有効なら HTTP/1.1 だけを使います。feature `streaming` を切ると REST だけになり、HTTP/2 も使います。
 
 ## 対応バージョン

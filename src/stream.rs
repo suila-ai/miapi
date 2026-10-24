@@ -89,8 +89,8 @@ pub enum State {
 /// `V` はバージョンセットのマーカーで、チャンネルのビルダーは、バージョンセットの `streaming` モジュールにある
 /// 別名の `Stream` の側にある。clone はこの WebSocket を共有する。
 ///
-/// 切れたらつなぎ直す。その間に取りこぼしたタイムラインなどは、[`state`](Self::state) が
-/// [`State::Connected`] に戻ったのを見て、REST で取り直す。
+/// 切れたらつなぎ直す。その間に取りこぼしたタイムラインなどは、つなぎ直した後に REST で取り直す。
+/// つなぎ直したことは [`state`](Self::state) で分かる。
 // #[must_use] は付けない。接続そのものの型で、開いてすぐ捨てる `client.streaming().await?;` も、
 // トークンと upgrade が通るかを確かめる使い方になる。
 // 持っている間だけ意味がある Connection と Receiver には付ける。
@@ -280,7 +280,12 @@ impl<V> Stream<V> {
             .send(Outgoing::Text(envelope_text(r#type, body)))
     }
 
-    /// 状態を見る。`changed().await` で変化を待てる。
+    /// 状態を見る。`changed().await` で変化を待てる。呼ぶたびに新しい受け口を作り、その時点の値は既読になる。
+    ///
+    /// つなぎ直したことを知るには、受け口を 1 つ持ち続けて `changed()` を待ち、返るたびに `borrow_and_update()` で読む。
+    /// [`State::Connected`] なら、つなぎ直した後である。`watch::Receiver` は途中の値を読み飛ばすので、
+    /// すぐにつなぎ直せたときは、[`State::Reconnecting`] が見えず、`Connected` だけが見えることがある。
+    /// つなぎ直した WebSocket から届くイベントは、状態を `Connected` にしてから振り分ける。
     pub fn state(&self) -> watch::Receiver<State> {
         self.shared.inner.state.subscribe()
     }
