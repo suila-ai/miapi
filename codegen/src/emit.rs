@@ -64,7 +64,7 @@ fn tree_mod_file(version: &str) -> TokenStream {
         #[doc = "マーカー: クライアントが相手にするサーバを、このバージョンセットで読む。"]
         #[derive(Debug, Clone, Copy)]
         pub struct Version;
-        #[doc = "このバージョンセットでサーバを読むクライアント。エンドポイントのビルダーは、ここからメソッドの連鎖で作る。"]
+        #[doc = "このバージョンセットでサーバを読むクライアント。エンドポイントのビルダーはここからメソッドの連鎖で作る。"]
         pub type Client = crate::client::Client<Version>;
     }
 }
@@ -502,7 +502,7 @@ fn streaming_mod_file(def: &StreamingDef, module: &Ident) -> TokenStream {
         #![allow(clippy::large_enum_variant)]
         pub mod types;
         #(#modules)*
-        #[doc = "このバージョンセットでストリーミング API を使うストリーム。チャンネルのビルダーは、ここからメソッドで作る。"]
+        #[doc = "このバージョンセットでストリーミング API を使うストリーム。チャンネルのビルダーはここからメソッドで作る。"]
         pub type Stream = crate::stream::Stream<super::Version>;
         impl Stream {
             #(#accessors)*

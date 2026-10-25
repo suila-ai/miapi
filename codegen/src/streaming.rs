@@ -100,7 +100,7 @@ pub(crate) fn build(resolver: &mut Resolver<'_>, files: &Files) -> Result<Stream
     let mut cx = Ctx::new(Scope::Module, StructKind::Entity);
     let docs = vec![
         "ストリーム全体のイベント（misskey-js の `BroadcastEvents`）。".to_owned(),
-        "`noteUpdated` は、`Stream::subscribe_note` で購読したノートの分だけ届く。".to_owned(),
+        "`noteUpdated` は `Stream::subscribe_note` で購読したノートの分だけ届く。".to_owned(),
     ];
     let broadcast = streaming
         .envelope(
