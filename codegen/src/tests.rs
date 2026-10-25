@@ -526,7 +526,7 @@ fn request_fields_with_defaults_are_optional() {
     assert!(!field(&registry.request, "reply").required);
     assert!(!field(&registry.request, "detail").required);
     assert!(!field(find_struct(&registry.items, "RequestOptions"), "limit").required);
-    // 必須から外したパラメータにも、既定値を書く。
+    // 必須から外したパラメータにも既定値を書く。
     assert_eq!(field(&registry.request, "scope").docs, ["省略時は `[]`。"]);
     // 応答の型では必須のまま。
     assert!(field(find_struct(&registry.items, "Response"), "scope").required);

@@ -2,7 +2,7 @@
 // accept_async のコールバックが返す Err の型は async-tungstenite が決めている。
 #![allow(clippy::result_large_err)]
 //! WebSocket のモックサーバを相手に、生成したストリーミングのバインディング（ビルダー・Event・Message）を
-//! 通しで動かすテスト。イベントの本文には、選んだバージョン用に採取した fixture を使う。
+//! 通しで動かすテスト。イベントの本文には選んだバージョン用に採取した fixture を使う。
 
 mod common;
 

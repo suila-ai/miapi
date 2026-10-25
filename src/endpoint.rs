@@ -22,7 +22,7 @@ pub trait Endpoint {
 /// エンドポイントを呼ぶときのリクエストボディ。認証情報を足す前の状態である。
 #[derive(Debug, Clone, PartialEq)]
 pub enum Body {
-    /// `application/json`。`Value::Null` は、パラメータの無いエンドポイントを表す。
+    /// `application/json`。`Value::Null` はパラメータの無いエンドポイントを表す。
     Json(Value),
     /// ファイルのパートを 1 つ持つ `multipart/form-data`。
     /// ほかのフィールドはテキストのパートとして送る。
@@ -46,7 +46,7 @@ pub fn json_body<T: Serialize>(request: &T) -> Result<Body, Error> {
     to_value(request).map(Body::Json)
 }
 
-/// リクエストの構造体を、[`Body::Multipart`] のファイル以外のフィールドにシリアライズする。
+/// リクエストの構造体を [`Body::Multipart`] のファイル以外のフィールドにシリアライズする。
 /// ファイルのフィールドは `#[serde(skip)]` で除いておく。
 pub fn multipart_fields<T: Serialize>(request: &T) -> Result<Map<String, Value>, Error> {
     to_value(request).and_then(into_object)

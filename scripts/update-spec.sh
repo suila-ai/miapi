@@ -4,9 +4,9 @@
 #   scripts/update-spec.sh --origin https://misskey.example.com [--pin] [--repo owner/name]
 #   scripts/update-spec.sh --tag 2026.10.0 [--pin] [--repo owner/name]
 #
-# --origin は、動いているサーバから /api.json をダウンロードする。
-# --tag は、そのリリースの公式 Docker イメージの中で api.json を生成する（docker が要る）。
-# どちらも、ストリーミングの型定義（packages/misskey-js/src/ の streaming.types.ts と、それが参照する
+# --origin は動いているサーバから /api.json をダウンロードする。
+# --tag はそのリリースの公式 Docker イメージの中で api.json を生成する（docker が要る）。
+# どちらの場合も、ストリーミングの型定義（packages/misskey-js/src/ の streaming.types.ts と、それが参照する
 # entities.ts・consts.ts）と misskey-js の LICENSE は、GitHub の --repo（既定は misskey-dev/misskey）の、
 # api.json の info.version と同じ名前のタグから原文のまま取る。
 # --pin が無ければ結果で specs/latest/ を置き換え、

@@ -20,7 +20,7 @@ const STREAMING_FILE: &str = "streaming.types.ts";
 /// misskey-js で、`api.json` の `components.schemas` から生成した型のモジュール。
 const MODELS_MODULE: &str = "./autogen/models.js";
 /// `Stream` のメソッド名。実装している `Clone` の `clone` も含む。
-/// 生成するチャンネルのアクセサは、これらと同じ名前にできない。
+/// 生成するチャンネルのアクセサはこれらと同じ名前にできない。
 const RESERVED_STREAM_METHODS: &[&str] = &[
     "connect",
     "broadcast",
@@ -324,7 +324,7 @@ impl<'r, 'a, 'f> Streaming<'r, 'a, 'f> {
             let variant = pascal(&member.name);
             claim_variant(&mut used, &variant, catch_all)
                 .map_err(|reason| format!("`{}` が{reason}", member.name))?;
-            // 関数型なら第 1 引数が本文。型パラメータは、その制約に置き換える。
+            // 関数型なら第 1 引数が本文。型パラメータはその制約に置き換える。
             let mut place = place.clone();
             let payload = match &member.ty {
                 TypeNode::Function {
@@ -516,7 +516,7 @@ impl<'r, 'a, 'f> Streaming<'r, 'a, 'f> {
                 if decl.type_params.is_empty() {
                     return Ok((self.resolve_named(file, decl)?, false));
                 }
-                // generic な alias は、型引数を置き換えて、使った側のモジュールにその名前で生成する。
+                // generic な alias は型引数を置き換えて、使った側のモジュールにその名前で生成する。
                 let env = decl
                     .type_params
                     .iter()
@@ -547,7 +547,7 @@ impl<'r, 'a, 'f> Streaming<'r, 'a, 'f> {
         }
         self.resolved.insert(decl.name.clone(), file);
         // self.resolve には self.types を渡せないので、別の Ctx に作ってから移す（移すときに名前の衝突を検査する）。
-        // 入れ子の名前付きの型は、その間に self.types へ直に入る。
+        // 入れ子の名前付きの型はその間に self.types へ直に入る。
         let mut cx = Ctx::new(Scope::Streaming, StructKind::Entity);
         let (resolved, nullable) = self
             .resolve(&mut cx, &Place::new(file), &decl.ty, &decl.name)
@@ -869,7 +869,7 @@ impl<'r, 'a, 'f> Streaming<'r, 'a, 'f> {
         }
     }
 
-    /// 名前を、そのファイルの宣言、import 元、`export *` の再輸出先の順に引く。
+    /// 名前をそのファイルの宣言、import 元、`export *` の再輸出先の順に引く。
     fn lookup(&self, file: &str, name: &str) -> Result<Found<'f>> {
         let (key, decls) = file_of(self.files, file)?;
         if let Some(decl) = decls.types.iter().find(|d| d.name == name) {

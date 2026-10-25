@@ -904,7 +904,7 @@ fn escape_doc(doc: &str) -> String {
         .join("`")
 }
 
-/// クレートの直下に出すバージョンセットの名前。ほかは、feature と同じ名前のモジュールに入れる。
+/// クレートの直下に出すバージョンセットの名前。ほかは feature と同じ名前のモジュールに入れる。
 const ROOT: &str = "latest";
 
 /// `src/generated/mod.rs`。cargo feature で有効にしたツリーを並べる。
