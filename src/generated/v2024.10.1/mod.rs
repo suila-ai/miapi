@@ -8,5 +8,5 @@ pub const API_VERSION: &str = "2024.10.1";
 #[doc = "マーカー: クライアントが相手にするサーバを、このバージョンセットで読む。"]
 #[derive(Debug, Clone, Copy)]
 pub struct Version;
-#[doc = "このバージョンセットでサーバを読むクライアント。エンドポイントのビルダーは、ここからメソッドの連鎖で作る。"]
+#[doc = "このバージョンセットでサーバを読むクライアント。エンドポイントのビルダーはここからメソッドの連鎖で作る。"]
 pub type Client = crate::client::Client<Version>;

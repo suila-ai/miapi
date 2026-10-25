@@ -1,7 +1,7 @@
 //! Misskey API のクライアント。自動生成でサーバのエンドポイントと型に追従する。
 //!
-//! バインディングは、サーバの `api.json` から Misskey のバージョンごとに生成してあり、cargo feature で有効にする。
-//! 既定の `latest` は、クレートの直下から使う。
+//! バインディングはサーバの `api.json` から Misskey のバージョンごとに生成してあり、cargo feature で有効にする。
+//! 既定の `latest` はクレートの直下から使う。
 //! エンドポイントのパスを [`Client`](client::Client) からのメソッドの連鎖として書き、できたビルダーを await する。
 //!
 //! ```no_run
@@ -17,7 +17,7 @@
 //!
 //! 固定版は、`miapi::v2024_10_1::Client` のように、バージョンのモジュールにある `Client` から同じように使う。
 //!
-//! 各エンドポイントには、[`Client::call`](client::Client::call) に渡す `Request` 構造体もある。
+//! 各エンドポイントには [`Client::call`](client::Client::call) に渡す `Request` 構造体もある。
 //! バインディングに無いエンドポイントは [`Client::call_raw`](client::Client::call_raw) で呼べる。
 
 pub mod builder;

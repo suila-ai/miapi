@@ -37,7 +37,7 @@ pub(crate) fn claim_variant(
 }
 
 /// `Client` のメソッド名。derive している `Clone` の `clone` も含む。
-/// 生成するアクセサは、これらと同じ名前にできない。
+/// 生成するアクセサはこれらと同じ名前にできない。
 const RESERVED_CLIENT_METHODS: &[&str] = &[
     "new",
     "with_http_client",
@@ -865,7 +865,7 @@ fn constraint_doc(schema: &Schema) -> Option<String> {
     (!doc.is_empty()).then_some(doc)
 }
 
-/// 範囲・文字数・要素数・形式・重複の文。配列は、要素の制約も `of` に「各要素の」を重ねて続ける。
+/// 範囲・文字数・要素数・形式・重複の文。配列は要素の制約も `of` に「各要素の」を重ねて続ける。
 /// 文字列はサーバ（ajv）がコードポイントで数えるので、`str::len()` のバイト数と紛れる「長さ」と書かない。
 /// 文字数と要素数は 0 を下回らないので、下限の 0 は書かない。
 fn validation_doc(schema: &Schema, of: &str) -> String {
@@ -923,7 +923,7 @@ pub(crate) fn union_members(schema: &Schema) -> Option<Vec<&Schema>> {
     (members.len() >= 2).then_some(members)
 }
 
-/// allOf のメンバーを、構造体のメンバーにする。
+/// allOf のメンバーを構造体のメンバーにする。
 fn all_of_members(members: &[&Schema]) -> Result<Vec<Member>> {
     members
         .iter()

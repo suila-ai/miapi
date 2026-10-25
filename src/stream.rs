@@ -26,7 +26,7 @@ use tokio::sync::{Notify, mpsc, oneshot, watch};
 
 use crate::{Error, endpoint};
 
-/// チャンネルにつないでから、サーバが受け付けた応答（`connected`）を待つ上限。
+/// チャンネルにつないでから、サーバが受け付けたという応答（`connected`）を待つ上限。
 /// 典型的には、往復の時間とチャンネルの初期化（DB の問い合わせ）で 1 秒に収まる。
 pub const CONNECT_ACK_TIMEOUT: Duration = Duration::from_secs(5);
 /// WebSocket のハンドシェイクを待つ上限。
@@ -58,7 +58,7 @@ impl Serialize for NoMessage {
 }
 
 /// `{type, body}` の形。チャンネルのイベントとメッセージ、ストリーム全体のイベントに共通の外形で、
-/// 生成されるそれらの enum は、この形を介してシリアライズ・デシリアライズする。
+/// 生成されるそれらの enum はこの形を介してシリアライズ・デシリアライズする。
 #[derive(Serialize, Deserialize)]
 pub(crate) struct Envelope {
     pub r#type: String,
@@ -86,7 +86,7 @@ pub enum State {
 
 /// 1 本の WebSocket。[`Client::streaming`](crate::client::Client::streaming) で開く。
 ///
-/// `V` はバージョンセットのマーカーで、チャンネルのビルダーは、バージョンセットの `streaming` モジュールにある
+/// `V` はバージョンセットのマーカーで、チャンネルのビルダーはバージョンセットの `streaming` モジュールにある
 /// 別名の `Stream` の側にある。clone はこの WebSocket を共有する。
 ///
 /// 切れたらつなぎ直す。その間に取りこぼしたタイムラインなどは、つなぎ直した後に REST で取り直す。
@@ -192,7 +192,7 @@ impl<V> Stream<V> {
 
     /// チャンネルにつなぐ。生成されたビルダーを await したときに呼ばれる。
     ///
-    /// `connect` を送り、サーバが受け付けた応答（`connected`）を [`CONNECT_ACK_TIMEOUT`] まで待つ。
+    /// `connect` を送り、サーバが受け付けたという応答（`connected`）を [`CONNECT_ACK_TIMEOUT`] まで待つ。
     /// 来なければ [`Error::ChannelUnavailable`]。再接続中なら、つなぎ直してから `connect` を送り、
     /// そこから待つ。
     pub async fn connect<C: Channel>(&self, params: C) -> Result<Connection<C>, Error> {
@@ -240,7 +240,7 @@ impl<V> Stream<V> {
         }
     }
 
-    /// ストリーム全体のイベントの受け口を作る。生成された `broadcast()` が、バージョンセットの型を付けて包む。
+    /// ストリーム全体のイベントの受け口を作る。生成された `broadcast()` がバージョンセットの型を付けて包む。
     /// 受け口はいくつでも作れ、イベントは全部の受け口に届く。
     pub fn broadcast_receiver<T: DeserializeOwned>(&self) -> Receiver<T> {
         let (tx, rx) = mpsc::unbounded_channel();
@@ -323,7 +323,7 @@ impl<C: Channel> Connection<C> {
         &self.id
     }
 
-    /// 次のイベントを受け取る。デコードできないイベントは `Err` を 1 件返し、次のイベントへ進む。
+    /// 次のイベントを受け取る。デコードできないイベントには `Err` を 1 件返し、次のイベントへ進む。
     /// ストリームが閉じたら、届いていたイベントを返し終えてから `None`。
     pub async fn recv(&mut self) -> Option<Result<C::Event, Error>> {
         let value = self.events.recv().await?;
@@ -363,7 +363,7 @@ impl<C: Channel> fmt::Debug for Connection<C> {
 }
 
 impl<T: DeserializeOwned> Receiver<T> {
-    /// 次のイベントを受け取る。デコードできないイベントは `Err` を 1 件返し、次のイベントへ進む。
+    /// 次のイベントを受け取る。デコードできないイベントには `Err` を 1 件返し、次のイベントへ進む。
     /// ストリームが閉じたら、届いていたイベントを返し終えてから `None`。
     pub async fn recv(&mut self) -> Option<Result<T, Error>> {
         let value = self.events.recv().await?;
@@ -460,7 +460,7 @@ fn streaming_error(error: reqwest_websocket::Error) -> Error {
     }
 }
 
-/// WebSocket を持つタスク。切れたらつなぎ直し、[`Stream::close`] か持ち手が無くなるまで続ける。
+/// WebSocket を持つタスク。切れたらつなぎ直し、[`Stream::close`] されるか持ち手が無くなるまで続ける。
 async fn run(
     mut ws: WebSocket,
     http: reqwest::Client,
@@ -697,7 +697,7 @@ fn decode<T: DeserializeOwned>(channel: &str, value: &Value) -> Result<T, Error>
     })
 }
 
-/// `{"type": type, "body": body}`。`json!` は本文を参照から作り直すので、動かして組む。
+/// `{"type": type, "body": body}`。`json!` は本文を参照から作り直すので、ムーブして組む。
 fn envelope(r#type: String, body: Value) -> Value {
     Value::Object(serde_json::Map::from_iter([
         ("type".to_owned(), Value::String(r#type)),

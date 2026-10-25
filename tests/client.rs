@@ -349,7 +349,7 @@ async fn sub_path_in_origin_is_kept() {
         .expect(3)
         .mount(&server)
         .await;
-    // 末尾の改行は、ファイルから読んだ origin に残りやすい。
+    // 末尾の改行はファイルから読んだ origin に残りやすい。
     // 途中の改行やタブは URL として読むときに消えるので、その前後の / も末尾の / として除く。
     for origin in [
         format!("{}/misskey/", server.uri()),

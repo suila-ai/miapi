@@ -33,7 +33,7 @@ pub fn apply(spec: &mut Spec) {
         ],
     );
 
-    // `i` は、未読のお知らせを保存されている形のまま返す（`UserEntityService`）。
+    // `i` は未読のお知らせを保存されている形のまま返す（`UserEntityService`）。
     // ほかの箇所で `AnnouncementEntityService` が足す `forYou` は付かない。
     optional(property(schemas, "Announcement", &[]), &["forYou"]);
 
@@ -182,8 +182,8 @@ fn ts_property<'a>(
     member_type(&mut decl.ty, path)
 }
 
-/// object literal のメンバーを名前でたどる。関数型は第 1 引数（本文）へ、union と intersection は、
-/// 残りの `path` をたどれる最初のメンバーへ進む。
+/// object literal のメンバーを名前でたどる。関数型は第 1 引数（本文）へ、
+/// union と intersection は残りの `path` をたどれる最初のメンバーへ進む。
 fn member_type<'a>(node: &'a mut TypeNode, path: &[&str]) -> Option<&'a mut TypeNode> {
     let Some((name, rest)) = path.split_first() else {
         return Some(node);

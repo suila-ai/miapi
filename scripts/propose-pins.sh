@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # latest を更新した後、コミットする前に、固定版との互換性を調べる。
-# 結果は、更新の PR に載せる箇条書きとして標準出力に出す。
+# 結果は更新の PR に載せる箇条書きとして標準出力に出す。
 #
 #   scripts/propose-pins.sh
 #
-# 直前の latest の応答には、HEAD の tests/fixtures/latest/ を使う。
-# ここで「読める」とは、その応答を fixture にして tests/deserialize.rs が通ることをいう。
+# 直前の latest の応答には HEAD の tests/fixtures/latest/ を使う。
+# ここで「読める」とはその応答を fixture にして tests/deserialize.rs が通ることをいう。
 # 新しい latest のバージョンセットが直前の latest の応答を読めなければ、新しい latest を固定版としても残す
 # （scripts/pin-latest.sh）。既にある固定版のバージョンセットが新しい latest の応答を読めなければ、その旨を出力する。
 set -euo pipefail

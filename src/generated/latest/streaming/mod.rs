@@ -19,7 +19,7 @@ pub mod role_timeline;
 pub mod server_stats;
 pub mod types;
 pub mod user_list;
-#[doc = "このバージョンセットでストリーミング API を使うストリーム。チャンネルのビルダーは、ここからメソッドで作る。"]
+#[doc = "このバージョンセットでストリーミング API を使うストリーム。チャンネルのビルダーはここからメソッドで作る。"]
 pub type Stream = crate::stream::Stream<super::Version>;
 impl Stream {
     #[doc = "`main` チャンネルにつなぐビルダー。"]
@@ -100,7 +100,7 @@ impl Stream {
     }
 }
 #[doc = "ストリーム全体のイベント（misskey-js の `BroadcastEvents`）。"]
-#[doc = "`noteUpdated` は、`Stream::subscribe_note` で購読したノートの分だけ届く。"]
+#[doc = "`noteUpdated` は `Stream::subscribe_note` で購読したノートの分だけ届く。"]
 #[derive(Debug, Clone, PartialEq)]
 pub enum BroadcastEvent {
     NoteUpdated(crate::generated::latest::streaming::types::NoteUpdatedEvent),

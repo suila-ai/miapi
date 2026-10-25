@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# いまの latest を、固定版 v<version> としても残す。
+# いまの latest を固定版 v<version> としても残す。
 #
 #   scripts/pin-latest.sh
 #

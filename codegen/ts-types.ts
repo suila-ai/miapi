@@ -4,7 +4,7 @@
 //
 // 構文木をそのまま写すだけで、名前の解決や型の意味づけは codegen（Rust）が行う。
 // TypeScript の compiler API に触るのは parseSourceFile と、SyntaxKind・ノードの判定関数（is〜）・ノードの型だけに
-// 閉じている。typescript 7 では createSourceFile が typescript/sync の API のメソッドに、残りが typescript/ast に移るが、
+// してある。typescript 7 では createSourceFile が typescript/sync の API のメソッドに、残りが typescript/ast に移るが、
 // 名前とノードのプロパティ名は同じなので、そこだけ差し替えれば済む（7.1 beta で名前が違うのは、
 // isPropertySignature が isPropertySignatureDeclaration になる 1 件だけ）。
 import { readFileSync } from "node:fs";

@@ -20,7 +20,7 @@ fn meta_with_detail_is_meta_detailed() {
         panic!("MetaDetailed のはずが {meta:?} だった");
     };
     assert_eq!(meta.name.as_deref(), Some("Example Misskey"));
-    // fixture 用のサーバは、初期設定ウィザードを終えたときと同じ状態にしてある。
+    // fixture 用のサーバは初期設定ウィザードを終えたときと同じ状態にしてある。
     assert_eq!(meta.policies.rate_limit_factor, 0.3);
     let features = meta
         .features
@@ -66,7 +66,7 @@ fn users_are_detailed_not_me() {
 
 #[test]
 fn union_variants_after_the_first_are_reachable() {
-    // `users/show` は、`userIds` を渡すと配列を返す。
+    // `users/show` は `userIds` を渡すと配列を返す。
     let listed: api::users::show::Response = parse(&format!("[{}]", fixture("users-show")));
     assert!(
         matches!(&listed, api::users::show::Response::Array(users) if users.len() == 1),
