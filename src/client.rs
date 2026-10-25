@@ -103,7 +103,8 @@ impl<V> Client<V> {
     }
 
     /// ストリーミング API（WebSocket の `/streaming`）につなぐ。認証はクエリの `i` で送る（misskey-js と同じ）。
-    /// ハンドシェイクに失敗したら（認証に失敗した 401 など）[`Error::Streaming`] を返す。つないだ後に切れたときは、
+    /// サーバが 101 以外で応答したら（認証に失敗した 401 など）[`Error::UnexpectedResponse`] を、
+    /// それ以外の理由でつなげなかったら [`Error::Streaming`] を返す。つないだ後に切れたときは、
     /// 返した [`Stream`](crate::stream::Stream) がつなぎ直す。
     /// HTTP クライアントは HTTP/1.1 だけを使うものにしておくこと（[`new`](Self::new) の説明を参照）。
     #[cfg(feature = "streaming")]
