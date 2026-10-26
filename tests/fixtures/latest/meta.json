@@ -1,7 +1,7 @@
 {
   "maintainerName": "admin",
   "maintainerEmail": "admin@example.com",
-  "version": "2026.10.0",
+  "version": "2026.10.1",
   "providesTarball": false,
   "name": "Example Misskey",
   "shortName": "Example",

@@ -4508,11 +4508,11 @@ pub mod search_by_tag {
     #[doc = "必須: `tag` / `query` のいずれか。"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
-        #[doc = "文字数は 1 以上。"]
+        #[doc = "文字数は 1 以上 128 以下。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub tag: ::std::option::Option<::std::string::String>,
         #[doc = "The outer arrays are chained with OR, the inner arrays are chained with AND."]
-        #[doc = "要素数は 1 以上。各要素の要素数は 1 以上。各要素の各要素の文字数は 1 以上。"]
+        #[doc = "要素数は 1 以上。各要素の要素数は 1 以上。各要素の各要素の文字数は 1 以上 128 以下。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
         pub query: ::std::option::Option<::std::vec::Vec<::std::vec::Vec<::std::string::String>>>,
         #[serde(
@@ -4593,7 +4593,7 @@ pub mod search_by_tag {
         }
     }
     impl<'a> Call<'a> {
-        #[doc = "文字数は 1 以上。"]
+        #[doc = "文字数は 1 以上 128 以下。"]
         pub fn tag(self, value: impl ::std::convert::Into<::std::string::String>) -> Self {
             self.maybe_tag(::std::option::Option::Some(value))
         }
@@ -4606,7 +4606,7 @@ pub mod search_by_tag {
             self
         }
         #[doc = "The outer arrays are chained with OR, the inner arrays are chained with AND."]
-        #[doc = "要素数は 1 以上。各要素の要素数は 1 以上。各要素の各要素の文字数は 1 以上。"]
+        #[doc = "要素数は 1 以上。各要素の要素数は 1 以上。各要素の各要素の文字数は 1 以上 128 以下。"]
         pub fn query(
             self,
             value: impl ::std::convert::Into<::std::vec::Vec<::std::vec::Vec<::std::string::String>>>,
