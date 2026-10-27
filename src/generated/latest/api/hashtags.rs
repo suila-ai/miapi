@@ -314,6 +314,7 @@ pub mod show {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, Default, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "文字数は 128 以下。"]
         pub tag: ::std::string::String,
     }
     impl crate::Endpoint for Request {
@@ -343,6 +344,7 @@ pub mod show {
         }
     }
     impl<'a, S0> Call<'a, (S0,)> {
+        #[doc = "文字数は 128 以下。"]
         pub fn tag(
             self,
             value: impl ::std::convert::Into<::std::string::String>,
@@ -457,6 +459,7 @@ pub mod users {
     #[doc = "No description provided.\n\n**Credential required**: *No*"]
     #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
     pub struct Request {
+        #[doc = "文字数は 128 以下。"]
         pub tag: ::std::string::String,
         #[doc = "1 以上 100 以下。省略時は `10`。"]
         #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -557,6 +560,7 @@ pub mod users {
             self.origin = value.map(|value| value.into());
             self
         }
+        #[doc = "文字数は 128 以下。"]
         pub fn tag(
             self,
             value: impl ::std::convert::Into<::std::string::String>,

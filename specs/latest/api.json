@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "version": "2026.10.0",
+    "version": "2026.10.1",
     "title": "Misskey API"
   },
   "externalDocs": {
@@ -2476,6 +2476,13 @@
                     ],
                     "format": "misskey:id",
                     "default": null
+                  },
+                  "autoArchiveAt": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "default": null
                   }
                 },
                 "required": [
@@ -2544,6 +2551,15 @@
                   "$ref": "#/components/schemas/Error"
                 },
                 "examples": {
+                  "INVALID_AUTO_ARCHIVE_AT": {
+                    "value": {
+                      "error": {
+                        "message": "Invalid auto archive date.",
+                        "code": "INVALID_AUTO_ARCHIVE_AT",
+                        "id": "2a892bd5-487d-46a2-a5fe-3d85ad51defe"
+                      }
+                    }
+                  },
                   "INVALID_PARAM": {
                     "value": {
                       "error": {
@@ -2918,6 +2934,13 @@
                       "isActive": {
                         "type": "boolean"
                       },
+                      "autoArchiveAt": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "format": "date-time"
+                      },
                       "forExistingUsers": {
                         "type": "boolean"
                       },
@@ -2952,6 +2975,7 @@
                       "icon",
                       "display",
                       "isActive",
+                      "autoArchiveAt",
                       "forExistingUsers",
                       "silence",
                       "needConfirmationToRead",
@@ -3143,6 +3167,12 @@
                   },
                   "isActive": {
                     "type": "boolean"
+                  },
+                  "autoArchiveAt": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
@@ -3170,6 +3200,15 @@
                         "message": "No such announcement.",
                         "code": "NO_SUCH_ANNOUNCEMENT",
                         "id": "d3aae5a7-6372-4cb4-b61c-f511ffc2d7cc"
+                      }
+                    }
+                  },
+                  "INVALID_AUTO_ARCHIVE_AT": {
+                    "value": {
+                      "error": {
+                        "message": "Invalid auto archive date.",
+                        "code": "INVALID_AUTO_ARCHIVE_AT",
+                        "id": "01b83d7b-2fd5-4d7c-86c4-d03144d16355"
                       }
                     }
                   },
@@ -53091,7 +53130,8 @@
                 "type": "object",
                 "properties": {
                   "tag": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 128
                   }
                 },
                 "required": [
@@ -53553,7 +53593,8 @@
                 "type": "object",
                 "properties": {
                   "tag": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 128
                   },
                   "limit": {
                     "type": "integer",
@@ -62706,6 +62747,22 @@
                   "autoAcceptFollowed": {
                     "type": "boolean"
                   },
+                  "followApprovalLocalSeconds": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 2592000
+                  },
+                  "followApprovalRemoteSeconds": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 2592000
+                  },
                   "noCrawle": {
                     "type": "boolean"
                   },
@@ -63623,6 +63680,24 @@
                         "message": "The file specified as a banner is not an image.",
                         "code": "BANNER_NOT_AN_IMAGE",
                         "id": "75aedb19-2afd-4e6d-87fc-67941256fa60"
+                      }
+                    }
+                  },
+                  "AVATAR_IS_SENSITIVE": {
+                    "value": {
+                      "error": {
+                        "message": "The file specified as an avatar is marked as sensitive.",
+                        "code": "AVATAR_IS_SENSITIVE",
+                        "id": "71bb5e53-4742-4609-b465-36081e131208"
+                      }
+                    }
+                  },
+                  "BANNER_IS_SENSITIVE": {
+                    "value": {
+                      "error": {
+                        "message": "The file specified as a banner is marked as sensitive.",
+                        "code": "BANNER_IS_SENSITIVE",
+                        "id": "e148b34c-9f33-4300-93e0-7817008fb366"
                       }
                     }
                   },
@@ -72673,7 +72748,8 @@
                         "properties": {
                           "tag": {
                             "type": "string",
-                            "minLength": 1
+                            "minLength": 1,
+                            "maxLength": 128
                           }
                         },
                         "required": [
@@ -72690,7 +72766,8 @@
                               "type": "array",
                               "items": {
                                 "type": "string",
-                                "minLength": 1
+                                "minLength": 1,
+                                "maxLength": 128
                               },
                               "minItems": 1
                             },
@@ -88953,6 +89030,18 @@
           "autoAcceptFollowed": {
             "type": "boolean"
           },
+          "followApprovalLocalSeconds": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "followApprovalRemoteSeconds": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
           "noCrawle": {
             "type": "boolean"
           },
@@ -89978,6 +90067,8 @@
           "autoSensitive",
           "carefulBot",
           "autoAcceptFollowed",
+          "followApprovalLocalSeconds",
+          "followApprovalRemoteSeconds",
           "noCrawle",
           "preventAiLearning",
           "isExplorable",

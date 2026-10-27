@@ -4,7 +4,7 @@ pub mod api;
 pub mod streaming;
 pub mod types;
 #[doc = "このバインディングの生成元である `api.json` の `info.version`。"]
-pub const API_VERSION: &str = "2026.10.0";
+pub const API_VERSION: &str = "2026.10.1";
 #[doc = "マーカー: クライアントが相手にするサーバを、このバージョンセットで読む。"]
 #[derive(Debug, Clone, Copy)]
 pub struct Version;

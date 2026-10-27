@@ -2,21 +2,21 @@
   {
     "type": "note",
     "body": {
-      "id": "asllbp60ivgr001u",
-      "createdAt": "2026-10-21T11:25:53.832Z",
-      "userId": "asllbnativgr0004",
+      "id": "asskqfbryxck001u",
+      "createdAt": "2026-10-26T08:43:44.535Z",
+      "userId": "asskqdhwyxck0004",
       "user": {
-        "id": "asllbnativgr0004",
+        "id": "asskqdhwyxck0004",
         "name": "Alice",
         "username": "alice",
         "host": null,
-        "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Ffcd09059-7d35-4b68-921f-562ebf41534b&avatar=1",
+        "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
         "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
         "avatarDecorations": [
           {
-            "id": "asllbnriivgr000w",
+            "id": "asskqdzhyxck000w",
             "offsetX": 0.1,
-            "url": "https://misskey.example.com/files/491605be-c90a-475d-aa2f-f6ed4cd40163"
+            "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
           }
         ],
         "isBot": false,
@@ -26,7 +26,7 @@
         "badgeRoles": [
           {
             "name": "role1",
-            "iconUrl": "https://misskey.example.com/files/491605be-c90a-475d-aa2f-f6ed4cd40163",
+            "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
             "displayOrder": 0
           }
         ]
@@ -41,6 +41,7 @@
       "reactionCount": 0,
       "reactions": {},
       "reactionEmojis": {},
+      "reactionAndUserPairCache": [],
       "tags": [
         "tag1"
       ],

@@ -6170,6 +6170,22 @@ pub mod update {
             skip_serializing_if = "Option::is_none"
         )]
         pub auto_accept_followed: ::std::option::Option<bool>,
+        #[doc = "0 以上 2592000 以下。"]
+        #[serde(
+            rename = "followApprovalLocalSeconds",
+            default,
+            skip_serializing_if = "Option::is_none",
+            with = "crate::serde_helpers::double_option"
+        )]
+        pub follow_approval_local_seconds: ::std::option::Option<::std::option::Option<i64>>,
+        #[doc = "0 以上 2592000 以下。"]
+        #[serde(
+            rename = "followApprovalRemoteSeconds",
+            default,
+            skip_serializing_if = "Option::is_none",
+            with = "crate::serde_helpers::double_option"
+        )]
+        pub follow_approval_remote_seconds: ::std::option::Option<::std::option::Option<i64>>,
         #[serde(rename = "noCrawle", default, skip_serializing_if = "Option::is_none")]
         pub no_crawle: ::std::option::Option<bool>,
         #[serde(
@@ -6314,6 +6330,8 @@ pub mod update {
         public_reactions: ::std::option::Option<bool>,
         careful_bot: ::std::option::Option<bool>,
         auto_accept_followed: ::std::option::Option<bool>,
+        follow_approval_local_seconds: ::std::option::Option<::std::option::Option<i64>>,
+        follow_approval_remote_seconds: ::std::option::Option<::std::option::Option<i64>>,
         no_crawle: ::std::option::Option<bool>,
         prevent_ai_learning: ::std::option::Option<bool>,
         require_signin_to_view_contents: ::std::option::Option<bool>,
@@ -6356,6 +6374,8 @@ pub mod update {
                 public_reactions: ::std::option::Option::None,
                 careful_bot: ::std::option::Option::None,
                 auto_accept_followed: ::std::option::Option::None,
+                follow_approval_local_seconds: ::std::option::Option::None,
+                follow_approval_remote_seconds: ::std::option::Option::None,
                 no_crawle: ::std::option::Option::None,
                 prevent_ai_learning: ::std::option::Option::None,
                 require_signin_to_view_contents: ::std::option::Option::None,
@@ -6615,6 +6635,44 @@ pub mod update {
             value: ::std::option::Option<impl ::std::convert::Into<bool>>,
         ) -> Self {
             self.auto_accept_followed = value.map(|value| value.into());
+            self
+        }
+        #[doc = "0 以上 2592000 以下。"]
+        pub fn follow_approval_local_seconds(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_follow_approval_local_seconds(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `followApprovalLocalSeconds` を設定し、`None` なら設定を消して送らない。`null` を送るには [`follow_approval_local_seconds_null`](Self::follow_approval_local_seconds_null) を使う。"]
+        pub fn maybe_follow_approval_local_seconds(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.follow_approval_local_seconds =
+                value.map(|value| ::std::option::Option::Some(value.into()));
+            self
+        }
+        #[doc = "`followApprovalLocalSeconds` を `null` として送る。"]
+        pub fn follow_approval_local_seconds_null(mut self) -> Self {
+            self.follow_approval_local_seconds =
+                ::std::option::Option::Some(::std::option::Option::None);
+            self
+        }
+        #[doc = "0 以上 2592000 以下。"]
+        pub fn follow_approval_remote_seconds(self, value: impl ::std::convert::Into<i64>) -> Self {
+            self.maybe_follow_approval_remote_seconds(::std::option::Option::Some(value))
+        }
+        #[doc = "`Some` なら `followApprovalRemoteSeconds` を設定し、`None` なら設定を消して送らない。`null` を送るには [`follow_approval_remote_seconds_null`](Self::follow_approval_remote_seconds_null) を使う。"]
+        pub fn maybe_follow_approval_remote_seconds(
+            mut self,
+            value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+        ) -> Self {
+            self.follow_approval_remote_seconds =
+                value.map(|value| ::std::option::Option::Some(value.into()));
+            self
+        }
+        #[doc = "`followApprovalRemoteSeconds` を `null` として送る。"]
+        pub fn follow_approval_remote_seconds_null(mut self) -> Self {
+            self.follow_approval_remote_seconds =
+                ::std::option::Option::Some(::std::option::Option::None);
             self
         }
         pub fn no_crawle(self, value: impl ::std::convert::Into<bool>) -> Self {
@@ -6935,6 +6993,8 @@ pub mod update {
                 public_reactions: self.public_reactions,
                 careful_bot: self.careful_bot,
                 auto_accept_followed: self.auto_accept_followed,
+                follow_approval_local_seconds: self.follow_approval_local_seconds,
+                follow_approval_remote_seconds: self.follow_approval_remote_seconds,
                 no_crawle: self.no_crawle,
                 prevent_ai_learning: self.prevent_ai_learning,
                 require_signin_to_view_contents: self.require_signin_to_view_contents,

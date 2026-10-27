@@ -1222,6 +1222,10 @@ pub mod accounts {
             pub careful_bot: bool,
             #[serde(rename = "autoAcceptFollowed")]
             pub auto_accept_followed: bool,
+            #[serde(rename = "followApprovalLocalSeconds")]
+            pub follow_approval_local_seconds: ::std::option::Option<f64>,
+            #[serde(rename = "followApprovalRemoteSeconds")]
+            pub follow_approval_remote_seconds: ::std::option::Option<f64>,
             #[serde(rename = "noCrawle")]
             pub no_crawle: bool,
             #[serde(rename = "preventAiLearning")]
@@ -2430,6 +2434,13 @@ pub mod announcements {
                 with = "crate::serde_helpers::double_option"
             )]
             pub user_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            #[serde(
+                rename = "autoArchiveAt",
+                default,
+                skip_serializing_if = "Option::is_none",
+                with = "crate::serde_helpers::double_option"
+            )]
+            pub auto_archive_at: ::std::option::Option<::std::option::Option<i64>>,
         }
         impl crate::Endpoint for Request {
             const PATH: &'static str = "admin/announcements/create";
@@ -2460,6 +2471,7 @@ pub mod announcements {
             silence: ::std::option::Option<bool>,
             need_confirmation_to_read: ::std::option::Option<bool>,
             user_id: ::std::option::Option<::std::option::Option<::std::string::String>>,
+            auto_archive_at: ::std::option::Option<::std::option::Option<i64>>,
             _state: ::std::marker::PhantomData<S>,
         }
         impl<'a> Call<'a> {
@@ -2475,6 +2487,7 @@ pub mod announcements {
                     silence: ::std::option::Option::None,
                     need_confirmation_to_read: ::std::option::Option::None,
                     user_id: ::std::option::Option::None,
+                    auto_archive_at: ::std::option::Option::None,
                     _state: ::std::marker::PhantomData,
                 }
             }
@@ -2556,6 +2569,22 @@ pub mod announcements {
                 self.user_id = ::std::option::Option::Some(::std::option::Option::None);
                 self
             }
+            pub fn auto_archive_at(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_auto_archive_at(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `autoArchiveAt` を設定し、`None` なら設定を消して送らない。`null` を送るには [`auto_archive_at_null`](Self::auto_archive_at_null) を使う。"]
+            pub fn maybe_auto_archive_at(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.auto_archive_at = value.map(|value| ::std::option::Option::Some(value.into()));
+                self
+            }
+            #[doc = "`autoArchiveAt` を `null` として送る。"]
+            pub fn auto_archive_at_null(mut self) -> Self {
+                self.auto_archive_at = ::std::option::Option::Some(::std::option::Option::None);
+                self
+            }
             #[doc = "文字数は 1 以上。"]
             pub fn title(
                 self,
@@ -2572,6 +2601,7 @@ pub mod announcements {
                     silence: self.silence,
                     need_confirmation_to_read: self.need_confirmation_to_read,
                     user_id: self.user_id,
+                    auto_archive_at: self.auto_archive_at,
                     _state: ::std::marker::PhantomData,
                 }
             }
@@ -2591,6 +2621,7 @@ pub mod announcements {
                     silence: self.silence,
                     need_confirmation_to_read: self.need_confirmation_to_read,
                     user_id: self.user_id,
+                    auto_archive_at: self.auto_archive_at,
                     _state: ::std::marker::PhantomData,
                 }
             }
@@ -2611,6 +2642,7 @@ pub mod announcements {
                     silence: self.silence,
                     need_confirmation_to_read: self.need_confirmation_to_read,
                     user_id: self.user_id,
+                    auto_archive_at: self.auto_archive_at,
                     _state: ::std::marker::PhantomData,
                 }
             }
@@ -2627,6 +2659,7 @@ pub mod announcements {
                     silence: self.silence,
                     need_confirmation_to_read: self.need_confirmation_to_read,
                     user_id: self.user_id,
+                    auto_archive_at: self.auto_archive_at,
                     _state: ::std::marker::PhantomData,
                 }
             }
@@ -2660,6 +2693,7 @@ pub mod announcements {
                     silence: self.silence,
                     need_confirmation_to_read: self.need_confirmation_to_read,
                     user_id: self.user_id,
+                    auto_archive_at: self.auto_archive_at,
                 };
                 let client = self.client;
                 ::std::boxed::Box::pin(async move { client.call(request).await })
@@ -2779,6 +2813,8 @@ pub mod announcements {
             pub display: ResponseItemDisplay,
             #[serde(rename = "isActive")]
             pub is_active: bool,
+            #[serde(rename = "autoArchiveAt")]
+            pub auto_archive_at: ::std::option::Option<::chrono::DateTime<::chrono::Utc>>,
             #[serde(rename = "forExistingUsers")]
             pub for_existing_users: bool,
             pub silence: bool,
@@ -3021,6 +3057,13 @@ pub mod announcements {
             pub need_confirmation_to_read: ::std::option::Option<bool>,
             #[serde(rename = "isActive", default, skip_serializing_if = "Option::is_none")]
             pub is_active: ::std::option::Option<bool>,
+            #[serde(
+                rename = "autoArchiveAt",
+                default,
+                skip_serializing_if = "Option::is_none",
+                with = "crate::serde_helpers::double_option"
+            )]
+            pub auto_archive_at: ::std::option::Option<::std::option::Option<i64>>,
         }
         impl crate::Endpoint for Request {
             const PATH: &'static str = "admin/announcements/update";
@@ -3046,6 +3089,7 @@ pub mod announcements {
             silence: ::std::option::Option<bool>,
             need_confirmation_to_read: ::std::option::Option<bool>,
             is_active: ::std::option::Option<bool>,
+            auto_archive_at: ::std::option::Option<::std::option::Option<i64>>,
             _state: ::std::marker::PhantomData<S>,
         }
         impl<'a> Call<'a> {
@@ -3062,6 +3106,7 @@ pub mod announcements {
                     silence: ::std::option::Option::None,
                     need_confirmation_to_read: ::std::option::Option::None,
                     is_active: ::std::option::Option::None,
+                    auto_archive_at: ::std::option::Option::None,
                     _state: ::std::marker::PhantomData,
                 }
             }
@@ -3176,6 +3221,22 @@ pub mod announcements {
                 self.is_active = value.map(|value| value.into());
                 self
             }
+            pub fn auto_archive_at(self, value: impl ::std::convert::Into<i64>) -> Self {
+                self.maybe_auto_archive_at(::std::option::Option::Some(value))
+            }
+            #[doc = "`Some` なら `autoArchiveAt` を設定し、`None` なら設定を消して送らない。`null` を送るには [`auto_archive_at_null`](Self::auto_archive_at_null) を使う。"]
+            pub fn maybe_auto_archive_at(
+                mut self,
+                value: ::std::option::Option<impl ::std::convert::Into<i64>>,
+            ) -> Self {
+                self.auto_archive_at = value.map(|value| ::std::option::Option::Some(value.into()));
+                self
+            }
+            #[doc = "`autoArchiveAt` を `null` として送る。"]
+            pub fn auto_archive_at_null(mut self) -> Self {
+                self.auto_archive_at = ::std::option::Option::Some(::std::option::Option::None);
+                self
+            }
             pub fn id(
                 self,
                 value: impl ::std::convert::Into<::std::string::String>,
@@ -3192,6 +3253,7 @@ pub mod announcements {
                     silence: self.silence,
                     need_confirmation_to_read: self.need_confirmation_to_read,
                     is_active: self.is_active,
+                    auto_archive_at: self.auto_archive_at,
                     _state: ::std::marker::PhantomData,
                 }
             }
@@ -3213,6 +3275,7 @@ pub mod announcements {
                     silence: self.silence,
                     need_confirmation_to_read: self.need_confirmation_to_read,
                     is_active: self.is_active,
+                    auto_archive_at: self.auto_archive_at,
                 };
                 let client = self.client;
                 ::std::boxed::Box::pin(async move { client.call(request).await })

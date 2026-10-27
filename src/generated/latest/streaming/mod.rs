@@ -5,6 +5,7 @@ pub mod antenna;
 pub mod channel;
 pub mod chat_room;
 pub mod chat_user;
+pub mod clip;
 pub mod drive;
 pub mod global_timeline;
 pub mod hashtag;
@@ -61,6 +62,10 @@ impl Stream {
     #[doc = "`channel` チャンネルにつなぐビルダー。"]
     pub fn channel(&self) -> channel::Connect<'_> {
         channel::Connect::new(self)
+    }
+    #[doc = "`clip` チャンネルにつなぐビルダー。"]
+    pub fn clip(&self) -> clip::Connect<'_> {
+        clip::Connect::new(self)
     }
     #[doc = "`drive` チャンネルにつなぐビルダー。"]
     pub fn drive(&self) -> drive::Connect<'_> {

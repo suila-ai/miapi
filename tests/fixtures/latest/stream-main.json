@@ -2,8 +2,8 @@
   {
     "type": "driveFileCreated",
     "body": {
-      "id": "aslv3perx1r6002l",
-      "createdAt": "2026-10-21T15:59:37.059Z",
+      "id": "asskqgwbyxck002m",
+      "createdAt": "2026-10-26T08:43:46.571Z",
       "name": "second.png",
       "type": "image/png",
       "md5": "44a1e6505a9d0b70bd07d4a0fb298cb5",
@@ -14,8 +14,8 @@
         "width": 192,
         "height": 192
       },
-      "url": "https://misskey.example.com/files/25d63967-108f-461c-842e-ae1dcddf2543",
-      "thumbnailUrl": "https://misskey.example.com/files/thumbnail-d2978594-2469-495e-93f0-08d1a9750fd3",
+      "url": "https://misskey.example.com/files/e766cabd-c353-4a27-8d74-ddbb0668c9e4",
+      "thumbnailUrl": "https://misskey.example.com/files/thumbnail-ef9f5792-cc56-4701-8791-908b3e525caf",
       "comment": null,
       "folderId": null,
       "folder": null,
@@ -26,7 +26,7 @@
   {
     "type": "follow",
     "body": {
-      "id": "aslv3m5dx1r60005",
+      "id": "asskqdkcyxck0005",
       "name": null,
       "username": "bob",
       "host": null,
@@ -42,8 +42,8 @@
       "uri": null,
       "movedTo": null,
       "alsoKnownAs": null,
-      "createdAt": "2026-10-21T15:59:32.833Z",
-      "updatedAt": "2026-10-21T15:59:35.616Z",
+      "createdAt": "2026-10-26T08:43:42.252Z",
+      "updatedAt": "2026-10-26T08:43:45.165Z",
       "lastFetchedAt": null,
       "bannerUrl": null,
       "bannerBlurhash": null,
@@ -86,7 +86,7 @@
   {
     "type": "followed",
     "body": {
-      "id": "aslv3lzqx1r60003",
+      "id": "asskqddryxck0003",
       "name": null,
       "username": "admin",
       "host": null,
@@ -103,17 +103,17 @@
   {
     "type": "meUpdated",
     "body": {
-      "id": "aslv3m28x1r60004",
+      "id": "asskqdhwyxck0004",
       "name": "Alice",
       "username": "alice",
       "host": null,
-      "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+      "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
       "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
       "avatarDecorations": [
         {
-          "id": "aslv3mi6x1r6000v",
+          "id": "asskqdzhyxck000w",
           "offsetX": 0.1,
-          "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+          "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
         }
       ],
       "isBot": false,
@@ -123,7 +123,7 @@
       "badgeRoles": [
         {
           "name": "role1",
-          "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+          "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
           "displayOrder": 0
         }
       ],
@@ -131,10 +131,10 @@
       "uri": null,
       "movedTo": null,
       "alsoKnownAs": null,
-      "createdAt": "2026-10-21T15:59:32.720Z",
-      "updatedAt": "2026-10-21T15:59:35.030Z",
+      "createdAt": "2026-10-26T08:43:42.164Z",
+      "updatedAt": "2026-10-26T08:43:44.537Z",
       "lastFetchedAt": null,
-      "bannerUrl": "https://misskey.example.com/files/930c772b-3c79-4e48-b629-e5dac63c00b0",
+      "bannerUrl": "https://misskey.example.com/files/e0f1cca8-cd59-4dbd-80e7-afcdc1596e1d",
       "bannerBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
       "isLocked": false,
       "isSilenced": false,
@@ -154,25 +154,25 @@
       "followingCount": 0,
       "notesCount": 3,
       "pinnedNoteIds": [
-        "aslv3mlvx1r60010"
+        "asskqe3pyxck0011"
       ],
       "pinnedNotes": [
         {
-          "id": "aslv3mlvx1r60010",
-          "createdAt": "2026-10-21T15:59:33.427Z",
-          "userId": "aslv3m28x1r60004",
+          "id": "asskqe3pyxck0011",
+          "createdAt": "2026-10-26T08:43:42.949Z",
+          "userId": "asskqdhwyxck0004",
           "user": {
-            "id": "aslv3m28x1r60004",
+            "id": "asskqdhwyxck0004",
             "name": "Alice",
             "username": "alice",
             "host": null,
-            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
             "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
             "avatarDecorations": [
               {
-                "id": "aslv3mi6x1r6000v",
+                "id": "asskqdzhyxck000w",
                 "offsetX": 0.1,
-                "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+                "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
               }
             ],
             "isBot": false,
@@ -182,7 +182,7 @@
             "badgeRoles": [
               {
                 "name": "role1",
-                "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+                "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
                 "displayOrder": 0
               }
             ]
@@ -220,17 +220,17 @@
       "canChat": true,
       "roles": [
         {
-          "id": "aslv3mfzx1r6000l",
+          "id": "asskqdx5yxck000m",
           "name": "role1",
           "color": "#ff0000",
-          "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+          "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
           "description": "dummy role",
           "isModerator": false,
           "isAdministrator": false,
           "displayOrder": 0
         },
         {
-          "id": "aslv3mh3x1r6000q",
+          "id": "asskqdyfyxck000r",
           "name": "role2",
           "color": null,
           "iconUrl": null,
@@ -244,8 +244,8 @@
       "twoFactorEnabled": false,
       "usePasswordLessLogin": false,
       "securityKeys": false,
-      "avatarId": "aslv3mcux1r6000f",
-      "bannerId": "aslv3mcux1r6000f",
+      "avatarId": "asskqdtiyxck000f",
+      "bannerId": "asskqdtiyxck000f",
       "followedMessage": null,
       "isModerator": false,
       "isAdmin": false,
@@ -255,6 +255,8 @@
       "autoSensitive": false,
       "carefulBot": false,
       "autoAcceptFollowed": true,
+      "followApprovalLocalSeconds": null,
+      "followApprovalRemoteSeconds": null,
       "noCrawle": false,
       "preventAiLearning": true,
       "isExplorable": true,
@@ -267,8 +269,8 @@
       "hasUnreadAnnouncement": true,
       "unreadAnnouncements": [
         {
-          "createdAt": "2026-10-21T15:59:33.028Z",
-          "id": "aslv3masx1r6000b",
+          "createdAt": "2026-10-26T08:43:42.513Z",
+          "id": "asskqdrlyxck000c",
           "updatedAt": null,
           "text": "dummy text",
           "title": "dummy announcement",
@@ -277,13 +279,14 @@
           "display": "normal",
           "needConfirmationToRead": false,
           "isActive": true,
+          "autoArchiveAt": null,
           "forExistingUsers": false,
           "silence": false,
           "userId": null
         },
         {
-          "createdAt": "2026-10-21T15:59:35.007Z",
-          "id": "aslv3ntrx1r6001r",
+          "createdAt": "2026-10-26T08:43:44.521Z",
+          "id": "asskqfbdyxck001s",
           "updatedAt": null,
           "text": "dummy text",
           "title": "dummy announcement 2",
@@ -292,6 +295,7 @@
           "display": "normal",
           "needConfirmationToRead": false,
           "isActive": true,
+          "autoArchiveAt": null,
           "forExistingUsers": false,
           "silence": false,
           "userId": null
@@ -368,11 +372,11 @@
   {
     "type": "mention",
     "body": {
-      "id": "aslv3o8zx1r6001v",
-      "createdAt": "2026-10-21T15:59:35.555Z",
-      "userId": "aslv3m5dx1r60005",
+      "id": "asskqfqjyxck001w",
+      "createdAt": "2026-10-26T08:43:45.067Z",
+      "userId": "asskqdkcyxck0005",
       "user": {
-        "id": "aslv3m5dx1r60005",
+        "id": "asskqdkcyxck0005",
         "name": null,
         "username": "bob",
         "host": null,
@@ -397,28 +401,28 @@
       "reactionEmojis": {},
       "fileIds": [],
       "files": [],
-      "replyId": "aslv3nu9x1r6001t",
+      "replyId": "asskqfbryxck001u",
       "renoteId": null,
       "mentions": [
-        "aslv3m28x1r60004"
+        "asskqdhwyxck0004"
       ],
       "clippedCount": 0,
       "reply": {
-        "id": "aslv3nu9x1r6001t",
-        "createdAt": "2026-10-21T15:59:35.025Z",
-        "userId": "aslv3m28x1r60004",
+        "id": "asskqfbryxck001u",
+        "createdAt": "2026-10-26T08:43:44.535Z",
+        "userId": "asskqdhwyxck0004",
         "user": {
-          "id": "aslv3m28x1r60004",
+          "id": "asskqdhwyxck0004",
           "name": "Alice",
           "username": "alice",
           "host": null,
-          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
           "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
           "avatarDecorations": [
             {
-              "id": "aslv3mi6x1r6000v",
+              "id": "asskqdzhyxck000w",
               "offsetX": 0.1,
-              "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+              "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
             }
           ],
           "isBot": false,
@@ -428,7 +432,7 @@
           "badgeRoles": [
             {
               "name": "role1",
-              "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+              "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
               "displayOrder": 0
             }
           ]
@@ -456,12 +460,12 @@
   {
     "type": "notification",
     "body": {
-      "id": "aslv3o9ex1r6001w",
-      "createdAt": "2026-10-21T15:59:35.570Z",
+      "id": "asskqfr0yxck001x",
+      "createdAt": "2026-10-26T08:43:45.084Z",
       "type": "reply",
-      "userId": "aslv3m5dx1r60005",
+      "userId": "asskqdkcyxck0005",
       "user": {
-        "id": "aslv3m5dx1r60005",
+        "id": "asskqdkcyxck0005",
         "name": null,
         "username": "bob",
         "host": null,
@@ -475,11 +479,11 @@
         "badgeRoles": []
       },
       "note": {
-        "id": "aslv3o8zx1r6001v",
-        "createdAt": "2026-10-21T15:59:35.555Z",
-        "userId": "aslv3m5dx1r60005",
+        "id": "asskqfqjyxck001w",
+        "createdAt": "2026-10-26T08:43:45.067Z",
+        "userId": "asskqdkcyxck0005",
         "user": {
-          "id": "aslv3m5dx1r60005",
+          "id": "asskqdkcyxck0005",
           "name": null,
           "username": "bob",
           "host": null,
@@ -504,28 +508,28 @@
         "reactionEmojis": {},
         "fileIds": [],
         "files": [],
-        "replyId": "aslv3nu9x1r6001t",
+        "replyId": "asskqfbryxck001u",
         "renoteId": null,
         "mentions": [
-          "aslv3m28x1r60004"
+          "asskqdhwyxck0004"
         ],
         "clippedCount": 0,
         "reply": {
-          "id": "aslv3nu9x1r6001t",
-          "createdAt": "2026-10-21T15:59:35.025Z",
-          "userId": "aslv3m28x1r60004",
+          "id": "asskqfbryxck001u",
+          "createdAt": "2026-10-26T08:43:44.535Z",
+          "userId": "asskqdhwyxck0004",
           "user": {
-            "id": "aslv3m28x1r60004",
+            "id": "asskqdhwyxck0004",
             "name": "Alice",
             "username": "alice",
             "host": null,
-            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
             "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
             "avatarDecorations": [
               {
-                "id": "aslv3mi6x1r6000v",
+                "id": "asskqdzhyxck000w",
                 "offsetX": 0.1,
-                "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+                "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
               }
             ],
             "isBot": false,
@@ -535,7 +539,7 @@
             "badgeRoles": [
               {
                 "name": "role1",
-                "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+                "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
                 "displayOrder": 0
               }
             ]
@@ -580,11 +584,11 @@
   {
     "type": "renote",
     "body": {
-      "id": "aslv3o9rx1r6001x",
-      "createdAt": "2026-10-21T15:59:35.583Z",
-      "userId": "aslv3lzqx1r60003",
+      "id": "asskqfrjyxck001y",
+      "createdAt": "2026-10-26T08:43:45.103Z",
+      "userId": "asskqddryxck0003",
       "user": {
-        "id": "aslv3lzqx1r60003",
+        "id": "asskqddryxck0003",
         "name": null,
         "username": "admin",
         "host": null,
@@ -611,24 +615,24 @@
       "fileIds": [],
       "files": [],
       "replyId": null,
-      "renoteId": "aslv3nu9x1r6001t",
+      "renoteId": "asskqfbryxck001u",
       "clippedCount": 0,
       "renote": {
-        "id": "aslv3nu9x1r6001t",
-        "createdAt": "2026-10-21T15:59:35.025Z",
-        "userId": "aslv3m28x1r60004",
+        "id": "asskqfbryxck001u",
+        "createdAt": "2026-10-26T08:43:44.535Z",
+        "userId": "asskqdhwyxck0004",
         "user": {
-          "id": "aslv3m28x1r60004",
+          "id": "asskqdhwyxck0004",
           "name": "Alice",
           "username": "alice",
           "host": null,
-          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
           "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
           "avatarDecorations": [
             {
-              "id": "aslv3mi6x1r6000v",
+              "id": "asskqdzhyxck000w",
               "offsetX": 0.1,
-              "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+              "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
             }
           ],
           "isBot": false,
@@ -638,7 +642,7 @@
           "badgeRoles": [
             {
               "name": "role1",
-              "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+              "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
               "displayOrder": 0
             }
           ]
@@ -668,11 +672,11 @@
   {
     "type": "reply",
     "body": {
-      "id": "aslv3o8zx1r6001v",
-      "createdAt": "2026-10-21T15:59:35.555Z",
-      "userId": "aslv3m5dx1r60005",
+      "id": "asskqfqjyxck001w",
+      "createdAt": "2026-10-26T08:43:45.067Z",
+      "userId": "asskqdkcyxck0005",
       "user": {
-        "id": "aslv3m5dx1r60005",
+        "id": "asskqdkcyxck0005",
         "name": null,
         "username": "bob",
         "host": null,
@@ -698,28 +702,28 @@
       "reactionAndUserPairCache": [],
       "fileIds": [],
       "files": [],
-      "replyId": "aslv3nu9x1r6001t",
+      "replyId": "asskqfbryxck001u",
       "renoteId": null,
       "mentions": [
-        "aslv3m28x1r60004"
+        "asskqdhwyxck0004"
       ],
       "clippedCount": 0,
       "reply": {
-        "id": "aslv3nu9x1r6001t",
-        "createdAt": "2026-10-21T15:59:35.025Z",
-        "userId": "aslv3m28x1r60004",
+        "id": "asskqfbryxck001u",
+        "createdAt": "2026-10-26T08:43:44.535Z",
+        "userId": "asskqdhwyxck0004",
         "user": {
-          "id": "aslv3m28x1r60004",
+          "id": "asskqdhwyxck0004",
           "name": "Alice",
           "username": "alice",
           "host": null,
-          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+          "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
           "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
           "avatarDecorations": [
             {
-              "id": "aslv3mi6x1r6000v",
+              "id": "asskqdzhyxck000w",
               "offsetX": 0.1,
-              "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+              "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
             }
           ],
           "isBot": false,
@@ -729,7 +733,7 @@
           "badgeRoles": [
             {
               "name": "role1",
-              "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+              "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
               "displayOrder": 0
             }
           ]
@@ -758,7 +762,7 @@
   {
     "type": "unfollow",
     "body": {
-      "id": "aslv3m5dx1r60005",
+      "id": "asskqdkcyxck0005",
       "name": null,
       "username": "bob",
       "host": null,
@@ -774,8 +778,8 @@
       "uri": null,
       "movedTo": null,
       "alsoKnownAs": null,
-      "createdAt": "2026-10-21T15:59:32.833Z",
-      "updatedAt": "2026-10-21T15:59:35.616Z",
+      "createdAt": "2026-10-26T08:43:42.252Z",
+      "updatedAt": "2026-10-26T08:43:45.165Z",
       "lastFetchedAt": null,
       "bannerUrl": null,
       "bannerBlurhash": null,
@@ -817,12 +821,12 @@
   {
     "type": "unreadNotification",
     "body": {
-      "id": "aslv3o9ex1r6001w",
-      "createdAt": "2026-10-21T15:59:35.570Z",
+      "id": "asskqfr0yxck001x",
+      "createdAt": "2026-10-26T08:43:45.084Z",
       "type": "reply",
-      "userId": "aslv3m5dx1r60005",
+      "userId": "asskqdkcyxck0005",
       "user": {
-        "id": "aslv3m5dx1r60005",
+        "id": "asskqdkcyxck0005",
         "name": null,
         "username": "bob",
         "host": null,
@@ -836,11 +840,11 @@
         "badgeRoles": []
       },
       "note": {
-        "id": "aslv3o8zx1r6001v",
-        "createdAt": "2026-10-21T15:59:35.555Z",
-        "userId": "aslv3m5dx1r60005",
+        "id": "asskqfqjyxck001w",
+        "createdAt": "2026-10-26T08:43:45.067Z",
+        "userId": "asskqdkcyxck0005",
         "user": {
-          "id": "aslv3m5dx1r60005",
+          "id": "asskqdkcyxck0005",
           "name": null,
           "username": "bob",
           "host": null,
@@ -865,28 +869,28 @@
         "reactionEmojis": {},
         "fileIds": [],
         "files": [],
-        "replyId": "aslv3nu9x1r6001t",
+        "replyId": "asskqfbryxck001u",
         "renoteId": null,
         "mentions": [
-          "aslv3m28x1r60004"
+          "asskqdhwyxck0004"
         ],
         "clippedCount": 0,
         "reply": {
-          "id": "aslv3nu9x1r6001t",
-          "createdAt": "2026-10-21T15:59:35.025Z",
-          "userId": "aslv3m28x1r60004",
+          "id": "asskqfbryxck001u",
+          "createdAt": "2026-10-26T08:43:44.535Z",
+          "userId": "asskqdhwyxck0004",
           "user": {
-            "id": "aslv3m28x1r60004",
+            "id": "asskqdhwyxck0004",
             "name": "Alice",
             "username": "alice",
             "host": null,
-            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2F930c772b-3c79-4e48-b629-e5dac63c00b0&avatar=1",
+            "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
             "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
             "avatarDecorations": [
               {
-                "id": "aslv3mi6x1r6000v",
+                "id": "asskqdzhyxck000w",
                 "offsetX": 0.1,
-                "url": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b"
+                "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
               }
             ],
             "isBot": false,
@@ -896,7 +900,7 @@
             "badgeRoles": [
               {
                 "name": "role1",
-                "iconUrl": "https://misskey.example.com/files/f939ffa4-3188-4253-8299-201ca1af790b",
+                "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
                 "displayOrder": 0
               }
             ]
@@ -927,8 +931,8 @@
     "body": {
       "marker": null,
       "file": {
-        "id": "aslv3mcux1r6000f",
-        "createdAt": "2026-10-21T15:59:33.102Z",
+        "id": "asskqdtiyxck000f",
+        "createdAt": "2026-10-26T08:43:42.582Z",
         "name": "photo.jpg",
         "type": "image/jpeg",
         "md5": "8c9ed0677dd2b8f9f7472c3af247e5e3",
@@ -939,8 +943,8 @@
           "width": 192,
           "height": 192
         },
-        "url": "https://misskey.example.com/files/930c772b-3c79-4e48-b629-e5dac63c00b0",
-        "thumbnailUrl": "https://misskey.example.com/files/thumbnail-3cbdb46a-104e-43c0-9aec-aec48b7f3031",
+        "url": "https://misskey.example.com/files/e0f1cca8-cd59-4dbd-80e7-afcdc1596e1d",
+        "thumbnailUrl": "https://misskey.example.com/files/thumbnail-80e3598a-0589-479c-be91-ea8490d01431",
         "comment": null,
         "folderId": null,
         "folder": null,

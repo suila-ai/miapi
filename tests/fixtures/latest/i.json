@@ -1,15 +1,15 @@
 {
-  "id": "as4f3da2bxhf0004",
+  "id": "asskqdhwyxck0004",
   "name": "Alice",
   "username": "alice",
   "host": null,
-  "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fceac8dfb-558d-41aa-bd99-efb1b664bb08&avatar=1",
+  "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
   "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
   "avatarDecorations": [
     {
-      "id": "as4f3dqebxhf000v",
+      "id": "asskqdzhyxck000w",
       "offsetX": 0.1,
-      "url": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198"
+      "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
     }
   ],
   "isBot": false,
@@ -19,7 +19,7 @@
   "badgeRoles": [
     {
       "name": "role1",
-      "iconUrl": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198",
+      "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
       "displayOrder": 0
     }
   ],
@@ -27,10 +27,10 @@
   "uri": null,
   "movedTo": null,
   "alsoKnownAs": null,
-  "createdAt": "2026-10-09T10:59:22.490Z",
-  "updatedAt": "2026-10-09T10:59:23.247Z",
+  "createdAt": "2026-10-26T08:43:42.164Z",
+  "updatedAt": "2026-10-26T08:43:42.997Z",
   "lastFetchedAt": null,
-  "bannerUrl": "https://misskey.example.com/files/ceac8dfb-558d-41aa-bd99-efb1b664bb08",
+  "bannerUrl": "https://misskey.example.com/files/e0f1cca8-cd59-4dbd-80e7-afcdc1596e1d",
   "bannerBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
   "isLocked": false,
   "isSilenced": false,
@@ -50,25 +50,25 @@
   "followingCount": 0,
   "notesCount": 2,
   "pinnedNoteIds": [
-    "as4f3du0bxhf0010"
+    "asskqe3pyxck0011"
   ],
   "pinnedNotes": [
     {
-      "id": "as4f3du0bxhf0010",
-      "createdAt": "2026-10-09T10:59:23.208Z",
-      "userId": "as4f3da2bxhf0004",
+      "id": "asskqe3pyxck0011",
+      "createdAt": "2026-10-26T08:43:42.949Z",
+      "userId": "asskqdhwyxck0004",
       "user": {
-        "id": "as4f3da2bxhf0004",
+        "id": "asskqdhwyxck0004",
         "name": "Alice",
         "username": "alice",
         "host": null,
-        "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fceac8dfb-558d-41aa-bd99-efb1b664bb08&avatar=1",
+        "avatarUrl": "https://misskey.example.com/proxy/avatar.webp?url=https%3A%2F%2Fmisskey.example.com%2Ffiles%2Fe0f1cca8-cd59-4dbd-80e7-afcdc1596e1d&avatar=1",
         "avatarBlurhash": "eRFRsgt65NX4Rj}-j[axj?ju53WB=~s;s;t1a{ofj[ay=~ofImR%ay",
         "avatarDecorations": [
           {
-            "id": "as4f3dqebxhf000v",
+            "id": "asskqdzhyxck000w",
             "offsetX": 0.1,
-            "url": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198"
+            "url": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f"
           }
         ],
         "isBot": false,
@@ -78,7 +78,7 @@
         "badgeRoles": [
           {
             "name": "role1",
-            "iconUrl": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198",
+            "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
             "displayOrder": 0
           }
         ]
@@ -116,17 +116,17 @@
   "canChat": true,
   "roles": [
     {
-      "id": "as4f3dnxbxhf000l",
+      "id": "asskqdx5yxck000m",
       "name": "role1",
       "color": "#ff0000",
-      "iconUrl": "https://misskey.example.com/files/57163605-5090-4423-85fd-7679dfa64198",
+      "iconUrl": "https://misskey.example.com/files/28f72abe-1eac-418b-a10f-3cf3dbaef32f",
       "description": "dummy role",
       "isModerator": false,
       "isAdministrator": false,
       "displayOrder": 0
     },
     {
-      "id": "as4f3dp8bxhf000q",
+      "id": "asskqdyfyxck000r",
       "name": "role2",
       "color": null,
       "iconUrl": null,
@@ -140,8 +140,8 @@
   "twoFactorEnabled": false,
   "usePasswordLessLogin": false,
   "securityKeys": false,
-  "avatarId": "as4f3dkkbxhf000f",
-  "bannerId": "as4f3dkkbxhf000f",
+  "avatarId": "asskqdtiyxck000f",
+  "bannerId": "asskqdtiyxck000f",
   "followedMessage": null,
   "isModerator": false,
   "isAdmin": false,
@@ -151,6 +151,8 @@
   "autoSensitive": false,
   "carefulBot": false,
   "autoAcceptFollowed": true,
+  "followApprovalLocalSeconds": null,
+  "followApprovalRemoteSeconds": null,
   "noCrawle": false,
   "preventAiLearning": true,
   "isExplorable": true,
@@ -163,8 +165,8 @@
   "hasUnreadAnnouncement": true,
   "unreadAnnouncements": [
     {
-      "createdAt": "2026-10-09T10:59:22.815Z",
-      "id": "as4f3dj3bxhf000b",
+      "createdAt": "2026-10-26T08:43:42.513Z",
+      "id": "asskqdrlyxck000c",
       "updatedAt": null,
       "text": "dummy text",
       "title": "dummy announcement",
@@ -173,6 +175,7 @@
       "display": "normal",
       "needConfirmationToRead": false,
       "isActive": true,
+      "autoArchiveAt": null,
       "forExistingUsers": false,
       "silence": false,
       "userId": null

@@ -981,6 +981,10 @@ pub struct MeDetailedOnly {
     pub careful_bot: bool,
     #[serde(rename = "autoAcceptFollowed")]
     pub auto_accept_followed: bool,
+    #[serde(rename = "followApprovalLocalSeconds")]
+    pub follow_approval_local_seconds: ::std::option::Option<f64>,
+    #[serde(rename = "followApprovalRemoteSeconds")]
+    pub follow_approval_remote_seconds: ::std::option::Option<f64>,
     #[serde(rename = "noCrawle")]
     pub no_crawle: bool,
     #[serde(rename = "preventAiLearning")]
@@ -1305,6 +1309,10 @@ pub struct MeDetailed {
     pub careful_bot: bool,
     #[serde(rename = "autoAcceptFollowed")]
     pub auto_accept_followed: bool,
+    #[serde(rename = "followApprovalLocalSeconds")]
+    pub follow_approval_local_seconds: ::std::option::Option<f64>,
+    #[serde(rename = "followApprovalRemoteSeconds")]
+    pub follow_approval_remote_seconds: ::std::option::Option<f64>,
     #[serde(rename = "noCrawle")]
     pub no_crawle: bool,
     #[serde(rename = "preventAiLearning")]
