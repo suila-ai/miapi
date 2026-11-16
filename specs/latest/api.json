@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "version": "2026.10.1",
+    "version": "2026.11.0",
     "title": "Misskey API"
   },
   "externalDocs": {
@@ -54469,9 +54469,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "qr": {
-                      "type": "string"
-                    },
                     "url": {
                       "type": "string"
                     },
@@ -54486,7 +54483,6 @@
                     }
                   },
                   "required": [
-                    "qr",
                     "url",
                     "secret",
                     "label",

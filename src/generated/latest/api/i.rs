@@ -504,7 +504,6 @@ pub mod _2fa {
     pub mod register {
         #[derive(Debug, Clone, PartialEq, serde :: Serialize, serde :: Deserialize)]
         pub struct Response {
-            pub qr: ::std::string::String,
             pub url: ::std::string::String,
             pub secret: ::std::string::String,
             pub label: ::std::string::String,
